@@ -1,0 +1,9 @@
+uuid: 4616c45d-9c8b-4a16-ac34-fbcf3c1d9787
+langcode: en
+status: true
+dependencies: {  }
+name: Jurisdiction
+vid: jurisdiction
+description: null
+weight: 0
+new_revision: false

@@ -1,0 +1,88 @@
+{%
+  set penalty_raw = node.field_penalty_numeric.value|default(0)
+  %}
+{%
+  set penalty_class = penalty_raw > 1000000 ? 'critical' : (penalty_raw > 100000 ? 'high' : 'medium')
+%}
+
+<article class="node node--type-enforcement-case node--full">
+
+  <header style="margin-bottom:1.5rem">
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
+      <span class="ciq-badge ciq-badge--case">Enforcement Action</span>
+      {% if node.field_date.value %}
+        <span style="font-size:0.8125rem;color:var(--navy-400)">{{ node.field_date.value|date('F j, Y') }}</span>
+      {% endif %}
+    </div>
+
+    <h1>{{ node.title.value }}</h1>
+
+    <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-top:0.75rem">
+      {% for reg in node.field_regulation_violated %}
+        {% if reg.entity %}
+          <span class="ciq-badge ciq-badge--regulation">{{ reg.entity.name.value }}</span>
+        {% endif %}
+      {% endfor %}
+      {% if node.field_enforcement_body.entity %}
+        <span class="ciq-badge ciq-badge--guidance">{{ node.field_enforcement_body.entity.name.value }}</span>
+      {% endif %}
+      {% if node.field_industry.entity %}
+        <span style="font-size:0.8125rem;color:var(--navy-400)">{{ node.field_industry.entity.name.value }}</span>
+      {% endif %}
+    </div>
+  </header>
+
+  {# Penalty prominently displayed #}
+  {% if node.field_penalty_amount.value %}
+    <div style="background:var(--bg-section);border:1px solid var(--border-subtle);border-radius:3px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem">
+      <div>
+        <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--navy-400);margin-bottom:0.25rem">Penalty</div>
+        <div class="ciq-penalty-large ciq-penalty-large--{{ penalty_class }}">{{ node.field_penalty_amount.value }}</div>
+      </div>
+      {% if node.field_enforcement_body.entity %}
+        <div>
+          <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--navy-400);margin-bottom:0.25rem">Enforcement Body</div>
+          <div style="font-size:1rem;font-weight:600;color:var(--navy-700)">{{ node.field_enforcement_body.entity.name.value }}</div>
+        </div>
+      {% endif %}
+      {% if node.field_date.value %}
+        <div>
+          <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--navy-400);margin-bottom:0.25rem">Date</div>
+          <div style="font-size:1rem;font-weight:600;color:var(--navy-700);font-family:var(--font-mono)">{{ node.field_date.value|date('Y-m-d') }}</div>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {# Key Facts #}
+  {% if content.field_key_facts[0] %}
+    <div class="ciq-callout ciq-callout--warning" style="margin-bottom:1.5rem">
+      <div class="ciq-callout-title">What Went Wrong</div>
+      {{ content.field_key_facts }}
+    </div>
+  {% endif %}
+
+  {# Full summary #}
+  <div style="margin-bottom:2rem">
+    {{ content.body }}
+  </div>
+
+  {# Lessons Learned #}
+  {% if content.field_lessons[0] %}
+    <div class="ciq-callout" style="margin-bottom:1.5rem">
+      <div class="ciq-callout-title">Lessons Learned</div>
+      {{ content.field_lessons }}
+    </div>
+  {% endif %}
+
+  {# Source link #}
+  {% if node.field_source_url.uri %}
+    <div style="margin-bottom:2rem;padding-top:1rem;border-top:1px solid var(--border-subtle)">
+      <span style="font-size:0.8125rem;color:var(--navy-400)">Source: </span>
+      <a href="{{ node.field_source_url.uri }}" target="_blank" rel="noopener noreferrer" style="font-size:0.8125rem">
+        Official Enforcement Record ↗
+      </a>
+    </div>
+  {% endif %}
+
+</article>

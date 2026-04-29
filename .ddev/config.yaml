@@ -1,0 +1,14 @@
+name: complianceiq
+type: drupal
+php_version: "8.3"
+mariadb_version: "10.11"
+webserver_type: nginx-fpm
+docroot: web
+database:
+  type: mariadb
+  version: "10.11"
+hooks:
+  post-start:
+    - exec: "composer install --no-interaction 2>/dev/null || true"
+    - exec-host: "test -f db/dump.sql.gz && ddev import-db --file=db/dump.sql.gz || true"
+    - exec: "drush cr 2>/dev/null || true"

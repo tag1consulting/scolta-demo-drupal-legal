@@ -1,0 +1,19 @@
+uuid: a3ebf8cb-2add-44fe-ac9c-80de5c77851b
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_comparison_table
+field_name: field_comparison_table
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,22 @@
+uuid: b4306dbf-ecb7-467c-baac-8a6294a5023e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_checklist_items
+    - node.type.checklist
+  module:
+    - text
+id: node.checklist.field_checklist_items
+field_name: field_checklist_items
+entity_type: node
+bundle: checklist
+label: 'Checklist Items'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

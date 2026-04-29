@@ -1,0 +1,19 @@
+uuid: 442be175-7379-4c45-bd49-1cea5f8be0d0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_penalty_amount
+    - node.type.enforcement_case
+id: node.enforcement_case.field_penalty_amount
+field_name: field_penalty_amount
+entity_type: node
+bundle: enforcement_case
+label: 'Penalty Amount'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

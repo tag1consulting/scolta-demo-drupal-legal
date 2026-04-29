@@ -1,0 +1,9 @@
+uuid: 87514719-189e-4b65-85f2-ac699f13cb36
+langcode: en
+status: true
+dependencies: {  }
+name: Severity
+vid: severity
+description: null
+weight: 0
+new_revision: false

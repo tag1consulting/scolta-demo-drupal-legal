@@ -1,0 +1,22 @@
+uuid: 0fdf3725-47f3-4d7c-b840-8cbda27b5db1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_regulation_definitions
+    - node.type.glossary_term
+  module:
+    - text
+id: node.glossary_term.field_regulation_definitions
+field_name: field_regulation_definitions
+entity_type: node
+bundle: glossary_term
+label: 'Regulation-Specific Definitions'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

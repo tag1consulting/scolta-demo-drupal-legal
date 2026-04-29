@@ -1,0 +1,24 @@
+uuid: e415b063-84c8-478c-bf59-4b572a5b29ec
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_jurisdiction
+    - node.type.regulation_section
+    - taxonomy.vocabulary.jurisdiction
+id: node.regulation_section.field_jurisdiction
+field_name: field_jurisdiction
+entity_type: node
+bundle: regulation_section
+label: Jurisdiction
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      jurisdiction: jurisdiction
+field_type: entity_reference

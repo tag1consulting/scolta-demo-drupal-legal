@@ -1,0 +1,23 @@
+uuid: fd6f02d6-1a80-4030-b659-7a254b36c6de
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - complianceiq
+_core:
+  default_config_hash: pbbed0hdqGDF-_QWVVTWRAwgDIotFuAvWH5mWUZu0fA
+id: complianceiq_search_form_wide
+theme: complianceiq
+region: header
+weight: -5
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (wide)'
+  label_display: '0'
+  provider: search
+  page_id: null
+visibility: {  }

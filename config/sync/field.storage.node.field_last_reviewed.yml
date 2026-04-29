@@ -1,0 +1,20 @@
+uuid: 30a8cdf9-692c-45a0-8c1b-e16c5e9d2a65
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - node
+id: node.field_last_reviewed
+field_name: field_last_reviewed
+entity_type: node
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

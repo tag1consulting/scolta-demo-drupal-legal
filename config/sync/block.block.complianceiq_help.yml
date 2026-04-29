@@ -1,0 +1,22 @@
+uuid: 0578f186-5d4b-4584-a6d1-2b953db5685b
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - complianceiq
+_core:
+  default_config_hash: VfPFqqxfkomud5CO8DUijw85QIl9GIxh_nIxLOYESxg
+id: complianceiq_help
+theme: complianceiq
+region: header
+weight: 0
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

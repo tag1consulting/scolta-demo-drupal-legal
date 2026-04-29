@@ -1,0 +1,24 @@
+uuid: bcc2fbc2-448a-4477-ae64-d9d91f09256f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_regulations_covered
+    - node.type.guidance_article
+    - taxonomy.vocabulary.regulation_framework
+id: node.guidance_article.field_regulations_covered
+field_name: field_regulations_covered
+entity_type: node
+bundle: guidance_article
+label: 'Regulations Covered'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      regulation_framework: regulation_framework
+field_type: entity_reference

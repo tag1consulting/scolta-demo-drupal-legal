@@ -1,0 +1,24 @@
+uuid: e411702e-4dfe-4d78-80ce-fb246d184569
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_related_sections
+    - node.type.guidance_article
+    - node.type.regulation_section
+id: node.guidance_article.field_related_sections
+field_name: field_related_sections
+entity_type: node
+bundle: guidance_article
+label: 'Related Sections'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      regulation_section: regulation_section
+field_type: entity_reference

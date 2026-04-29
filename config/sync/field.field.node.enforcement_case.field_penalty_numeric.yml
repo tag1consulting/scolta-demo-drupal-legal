@@ -1,0 +1,23 @@
+uuid: 0205d496-c389-4a1e-9413-aa6725fecc3e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_penalty_numeric
+    - node.type.enforcement_case
+id: node.enforcement_case.field_penalty_numeric
+field_name: field_penalty_numeric
+entity_type: node
+bundle: enforcement_case
+label: 'Penalty (USD, numeric)'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

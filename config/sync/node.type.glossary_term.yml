@@ -1,0 +1,11 @@
+uuid: 8288acb6-23cd-4694-8517-d375f7621610
+langcode: en
+status: true
+dependencies: {  }
+name: 'Glossary Term'
+type: glossary_term
+description: 'A compliance terminology definition.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

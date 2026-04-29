@@ -1,0 +1,22 @@
+uuid: a5363c8a-da58-49a5-82e8-54d9f2d5f440
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_key_differences
+    - node.type.comparison
+  module:
+    - text
+id: node.comparison.field_key_differences
+field_name: field_key_differences
+entity_type: node
+bundle: comparison
+label: 'Key Differences'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

@@ -1,0 +1,24 @@
+uuid: b4fcd87f-18f9-4fbb-8bf8-c086f1c4df44
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_enforcement_body_ref
+    - node.type.enforcement_case
+    - taxonomy.vocabulary.enforcement_body
+id: node.enforcement_case.field_enforcement_body_ref
+field_name: field_enforcement_body_ref
+entity_type: node
+bundle: enforcement_case
+label: 'Enforcement Body'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      enforcement_body: enforcement_body
+field_type: entity_reference

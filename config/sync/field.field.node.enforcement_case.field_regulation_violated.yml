@@ -1,0 +1,24 @@
+uuid: 47325702-8a51-40b8-a675-b787a7ebeb67
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_regulation_violated
+    - node.type.enforcement_case
+    - taxonomy.vocabulary.regulation_framework
+id: node.enforcement_case.field_regulation_violated
+field_name: field_regulation_violated
+entity_type: node
+bundle: enforcement_case
+label: 'Regulation Violated'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      regulation_framework: regulation_framework
+field_type: entity_reference

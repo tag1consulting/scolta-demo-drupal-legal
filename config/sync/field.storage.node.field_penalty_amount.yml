@@ -1,0 +1,21 @@
+uuid: e19bb648-7389-428f-9c60-bdcd88c8813c
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_penalty_amount
+field_name: field_penalty_amount
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

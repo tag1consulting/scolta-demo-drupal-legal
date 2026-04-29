@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="{{ html_attributes.lang }}" data-theme="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ComplianceIQ — Enterprise Regulatory Search</title>
+  {{ head }}
+  {{ styles }}
+</head>
+<body class="ciq-body page-front">
+  {{ page_top }}
+
+  <div id="complianceiq-shell" class="layout-no-sidebar">
+
+    <header id="complianceiq-header" role="banner">
+      <a href="{{ path('<front>') }}" class="ciq-logo" aria-label="ComplianceIQ Home">
+        <span class="ciq-logo-mark" aria-hidden="true"></span>
+        <span class="ciq-logo-text">ComplianceIQ</span>
+      </a>
+
+      <div class="ciq-header-search">
+        <form action="{{ path('complianceiq.search') }}" method="get" role="search">
+          <input type="search" name="q" class="ciq-search-input" placeholder="Search regulations, guidance, cases..." aria-label="Search">
+          <button type="submit" class="ciq-search-btn">Search</button>
+        </form>
+      </div>
+
+      <div class="ciq-header-actions">
+        <button class="ciq-dark-toggle" type="button">Dark Mode</button>
+      </div>
+    </header>
+
+    <main id="complianceiq-main" role="main" style="grid-column: 1 / -1; padding: 0;">
+
+      {# Hero #}
+      <section class="ciq-hero" style="margin: 0; padding: 5rem 2rem;">
+        <h1 class="ciq-hero-title">Search across regulations.<br>Find answers, not just results.</h1>
+        <p class="ciq-hero-subtitle">
+          <span class="ciq-hero-scolta-badge">Powered by Scolta</span>
+          Semantic search across GDPR, HIPAA, CCPA, SOX, PCI-DSS, FERPA, ADA, and FedRAMP
+        </p>
+
+        <div class="ciq-hero-search">
+          <form action="{{ path('complianceiq.search') }}" method="get">
+            <input
+              type="search"
+              name="q"
+              placeholder='Try "we got hacked, what do we do" or "can we email customers in Europe"'
+              aria-label="Search regulations"
+              autocomplete="off"
+              style="flex:1;padding:0.875rem 1.25rem;font-size:1rem;border:1.5px solid rgba(255,255,255,0.2);border-right:none;background:rgba(255,255,255,0.08);color:#fff;font-family:var(--font-sans);border-radius:3px 0 0 3px;outline:none;width:100%"
+            >
+            <button type="submit" style="padding:0.875rem 1.75rem;background:var(--teal-500);color:#fff;font-weight:700;font-size:1rem;border:none;cursor:pointer;font-family:var(--font-sans);border-radius:0 3px 3px 0;white-space:nowrap">Search</button>
+          </form>
+        </div>
+
+        <div class="ciq-popular-searches">
+          <span style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-right:0.25rem">Popular:</span>
+          {% set chips = [
+            'we got hacked, what do we do',
+            'can we email customers in Europe',
+            'someone asked us to delete their data',
+            'student data in the cloud',
+            'audit is next month',
+            'board wants to know our cyber risk',
+            'credit card data on our servers',
+            'is our website accessible enough'
+          ] %}
+          {% for chip in chips %}
+            <a href="{{ path('complianceiq.search') }}?q={{ chip|url_encode }}" class="ciq-search-chip" data-query="{{ chip }}">{{ chip }}</a>
+          {% endfor %}
+        </div>
+      </section>
+
+      {# Regulation Framework Cards #}
+      <div style="padding: 3rem 3rem 0; max-width: 1200px; margin: 0 auto;">
+        <h2 class="ciq-section-header">Browse by Regulation</h2>
+        <div class="ciq-card-grid">
+          {% set regulations = [
+            {acronym: 'GDPR', name: 'General Data Protection Regulation', url: '/regulations/gdpr', jurisdiction: 'European Union', description: 'EU data protection and privacy regulation covering personal data rights and obligations for controllers and processors.'},
+            {acronym: 'HIPAA', name: 'Health Insurance Portability and Accountability Act', url: '/regulations/hipaa', jurisdiction: 'US Federal', description: 'US federal law governing the privacy and security of protected health information in healthcare.'},
+            {acronym: 'CCPA/CPRA', name: 'California Consumer Privacy Act', url: '/regulations/ccpa', jurisdiction: 'California', description: 'California state law giving consumers rights over personal information collected by businesses.'},
+            {acronym: 'SOX', name: 'Sarbanes-Oxley Act', url: '/regulations/sox', jurisdiction: 'US Federal', description: 'US law establishing requirements for financial record keeping and reporting for public companies.'},
+            {acronym: 'PCI-DSS', name: 'Payment Card Industry Data Security Standard', url: '/regulations/pci-dss', jurisdiction: 'Industry', description: 'Security standards for organizations that handle credit card and payment card information.'},
+            {acronym: 'FERPA', name: 'Family Educational Rights and Privacy Act', url: '/regulations/ferpa', jurisdiction: 'US Federal', description: 'Federal law protecting the privacy of student education records at institutions receiving federal funding.'},
+            {acronym: 'ADA / 508', name: 'Americans with Disabilities Act / Section 508', url: '/regulations/ada-508', jurisdiction: 'US Federal', description: 'Requirements for digital accessibility ensuring people with disabilities can access electronic content.'},
+            {acronym: 'FedRAMP', name: 'Federal Risk and Authorization Management Program', url: '/regulations/fedramp', jurisdiction: 'US Federal', description: 'Government-wide cloud security program for federal agency use of cloud products and services.'}
+          ] %}
+          {% for reg in regulations %}
+            <a href="{{ reg.url }}" class="ciq-regulation-card">
+              <div class="ciq-regulation-card-acronym">{{ reg.acronym }}</div>
+              <div class="ciq-regulation-card-name">{{ reg.name }}</div>
+              <div style="font-size:0.8125rem;color:var(--navy-500);margin-bottom:0.75rem;line-height:1.5">{{ reg.description }}</div>
+              <div class="ciq-regulation-card-count">
+                <span class="ciq-badge ciq-badge--guidance">{{ reg.jurisdiction }}</span>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      {# Browse by Audience #}
+      <div style="padding: 2.5rem 3rem 0; max-width: 1200px; margin: 0 auto;">
+        <h2 class="ciq-section-header">Browse by Role</h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem">
+          {% set audiences = [
+            {name: 'Legal & Compliance', icon: '⚖', url: '/guidance/legal', description: 'Regulatory obligations, consent frameworks, data subject rights, enforcement risk'},
+            {name: 'IT & Security', icon: '🔐', url: '/guidance/it', description: 'Technical controls, encryption requirements, audit logging, incident response, vendor risk'},
+            {name: 'Executive & Board', icon: '📊', url: '/guidance/executive', description: 'Board reporting, cyber risk disclosure, financial penalties, reputation risk, audit readiness'}
+          ] %}
+          {% for audience in audiences %}
+            <a href="{{ audience.url }}" class="ciq-regulation-card" style="text-decoration:none">
+              <div style="font-size:1.5rem;margin-bottom:0.5rem">{{ audience.icon }}</div>
+              <div class="ciq-regulation-card-acronym" style="font-family:var(--font-sans);font-size:0.9375rem">{{ audience.name }}</div>
+              <div style="font-size:0.8125rem;color:var(--navy-500);line-height:1.5;margin-top:0.25rem">{{ audience.description }}</div>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      {# Recent Enforcement Actions #}
+      <div style="padding: 2.5rem 3rem 3rem; max-width: 1200px; margin: 0 auto;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+          <h2 class="ciq-section-header" style="margin-bottom:0">Recent Enforcement Actions</h2>
+          <a href="/enforcement" style="font-size:0.8125rem;color:var(--teal-500)">View all →</a>
+        </div>
+        <div class="ciq-table-wrapper">
+          <table class="ciq-table">
+            <thead>
+              <tr>
+                <th>Organization</th>
+                <th>Regulation</th>
+                <th>Enforcement Body</th>
+                <th>Penalty</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="/enforcement">Meta Platforms, Inc.</a></td>
+                <td><span class="ciq-badge ciq-badge--regulation">GDPR</span></td>
+                <td>Irish DPC / EDPB</td>
+                <td style="font-family:var(--font-mono);color:var(--alert-red);font-weight:600">€1.2B</td>
+                <td>2023-05-22</td>
+              </tr>
+              <tr>
+                <td><a href="/enforcement">Advocate Aurora Health</a></td>
+                <td><span class="ciq-badge ciq-badge--regulation">HIPAA</span></td>
+                <td>HHS OCR</td>
+                <td style="font-family:var(--font-mono);color:var(--alert-amber);font-weight:600">$3.0M</td>
+                <td>2023-11-14</td>
+              </tr>
+              <tr>
+                <td><a href="/enforcement">Sephora</a></td>
+                <td><span class="ciq-badge ciq-badge--regulation">CCPA</span></td>
+                <td>CA Attorney General</td>
+                <td style="font-family:var(--font-mono);color:var(--alert-amber);font-weight:600">$1.2M</td>
+                <td>2022-08-24</td>
+              </tr>
+              <tr>
+                <td><a href="/enforcement">Dish Network</a></td>
+                <td><span class="ciq-badge ciq-badge--regulation">SOX</span></td>
+                <td>SEC</td>
+                <td style="font-family:var(--font-mono);color:var(--alert-red);font-weight:600">$1.0M</td>
+                <td>2023-10-04</td>
+              </tr>
+              <tr>
+                <td><a href="/enforcement">Varsity Brands / BSN Sports</a></td>
+                <td><span class="ciq-badge ciq-badge--regulation">PCI-DSS</span></td>
+                <td>Card Networks</td>
+                <td style="font-family:var(--font-mono);color:var(--navy-500);font-weight:600">N/A</td>
+                <td>2023-07-11</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+    <footer id="complianceiq-footer" role="contentinfo">
+      <p class="ciq-footer-disclaimer">
+        For demonstration purposes only. Not legal advice. Consult qualified legal counsel for compliance decisions.
+        Content is sourced from public domain government publications.
+        <a href="/sources" style="color:rgba(255,255,255,0.5)">Sources</a>
+      </p>
+      <div class="ciq-footer-branding">
+        Search powered by <span class="ciq-footer-scolta">Scolta</span>
+        &nbsp;&middot;&nbsp; A Tag1 Consulting Demo
+      </div>
+    </footer>
+
+  </div>
+
+  {{ page_bottom }}
+  {{ scripts }}
+</body>
+</html>

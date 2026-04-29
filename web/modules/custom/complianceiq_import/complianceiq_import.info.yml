@@ -1,0 +1,8 @@
+name: 'ComplianceIQ Import'
+type: module
+description: 'Content import and AI generation commands for ComplianceIQ.'
+package: ComplianceIQ
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:node
+  - drupal:taxonomy

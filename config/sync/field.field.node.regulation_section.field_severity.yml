@@ -1,0 +1,21 @@
+uuid: b686e036-1390-4803-848b-b7228d1054ae
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_severity
+    - node.type.regulation_section
+  module:
+    - options
+id: node.regulation_section.field_severity
+field_name: field_severity
+entity_type: node
+bundle: regulation_section
+label: Severity
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

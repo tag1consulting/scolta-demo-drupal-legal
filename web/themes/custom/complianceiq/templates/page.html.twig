@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="{{ html_attributes.lang }}" data-theme="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ head_title|safe_join(' | ') }}{% endblock %}</title>
+  {{ head }}
+  {{ styles }}
+</head>
+<body{{ attributes.addClass('ciq-body') }}>
+  {{ page_top }}
+
+  <div id="complianceiq-shell"{% if is_front %} class="layout-no-sidebar"{% endif %}>
+
+    {# ── Top Header Bar ── #}
+    <header id="complianceiq-header" role="banner">
+      <a href="{{ path('<front>') }}" class="ciq-logo" aria-label="ComplianceIQ Home">
+        <span class="ciq-logo-mark" aria-hidden="true"></span>
+        <span class="ciq-logo-text">ComplianceIQ</span>
+      </a>
+
+      <div class="ciq-header-search">
+        <form action="{{ path('complianceiq.search') }}" method="get" role="search">
+          <input
+            type="search"
+            name="q"
+            class="ciq-search-input"
+            placeholder="Search regulations, guidance, cases..."
+            value="{{ app.request.query.get('q')|default('') }}"
+            aria-label="Search ComplianceIQ"
+            autocomplete="off"
+          >
+          <button type="submit" class="ciq-search-btn">Search</button>
+        </form>
+      </div>
+
+      <div class="ciq-header-actions">
+        <button class="ciq-mobile-nav-toggle ciq-dark-toggle" type="button" aria-label="Toggle navigation" style="display:none">
+          ☰
+        </button>
+        <button class="ciq-dark-toggle" type="button" aria-label="Toggle dark mode">Dark Mode</button>
+      </div>
+    </header>
+
+    {# ── Left Navigation Sidebar ── #}
+    {% if not is_front %}
+    <nav id="complianceiq-nav" role="navigation" aria-label="Regulation navigation">
+
+      <div class="ciq-nav-section open">
+        <div class="ciq-nav-section-header">Regulations <span class="ciq-nav-toggle">▶</span></div>
+        <div class="ciq-nav-items">
+          <a href="/regulations/gdpr" class="ciq-nav-link{{ app.request.pathinfo starts with '/regulations/gdpr' ? ' active' : '' }}">GDPR</a>
+          <a href="/regulations/hipaa" class="ciq-nav-link{{ app.request.pathinfo starts with '/regulations/hipaa' ? ' active' : '' }}">HIPAA</a>
+          <a href="/regulations/ccpa" class="ciq-nav-link{{ app.request.pathinfo starts with '/regulations/ccpa' ? ' active' : '' }}">CCPA / CPRA</a>
+          <a href="/regulations/sox" class="ciq-nav-link{{ app.request.pathinfo starts with '/regulations/sox' ? ' active' : '' }}">SOX</a>
+          <a href="/regulations/pci-dss" class="ciq-nav-link{{ app.request.pathinfo starts with '/regulations/pci-dss' ? ' active' : '' }}">PCI-DSS v4.0</a>
+          <a href="/regulations/ferpa" class="ciq-nav-link{{ app.request.pathinfo starts with '/regulations/ferpa' ? ' active' : '' }}">FERPA</a>
+          <a href="/regulations/ada-508" class="ciq-nav-link{{ app.request.pathinfo starts with '/regulations/ada' ? ' active' : '' }}">ADA / Section 508</a>
+          <a href="/regulations/fedramp" class="ciq-nav-link{{ app.request.pathinfo starts with '/regulations/fedramp' ? ' active' : '' }}">FedRAMP</a>
+        </div>
+      </div>
+
+      <div class="ciq-nav-section">
+        <div class="ciq-nav-section-header">Guidance <span class="ciq-nav-toggle">▶</span></div>
+        <div class="ciq-nav-items">
+          <a href="/guidance/legal" class="ciq-nav-link">For Legal Teams</a>
+          <a href="/guidance/it" class="ciq-nav-link">For IT / Security</a>
+          <a href="/guidance/executive" class="ciq-nav-link">For Executives</a>
+          <a href="/guidance" class="ciq-nav-link">All Guidance</a>
+        </div>
+      </div>
+
+      <div class="ciq-nav-section">
+        <div class="ciq-nav-section-header">Enforcement <span class="ciq-nav-toggle">▶</span></div>
+        <div class="ciq-nav-items">
+          <a href="/enforcement" class="ciq-nav-link">All Cases</a>
+          <a href="/enforcement/largest-penalties" class="ciq-nav-link">Largest Penalties</a>
+          <a href="/enforcement/recent" class="ciq-nav-link">Recent Actions</a>
+        </div>
+      </div>
+
+      <div class="ciq-nav-section">
+        <div class="ciq-nav-section-header">Tools <span class="ciq-nav-toggle">▶</span></div>
+        <div class="ciq-nav-items">
+          <a href="/checklists" class="ciq-nav-link">Checklists</a>
+          <a href="/comparisons" class="ciq-nav-link">Comparisons</a>
+          <a href="/glossary" class="ciq-nav-link">Glossary</a>
+        </div>
+      </div>
+
+      <div class="ciq-nav-section">
+        <div class="ciq-nav-section-header">About <span class="ciq-nav-toggle">▶</span></div>
+        <div class="ciq-nav-items">
+          <a href="/sources" class="ciq-nav-link">Sources</a>
+          <a href="/about" class="ciq-nav-link">About ComplianceIQ</a>
+        </div>
+      </div>
+
+    </nav>
+    {% endif %}
+
+    {# ── Main Content ── #}
+    <main id="complianceiq-main" role="main">
+      {% if page.breadcrumb %}
+        {{ page.breadcrumb }}
+      {% endif %}
+
+      <div class="ciq-content-inner">
+        {{ page.content }}
+      </div>
+    </main>
+
+    {# ── Right Sidebar ── #}
+    {% if not is_front and page.sidebar_right %}
+    <aside id="complianceiq-sidebar-right" role="complementary">
+      {{ page.sidebar_right }}
+    </aside>
+    {% endif %}
+
+    {# ── Footer ── #}
+    <footer id="complianceiq-footer" role="contentinfo">
+      <p class="ciq-footer-disclaimer">
+        For demonstration purposes only. Not legal advice. Consult qualified legal counsel for compliance decisions.
+        Content is sourced from public domain government publications.
+        <a href="/sources" style="color:rgba(255,255,255,0.5)">Sources</a>
+      </p>
+      <div class="ciq-footer-branding">
+        Search powered by <a href="https://scolta.io" class="ciq-footer-scolta" style="text-decoration:none">Scolta</a>
+        &nbsp;&middot;&nbsp; A Tag1 Consulting Demo
+      </div>
+    </footer>
+
+  </div>
+
+  {{ page_bottom }}
+  {{ scripts }}
+</body>
+</html>

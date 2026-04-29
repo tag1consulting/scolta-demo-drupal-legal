@@ -1,0 +1,21 @@
+global:
+  version: 1.x
+  css:
+    theme:
+      css/complianceiq.css: {}
+  js:
+    js/complianceiq.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
+
+search:
+  version: 1.x
+  css:
+    theme:
+      css/search.css: {}
+  js:
+    js/search.js: {}
+  dependencies:
+    - core/drupal

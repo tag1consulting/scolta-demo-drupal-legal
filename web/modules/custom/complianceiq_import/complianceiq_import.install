@@ -1,0 +1,399 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for complianceiq_import module.
+ */
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\node\Entity\NodeType;
+use Drupal\taxonomy\Entity\Vocabulary;
+
+/**
+ * Implements hook_install().
+ */
+function complianceiq_import_install() {
+  _complianceiq_create_vocabularies();
+  _complianceiq_create_content_types();
+  _complianceiq_add_body_fields();
+  _complianceiq_populate_taxonomy_terms();
+  drupal_flush_all_caches();
+}
+
+/**
+ * Create all taxonomy vocabularies.
+ */
+function _complianceiq_create_vocabularies(): void {
+  $vocabs = [
+    'regulation_framework' => 'Regulation Framework',
+    'jurisdiction' => 'Jurisdiction',
+    'audience' => 'Audience',
+    'industry' => 'Industry',
+    'enforcement_body' => 'Enforcement Body',
+    'severity' => 'Severity',
+    'content_type_tag' => 'Content Type Tag',
+  ];
+
+  foreach ($vocabs as $machine => $label) {
+    if (!Vocabulary::load($machine)) {
+      Vocabulary::create(['vid' => $machine, 'name' => $label])->save();
+    }
+  }
+}
+
+/**
+ * Add body field to all custom content types.
+ */
+function _complianceiq_add_body_fields(): void {
+  $types = [
+    'regulation_section', 'guidance_article', 'enforcement_case',
+    'checklist', 'comparison', 'glossary_term',
+  ];
+  foreach ($types as $bundle) {
+    if (!FieldConfig::loadByName('node', $bundle, 'body')) {
+      FieldConfig::create([
+        'field_name' => 'body',
+        'entity_type' => 'node',
+        'bundle' => $bundle,
+        'label' => 'Body',
+        'settings' => ['display_summary' => FALSE],
+      ])->save();
+    }
+  }
+}
+
+/**
+ * Populate taxonomy terms with standard values.
+ */
+function _complianceiq_populate_taxonomy_terms(): void {
+  $terms = [
+    'regulation_framework' => ['GDPR', 'HIPAA', 'CCPA/CPRA', 'SOX', 'PCI-DSS', 'FERPA', 'ADA/Section 508', 'FedRAMP'],
+    'jurisdiction' => ['European Union', 'US Federal', 'California', 'All US States', 'International'],
+    'audience' => ['Legal/Compliance', 'IT/Security', 'Executive/Board', 'HR', 'All'],
+    'industry' => ['Healthcare', 'Financial Services', 'Education', 'Government', 'Technology', 'Retail', 'All'],
+    'enforcement_body' => ['ICO (UK)', 'HHS OCR (US)', 'FTC (US)', 'State Attorneys General', 'PCI SSC', 'SEC', 'California AG'],
+    'severity' => ['Critical', 'High', 'Medium', 'Low'],
+    'content_type_tag' => ['Regulation', 'Guidance', 'Case', 'Checklist', 'Comparison', 'Glossary'],
+  ];
+
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  foreach ($terms as $vocab => $names) {
+    foreach ($names as $name) {
+      $existing = $storage->loadByProperties(['vid' => $vocab, 'name' => $name]);
+      if (!$existing) {
+        $storage->create(['vid' => $vocab, 'name' => $name])->save();
+      }
+    }
+  }
+}
+
+/**
+ * Create all content types and their fields.
+ */
+function _complianceiq_create_content_types(): void {
+  _complianceiq_create_regulation_section_type();
+  _complianceiq_create_guidance_article_type();
+  _complianceiq_create_enforcement_case_type();
+  _complianceiq_create_checklist_type();
+  _complianceiq_create_comparison_type();
+  _complianceiq_create_glossary_term_type();
+}
+
+// ---------------------------------------------------------------------------
+// Helper: create a field storage if it doesn't exist.
+// ---------------------------------------------------------------------------
+function _ciq_field_storage(string $entity, string $field, string $type, array $extra = []): void {
+  if (!FieldStorageConfig::loadByName($entity, $field)) {
+    FieldStorageConfig::create(array_merge([
+      'field_name' => $field,
+      'entity_type' => $entity,
+      'type' => $type,
+    ], $extra))->save();
+  }
+}
+
+// Helper: create a field instance if it doesn't exist.
+function _ciq_field(string $entity, string $bundle, string $field, string $label, array $extra = []): void {
+  if (!FieldConfig::loadByName($entity, $bundle, $field)) {
+    FieldConfig::create(array_merge([
+      'field_name' => $field,
+      'entity_type' => $entity,
+      'bundle' => $bundle,
+      'label' => $label,
+    ], $extra))->save();
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Regulation Section
+// ---------------------------------------------------------------------------
+function _complianceiq_create_regulation_section_type(): void {
+  if (!NodeType::load('regulation_section')) {
+    NodeType::create([
+      'type' => 'regulation_section',
+      'name' => 'Regulation Section',
+      'description' => 'A section of a regulatory framework.',
+    ])->save();
+  }
+
+  $bundle = 'regulation_section';
+
+  _ciq_field_storage('node', 'field_plain_summary', 'text_long');
+  _ciq_field('node', $bundle, 'field_plain_summary', 'Plain Language Summary');
+
+  _ciq_field_storage('node', 'field_section_number', 'string');
+  _ciq_field('node', $bundle, 'field_section_number', 'Section Number');
+
+  _ciq_field_storage('node', 'field_chapter', 'string');
+  _ciq_field('node', $bundle, 'field_chapter', 'Chapter / Part');
+
+  _ciq_field_storage('node', 'field_enforcement_body', 'string');
+  _ciq_field('node', $bundle, 'field_enforcement_body', 'Enforcement Body');
+
+  _ciq_field_storage('node', 'field_effective_date', 'datetime', ['settings' => ['datetime_type' => 'date']]);
+  _ciq_field('node', $bundle, 'field_effective_date', 'Effective Date');
+
+  _ciq_field_storage('node', 'field_severity', 'list_string', [
+    'settings' => ['allowed_values' => [
+      'critical' => 'Critical',
+      'high' => 'High',
+      'medium' => 'Medium',
+      'low' => 'Low',
+    ]],
+  ]);
+  _ciq_field('node', $bundle, 'field_severity', 'Severity');
+
+  _ciq_field_storage('node', 'field_regulation', 'entity_reference', [
+    'settings' => ['target_type' => 'taxonomy_term'],
+  ]);
+  _ciq_field('node', $bundle, 'field_regulation', 'Regulation Framework', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['regulation_framework' => 'regulation_framework']]],
+  ]);
+
+  _ciq_field_storage('node', 'field_jurisdiction', 'entity_reference', [
+    'settings' => ['target_type' => 'taxonomy_term'],
+  ]);
+  _ciq_field('node', $bundle, 'field_jurisdiction', 'Jurisdiction', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['jurisdiction' => 'jurisdiction']]],
+  ]);
+
+  _ciq_field_storage('node', 'field_related_sections', 'entity_reference', [
+    'cardinality' => -1,
+    'settings' => ['target_type' => 'node'],
+  ]);
+  _ciq_field('node', $bundle, 'field_related_sections', 'Related Sections', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['regulation_section' => 'regulation_section']]],
+  ]);
+
+  _ciq_field_storage('node', 'field_related_guidance', 'entity_reference', [
+    'cardinality' => -1,
+    'settings' => ['target_type' => 'node'],
+  ]);
+  _ciq_field('node', $bundle, 'field_related_guidance', 'Related Guidance', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['guidance_article' => 'guidance_article']]],
+  ]);
+
+  _ciq_field_storage('node', 'field_related_cases', 'entity_reference', [
+    'cardinality' => -1,
+    'settings' => ['target_type' => 'node'],
+  ]);
+  _ciq_field('node', $bundle, 'field_related_cases', 'Related Cases', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['enforcement_case' => 'enforcement_case']]],
+  ]);
+}
+
+// ---------------------------------------------------------------------------
+// Guidance Article
+// ---------------------------------------------------------------------------
+function _complianceiq_create_guidance_article_type(): void {
+  if (!NodeType::load('guidance_article')) {
+    NodeType::create([
+      'type' => 'guidance_article',
+      'name' => 'Guidance Article',
+      'description' => 'Plain-language regulatory guidance.',
+    ])->save();
+  }
+
+  $bundle = 'guidance_article';
+
+  _ciq_field_storage('node', 'field_key_takeaways', 'text_long');
+  _ciq_field('node', $bundle, 'field_key_takeaways', 'Key Takeaways');
+
+  _ciq_field_storage('node', 'field_difficulty', 'list_string', [
+    'settings' => ['allowed_values' => [
+      'overview' => 'Overview',
+      'practitioner' => 'Practitioner',
+      'expert' => 'Expert',
+    ]],
+  ]);
+  _ciq_field('node', $bundle, 'field_difficulty', 'Difficulty Level');
+
+  _ciq_field_storage('node', 'field_last_reviewed', 'datetime', ['settings' => ['datetime_type' => 'date']]);
+  _ciq_field('node', $bundle, 'field_last_reviewed', 'Last Reviewed');
+
+  _ciq_field_storage('node', 'field_audience', 'entity_reference', [
+    'settings' => ['target_type' => 'taxonomy_term'],
+  ]);
+  _ciq_field('node', $bundle, 'field_audience', 'Audience', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['audience' => 'audience']]],
+  ]);
+
+  _ciq_field_storage('node', 'field_regulations_covered', 'entity_reference', [
+    'cardinality' => -1,
+    'settings' => ['target_type' => 'taxonomy_term'],
+  ]);
+  _ciq_field('node', $bundle, 'field_regulations_covered', 'Regulations Covered', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['regulation_framework' => 'regulation_framework']]],
+  ]);
+
+  // Reuse shared field storages already created above
+  _ciq_field('node', $bundle, 'field_related_sections', 'Related Sections', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['regulation_section' => 'regulation_section']]],
+  ]);
+  _ciq_field('node', $bundle, 'field_related_cases', 'Related Cases', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['enforcement_case' => 'enforcement_case']]],
+  ]);
+}
+
+// ---------------------------------------------------------------------------
+// Enforcement Case
+// ---------------------------------------------------------------------------
+function _complianceiq_create_enforcement_case_type(): void {
+  if (!NodeType::load('enforcement_case')) {
+    NodeType::create([
+      'type' => 'enforcement_case',
+      'name' => 'Enforcement Case',
+      'description' => 'A regulatory enforcement action or case summary.',
+    ])->save();
+  }
+
+  $bundle = 'enforcement_case';
+
+  _ciq_field_storage('node', 'field_key_facts', 'text_long');
+  _ciq_field('node', $bundle, 'field_key_facts', 'Key Facts');
+
+  _ciq_field_storage('node', 'field_lessons', 'text_long');
+  _ciq_field('node', $bundle, 'field_lessons', 'Lessons Learned');
+
+  _ciq_field_storage('node', 'field_penalty_amount', 'string');
+  _ciq_field('node', $bundle, 'field_penalty_amount', 'Penalty Amount');
+
+  _ciq_field_storage('node', 'field_penalty_numeric', 'integer');
+  _ciq_field('node', $bundle, 'field_penalty_numeric', 'Penalty (USD, numeric)');
+
+  _ciq_field_storage('node', 'field_date', 'datetime', ['settings' => ['datetime_type' => 'date']]);
+  _ciq_field('node', $bundle, 'field_date', 'Enforcement Date');
+
+  _ciq_field_storage('node', 'field_source_url', 'link');
+  _ciq_field('node', $bundle, 'field_source_url', 'Source URL');
+
+  // field_enforcement_body reuse taxonomy storage
+  _ciq_field_storage('node', 'field_enforcement_body_ref', 'entity_reference', [
+    'settings' => ['target_type' => 'taxonomy_term'],
+  ]);
+  _ciq_field('node', $bundle, 'field_enforcement_body_ref', 'Enforcement Body', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['enforcement_body' => 'enforcement_body']]],
+  ]);
+
+  _ciq_field_storage('node', 'field_industry', 'entity_reference', [
+    'settings' => ['target_type' => 'taxonomy_term'],
+  ]);
+  _ciq_field('node', $bundle, 'field_industry', 'Industry', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['industry' => 'industry']]],
+  ]);
+
+  _ciq_field_storage('node', 'field_regulation_violated', 'entity_reference', [
+    'cardinality' => -1,
+    'settings' => ['target_type' => 'taxonomy_term'],
+  ]);
+  _ciq_field('node', $bundle, 'field_regulation_violated', 'Regulation Violated', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['regulation_framework' => 'regulation_framework']]],
+  ]);
+}
+
+// ---------------------------------------------------------------------------
+// Checklist
+// ---------------------------------------------------------------------------
+function _complianceiq_create_checklist_type(): void {
+  if (!NodeType::load('checklist')) {
+    NodeType::create([
+      'type' => 'checklist',
+      'name' => 'Checklist',
+      'description' => 'A compliance checklist.',
+    ])->save();
+  }
+
+  $bundle = 'checklist';
+
+  _ciq_field_storage('node', 'field_checklist_items', 'text_long');
+  _ciq_field('node', $bundle, 'field_checklist_items', 'Checklist Items');
+
+  // Reuse field_regulation (already created for regulation_section)
+  _ciq_field('node', $bundle, 'field_regulation', 'Regulation Framework', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['regulation_framework' => 'regulation_framework']]],
+  ]);
+
+  _ciq_field('node', $bundle, 'field_audience', 'Audience', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['audience' => 'audience']]],
+  ]);
+
+  _ciq_field('node', $bundle, 'field_related_sections', 'Related Sections', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['regulation_section' => 'regulation_section']]],
+  ]);
+}
+
+// ---------------------------------------------------------------------------
+// Comparison
+// ---------------------------------------------------------------------------
+function _complianceiq_create_comparison_type(): void {
+  if (!NodeType::load('comparison')) {
+    NodeType::create([
+      'type' => 'comparison',
+      'name' => 'Comparison',
+      'description' => 'Cross-regulation comparison page.',
+    ])->save();
+  }
+
+  $bundle = 'comparison';
+
+  _ciq_field_storage('node', 'field_comparison_table', 'text_long');
+  _ciq_field('node', $bundle, 'field_comparison_table', 'Comparison Table');
+
+  _ciq_field_storage('node', 'field_key_differences', 'text_long');
+  _ciq_field('node', $bundle, 'field_key_differences', 'Key Differences');
+
+  _ciq_field_storage('node', 'field_regulations_compared', 'entity_reference', [
+    'cardinality' => -1,
+    'settings' => ['target_type' => 'taxonomy_term'],
+  ]);
+  _ciq_field('node', $bundle, 'field_regulations_compared', 'Regulations Compared', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['regulation_framework' => 'regulation_framework']]],
+  ]);
+}
+
+// ---------------------------------------------------------------------------
+// Glossary Term
+// ---------------------------------------------------------------------------
+function _complianceiq_create_glossary_term_type(): void {
+  if (!NodeType::load('glossary_term')) {
+    NodeType::create([
+      'type' => 'glossary_term',
+      'name' => 'Glossary Term',
+      'description' => 'A compliance terminology definition.',
+    ])->save();
+  }
+
+  $bundle = 'glossary_term';
+
+  _ciq_field_storage('node', 'field_regulation_definitions', 'text_long');
+  _ciq_field('node', $bundle, 'field_regulation_definitions', 'Regulation-Specific Definitions');
+
+  _ciq_field_storage('node', 'field_regulations', 'entity_reference', [
+    'cardinality' => -1,
+    'settings' => ['target_type' => 'taxonomy_term'],
+  ]);
+  _ciq_field('node', $bundle, 'field_regulations', 'Regulations', [
+    'settings' => ['handler_settings' => ['target_bundles' => ['regulation_framework' => 'regulation_framework']]],
+  ]);
+}

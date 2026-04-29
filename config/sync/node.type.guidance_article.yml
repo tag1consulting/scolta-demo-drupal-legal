@@ -1,0 +1,11 @@
+uuid: a7fa0554-6eb4-44b1-ada2-36e2c5a25d64
+langcode: en
+status: true
+dependencies: {  }
+name: 'Guidance Article'
+type: guidance_article
+description: 'Plain-language regulatory guidance.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

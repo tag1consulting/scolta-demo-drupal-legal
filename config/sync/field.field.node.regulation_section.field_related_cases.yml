@@ -1,0 +1,23 @@
+uuid: e558ea7d-fc63-4a2d-ab30-c62787f5f84a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_related_cases
+    - node.type.regulation_section
+id: node.regulation_section.field_related_cases
+field_name: field_related_cases
+entity_type: node
+bundle: regulation_section
+label: 'Related Cases'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      enforcement_case: enforcement_case
+field_type: entity_reference

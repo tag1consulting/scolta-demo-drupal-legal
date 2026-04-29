@@ -1,0 +1,14 @@
+services:
+  complianceiq_import.importer:
+    class: Drupal\complianceiq_import\ComplianceImporter
+    arguments:
+      - '@entity_type.manager'
+      - '@logger.factory'
+
+  complianceiq_import.commands:
+    class: Drupal\complianceiq_import\Commands\ImportCommands
+    arguments:
+      - '@complianceiq_import.importer'
+      - '@http_client'
+    tags:
+      - { name: drush.command }

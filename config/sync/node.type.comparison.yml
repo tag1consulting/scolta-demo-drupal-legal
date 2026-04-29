@@ -1,0 +1,11 @@
+uuid: fde87788-fa8c-44ad-9cf5-63d272030124
+langcode: en
+status: true
+dependencies: {  }
+name: Comparison
+type: comparison
+description: 'Cross-regulation comparison page.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

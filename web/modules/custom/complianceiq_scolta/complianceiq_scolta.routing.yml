@@ -1,0 +1,15 @@
+complianceiq.search:
+  path: '/search'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\SearchController::search'
+    _title: 'Search'
+  requirements:
+    _access: 'TRUE'
+
+complianceiq.search.api:
+  path: '/api/search'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\SearchController::searchApi'
+  requirements:
+    _access: 'TRUE'
+  methods: [GET]

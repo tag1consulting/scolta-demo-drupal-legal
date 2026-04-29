@@ -1,0 +1,136 @@
+<div class="ciq-search-page">
+
+  <div style="display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:start">
+
+    {# Left: Faceted Filters #}
+    <aside class="ciq-facets">
+      <div class="ciq-facet-group">
+        <div class="ciq-facet-title">Regulation</div>
+        {% set frameworks = ['GDPR', 'HIPAA', 'CCPA/CPRA', 'SOX', 'PCI-DSS', 'FERPA', 'ADA/Section 508', 'FedRAMP'] %}
+        {% for fw in frameworks %}
+          <div class="ciq-facet-item">
+            <a href="?q={{ query|url_encode }}&regulation={{ fw|url_encode }}"
+               style="color:inherit;text-decoration:none;display:flex;width:100%;align-items:center;gap:0.5rem">
+              <span style="width:12px;height:12px;border:1.5px solid var(--border-subtle);border-radius:2px;flex-shrink:0{% if filters.regulation == fw %};background:var(--teal-500);border-color:var(--teal-500){% endif %}"></span>
+              {{ fw }}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="ciq-facet-group">
+        <div class="ciq-facet-title">Content Type</div>
+        {% set types = {'regulation_section': 'Regulation', 'guidance_article': 'Guidance', 'enforcement_case': 'Case', 'checklist': 'Checklist', 'comparison': 'Comparison', 'glossary_term': 'Glossary'} %}
+        {% for machine, label in types %}
+          <div class="ciq-facet-item">
+            <a href="?q={{ query|url_encode }}&content_type={{ machine }}"
+               style="color:inherit;text-decoration:none;display:flex;width:100%;align-items:center;gap:0.5rem">
+              <span style="width:12px;height:12px;border:1.5px solid var(--border-subtle);border-radius:2px;flex-shrink:0{% if filters.content_type == machine %};background:var(--teal-500);border-color:var(--teal-500){% endif %}"></span>
+              {{ label }}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if filters.regulation or filters.content_type %}
+        <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-subtle)">
+          <a href="?q={{ query|url_encode }}" style="font-size:0.75rem;color:var(--teal-500)">Clear filters ×</a>
+        </div>
+      {% endif %}
+    </aside>
+
+    {# Right: Results #}
+    <div class="ciq-results-area">
+
+      {% if query %}
+        {# Scolta expansion terms #}
+        {% if expansion_terms %}
+          <div class="ciq-search-expansion">
+            <span class="ciq-expansion-label">Scolta expanded:</span>
+            {% for term in expansion_terms %}
+              <span class="ciq-expansion-pill">{{ term }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {# Result count #}
+        <div style="font-size:0.875rem;color:var(--navy-400);margin-bottom:1.25rem">
+          {% if total > 0 %}
+            {{ total }} result{{ total != 1 ? 's' : '' }} for <strong style="color:var(--navy-700)">"{{ query }}"</strong>
+          {% else %}
+            No results found for <strong style="color:var(--navy-700)">"{{ query }}"</strong>
+          {% endif %}
+        </div>
+
+        {# Results list #}
+        {% if results %}
+          <div class="ciq-results-list">
+            {% for result in results %}
+              {% set type_labels = {
+                'regulation_section': 'Regulation',
+                'guidance_article': 'Guidance',
+                'enforcement_case': 'Case',
+                'checklist': 'Checklist',
+                'comparison': 'Comparison',
+                'glossary_term': 'Glossary'
+              } %}
+              {% set type_badge_class = {
+                'regulation_section': 'regulation',
+                'guidance_article': 'guidance',
+                'enforcement_case': 'case',
+                'checklist': 'checklist',
+                'comparison': 'guidance',
+                'glossary_term': 'guidance'
+              } %}
+
+              <div class="ciq-result-item">
+                <div class="ciq-result-meta">
+                  <span class="ciq-badge ciq-badge--{{ type_badge_class[result.type]|default('guidance') }}">
+                    {{ type_labels[result.type]|default(result.type) }}
+                  </span>
+                  {% if result.regulation %}
+                    <span class="ciq-badge ciq-badge--regulation">{{ result.regulation }}</span>
+                  {% endif %}
+                </div>
+                <a href="{{ result.url }}" class="ciq-result-title">{{ result.title }}</a>
+                <p class="ciq-result-snippet">
+                  {{ result.body|striptags|slice(0, 220) }}{% if result.body|length > 220 %}...{% endif %}
+                </p>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div style="padding:2rem 0;text-align:center;color:var(--navy-400)">
+            <div style="font-size:1.25rem;margin-bottom:0.5rem">No results found</div>
+            <div style="font-size:0.875rem">Try a different search term or browse regulations directly.</div>
+          </div>
+        {% endif %}
+
+      {% else %}
+        {# Empty state — no query yet #}
+        <div style="padding:2rem 0;color:var(--navy-400)">
+          <div style="font-size:1rem;font-weight:600;color:var(--navy-700);margin-bottom:0.5rem">Search ComplianceIQ</div>
+          <p>Search across GDPR, HIPAA, CCPA, SOX, PCI-DSS, FERPA, ADA, and FedRAMP regulations, guidance articles, enforcement cases, and compliance checklists.</p>
+          <div style="margin-top:1.5rem">
+            <div class="ciq-section-header">Try these searches</div>
+            {% set examples = [
+              'we got hacked, what do we do',
+              'can we email customers in Europe',
+              'someone asked us to delete their data',
+              'employee looking at patient records',
+              'student data in the cloud',
+              'audit is next month',
+            ] %}
+            {% for example in examples %}
+              <a href="?q={{ example|url_encode }}" class="ciq-card" style="display:block;margin-bottom:0.5rem;text-decoration:none;color:var(--teal-500)">
+                "{{ example }}"
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+
+</div>

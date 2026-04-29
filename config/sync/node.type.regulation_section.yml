@@ -1,0 +1,11 @@
+uuid: e81e993d-3978-44b7-8663-36ac07fed3fc
+langcode: en
+status: true
+dependencies: {  }
+name: 'Regulation Section'
+type: regulation_section
+description: 'A section of a regulatory framework.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

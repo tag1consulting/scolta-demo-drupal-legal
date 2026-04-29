@@ -1,0 +1,18 @@
+name: ComplianceIQ
+type: theme
+base theme: false
+description: 'Enterprise compliance knowledge base theme for ComplianceIQ'
+package: ComplianceIQ
+core_version_requirement: ^10 || ^11
+
+libraries:
+  - complianceiq/global
+
+regions:
+  header: Header
+  navigation: Navigation
+  breadcrumb: Breadcrumb
+  sidebar_left: Sidebar Left
+  content: Content
+  sidebar_right: Sidebar Right
+  footer: Footer

@@ -1,0 +1,20 @@
+uuid: da36254b-443a-4486-8ca4-141e067401af
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_enforcement_body_ref
+field_name: field_enforcement_body_ref
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

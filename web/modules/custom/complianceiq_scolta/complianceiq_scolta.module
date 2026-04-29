@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * ComplianceIQ Scolta integration module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function complianceiq_scolta_theme(): array {
+  return [
+    'complianceiq_search' => [
+      'variables' => [
+        'query' => '',
+        'results' => [],
+        'total' => 0,
+        'expansion_terms' => [],
+        'filters' => [],
+      ],
+    ],
+  ];
+}

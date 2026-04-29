@@ -1,0 +1,37 @@
+# Dependencies
+/vendor/
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
+/web/libraries/
+
+# Node modules
+node_modules/
+
+# Environment
+.env
+.env.local
+*.local
+
+# DDEV local config (contains API keys)
+.ddev/config.local.yaml
+
+# Drupal generated
+/web/sites/default/files/
+/web/sites/default/settings.local.php
+/web/sites/simpletest/
+
+# Build artifacts
+*.css.map
+*.js.map
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

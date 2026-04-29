@@ -1,0 +1,24 @@
+uuid: 241256ec-ab66-4754-bccd-27fa7434fe88
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_regulation
+    - node.type.regulation_section
+    - taxonomy.vocabulary.regulation_framework
+id: node.regulation_section.field_regulation
+field_name: field_regulation
+entity_type: node
+bundle: regulation_section
+label: 'Regulation Framework'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      regulation_framework: regulation_framework
+field_type: entity_reference

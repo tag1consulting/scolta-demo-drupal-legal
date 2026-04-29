@@ -1,0 +1,19 @@
+uuid: f7b6f5d8-9cf9-4faf-ac61-7644f93a5985
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_enforcement_body
+    - node.type.regulation_section
+id: node.regulation_section.field_enforcement_body
+field_name: field_enforcement_body
+entity_type: node
+bundle: regulation_section
+label: 'Enforcement Body'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,7 @@
+name: 'ComplianceIQ Scolta Integration'
+type: module
+description: 'Scolta search integration for ComplianceIQ.'
+package: ComplianceIQ
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:node

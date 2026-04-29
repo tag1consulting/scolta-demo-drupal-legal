@@ -1,0 +1,9 @@
+uuid: b14ae01c-4512-4056-9f61-8a7d2e6b70fa
+langcode: en
+status: true
+dependencies: {  }
+name: 'Enforcement Body'
+vid: enforcement_body
+description: null
+weight: 0
+new_revision: false

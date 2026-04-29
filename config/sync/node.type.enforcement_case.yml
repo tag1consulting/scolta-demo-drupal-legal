@@ -1,0 +1,11 @@
+uuid: 201e6688-45ff-4c9a-a836-23d744f44eb0
+langcode: en
+status: true
+dependencies: {  }
+name: 'Enforcement Case'
+type: enforcement_case
+description: 'A regulatory enforcement action or case summary.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

@@ -1,0 +1,23 @@
+uuid: 802e7039-e5a0-4653-87a0-2bee3ccf1dff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_related_cases
+    - node.type.guidance_article
+id: node.guidance_article.field_related_cases
+field_name: field_related_cases
+entity_type: node
+bundle: guidance_article
+label: 'Related Cases'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      enforcement_case: enforcement_case
+field_type: entity_reference

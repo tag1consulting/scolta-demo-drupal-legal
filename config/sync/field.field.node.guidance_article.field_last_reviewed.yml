@@ -1,0 +1,21 @@
+uuid: c53137ab-163b-4e62-b935-5e3f045d2414
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_last_reviewed
+    - node.type.guidance_article
+  module:
+    - datetime
+id: node.guidance_article.field_last_reviewed
+field_name: field_last_reviewed
+entity_type: node
+bundle: guidance_article
+label: 'Last Reviewed'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

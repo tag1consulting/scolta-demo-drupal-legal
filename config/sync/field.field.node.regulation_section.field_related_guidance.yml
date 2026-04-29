@@ -1,0 +1,23 @@
+uuid: c0b02867-86cb-4834-be01-4f3671515eb2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_related_guidance
+    - node.type.regulation_section
+id: node.regulation_section.field_related_guidance
+field_name: field_related_guidance
+entity_type: node
+bundle: regulation_section
+label: 'Related Guidance'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      guidance_article: guidance_article
+field_type: entity_reference

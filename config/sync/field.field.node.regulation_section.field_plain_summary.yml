@@ -1,0 +1,22 @@
+uuid: 1d1a7e7a-5dc2-41a5-b115-9c40f7506100
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_plain_summary
+    - node.type.regulation_section
+  module:
+    - text
+id: node.regulation_section.field_plain_summary
+field_name: field_plain_summary
+entity_type: node
+bundle: regulation_section
+label: 'Plain Language Summary'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

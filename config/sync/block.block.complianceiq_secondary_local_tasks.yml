@@ -1,0 +1,22 @@
+uuid: 099e1197-ef41-4bbd-b018-bce2236422d3
+langcode: en
+status: true
+dependencies:
+  theme:
+    - complianceiq
+_core:
+  default_config_hash: ydSxdq7R66I8UMC460rOzlfzvlUL4VRbdwc6z9DWaUI
+id: complianceiq_secondary_local_tasks
+theme: complianceiq
+region: header
+weight: -2
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Secondary tabs'
+  label_display: '0'
+  provider: core
+  primary: false
+  secondary: true
+visibility: {  }

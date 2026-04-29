@@ -1,0 +1,9 @@
+uuid: 961158b8-9480-4a65-b648-bc026b44820a
+langcode: en
+status: true
+dependencies: {  }
+name: 'Regulation Framework'
+vid: regulation_framework
+description: null
+weight: 0
+new_revision: false

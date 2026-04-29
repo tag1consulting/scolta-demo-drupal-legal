@@ -1,0 +1,22 @@
+uuid: 80360230-da33-4548-b723-b41366563e30
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lessons
+    - node.type.enforcement_case
+  module:
+    - text
+id: node.enforcement_case.field_lessons
+field_name: field_lessons
+entity_type: node
+bundle: enforcement_case
+label: 'Lessons Learned'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

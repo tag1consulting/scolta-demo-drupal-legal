@@ -1,0 +1,24 @@
+uuid: 238cf581-6685-4e05-9223-c5da01155266
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_related_sections
+    - node.type.checklist
+    - node.type.regulation_section
+id: node.checklist.field_related_sections
+field_name: field_related_sections
+entity_type: node
+bundle: checklist
+label: 'Related Sections'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      regulation_section: regulation_section
+field_type: entity_reference

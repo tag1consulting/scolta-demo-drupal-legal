@@ -1,0 +1,20 @@
+uuid: f4349045-f253-459a-b6a2-a6fcc40d53d4
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_penalty_numeric
+field_name: field_penalty_numeric
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

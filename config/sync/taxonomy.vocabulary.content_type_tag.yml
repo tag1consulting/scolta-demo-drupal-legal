@@ -1,0 +1,9 @@
+uuid: 0d2b5a47-e8b5-4f37-8ed1-3f7af147e5da
+langcode: en
+status: true
+dependencies: {  }
+name: 'Content Type Tag'
+vid: content_type_tag
+description: null
+weight: 0
+new_revision: false

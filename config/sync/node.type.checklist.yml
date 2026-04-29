@@ -1,0 +1,11 @@
+uuid: 1eb7b6e2-5568-435a-aeda-19193516ffe7
+langcode: en
+status: true
+dependencies: {  }
+name: Checklist
+type: checklist
+description: 'A compliance checklist.'
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

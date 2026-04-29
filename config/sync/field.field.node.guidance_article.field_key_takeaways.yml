@@ -1,0 +1,22 @@
+uuid: f3878bf0-4b71-4448-ba3d-5116982eda07
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_key_takeaways
+    - node.type.guidance_article
+  module:
+    - text
+id: node.guidance_article.field_key_takeaways
+field_name: field_key_takeaways
+entity_type: node
+bundle: guidance_article
+label: 'Key Takeaways'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long
