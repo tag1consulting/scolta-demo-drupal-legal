@@ -1,0 +1,54 @@
+<div class="ciq-listing-page">
+
+  <h1 class="ciq-page-title">{{ framework }}</h1>
+
+  {% macro result_list(items, type_label) %}
+    {% if items %}
+      <ul class="ciq-item-list">
+        {% for row in items %}
+          <li class="ciq-item-list__item">
+            <a href="{{ row.url }}" class="ciq-item-list__link">{{ row.title }}</a>
+            <p class="ciq-item-list__snippet">
+              {{ row.body_value|striptags|slice(0,160) }}{% if row.body_value|length > 160 %}…{% endif %}
+            </p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="ciq-empty">No {{ type_label|lower }} found.</p>
+    {% endif %}
+  {% endmacro %}
+
+  <div class="ciq-regulation-sections">
+
+    {% if sections %}
+      <section class="ciq-listing-section">
+        <h2 class="ciq-section-header">Regulation Sections <span class="ciq-count">({{ sections|length }})</span></h2>
+        {{ _self.result_list(sections, 'sections') }}
+      </section>
+    {% endif %}
+
+    {% if guidance %}
+      <section class="ciq-listing-section">
+        <h2 class="ciq-section-header">Guidance Articles <span class="ciq-count">({{ guidance|length }})</span></h2>
+        {{ _self.result_list(guidance, 'guidance articles') }}
+      </section>
+    {% endif %}
+
+    {% if checklists %}
+      <section class="ciq-listing-section">
+        <h2 class="ciq-section-header">Checklists <span class="ciq-count">({{ checklists|length }})</span></h2>
+        {{ _self.result_list(checklists, 'checklists') }}
+      </section>
+    {% endif %}
+
+    {% if cases %}
+      <section class="ciq-listing-section">
+        <h2 class="ciq-section-header">Enforcement Cases <span class="ciq-count">({{ cases|length }})</span></h2>
+        {{ _self.result_list(cases, 'cases') }}
+      </section>
+    {% endif %}
+
+  </div>
+
+</div>

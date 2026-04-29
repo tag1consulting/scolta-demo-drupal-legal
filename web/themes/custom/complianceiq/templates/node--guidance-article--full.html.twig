@@ -1,7 +1,7 @@
 <article class="node node--type-guidance-article node--full">
 
-  <header style="margin-bottom:1.5rem">
-    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
+  <header class="ciq-node-header">
+    <div class="ciq-node-meta-row">
       <span class="ciq-badge ciq-badge--guidance">Guidance</span>
       {% if node.field_audience.entity %}
         <span class="ciq-badge" style="background:rgba(15,43,70,0.08);color:var(--navy-700);border:1px solid var(--border-subtle)">
@@ -13,50 +13,49 @@
           {{ node.field_difficulty.value|capitalize }}
         </span>
       {% endif %}
-    </div>
-
-    <h1>{{ node.title.value }}</h1>
-
-    <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-top:0.75rem">
       {% for reg in node.field_regulations_covered %}
         {% if reg.entity %}
           <span class="ciq-badge ciq-badge--regulation">{{ reg.entity.name.value }}</span>
         {% endif %}
       {% endfor %}
     </div>
+    <h1>{{ node.title.value }}</h1>
+    {% if node.field_last_reviewed.value %}
+      <div class="ciq-node-subline">Last reviewed: {{ node.field_last_reviewed.value|date('F j, Y') }}</div>
+    {% endif %}
   </header>
 
-  {# Key Takeaways #}
-  {% if content.field_key_takeaways[0] %}
-    <div class="ciq-callout" style="margin-bottom:1.5rem">
+  {% if node.field_key_takeaways.value %}
+    <div class="ciq-callout">
       <div class="ciq-callout-title">Key Takeaways</div>
-      {{ content.field_key_takeaways }}
+      <div>{{ node.field_key_takeaways.processed }}</div>
     </div>
   {% endif %}
 
-  {# Article body #}
-  <div class="ciq-article-body" style="margin-bottom:2rem">
-    {{ content.body }}
-  </div>
+  {% if node.body.value %}
+    <div class="ciq-article-body">
+      {{ node.body.processed }}
+    </div>
+  {% endif %}
 
-  {# Related Sections #}
-  {% if content.field_related_sections[0] %}
-    <section style="margin-bottom:2rem;padding-top:1.5rem;border-top:1px solid var(--border-subtle)">
+  {% set related = node.field_related_sections %}
+  {% if related|length > 0 %}
+    <section class="ciq-related-section">
       <h3 class="ciq-section-header">Regulations Referenced</h3>
-      {% for item in content.field_related_sections %}
-        {% if item['#node'] is defined %}
+      {% for ref in related %}
+        {% if ref.entity %}
           <div class="ciq-card">
             <div style="display:flex;justify-content:space-between;align-items:flex-start">
               <div>
-                {% if item['#node'].field_section_number.value %}
-                  <code class="section-ref">{{ item['#node'].field_section_number.value }}</code>
+                {% if ref.entity.field_section_number.value %}
+                  <code class="section-ref">{{ ref.entity.field_section_number.value }}</code>
                 {% endif %}
-                <a href="{{ path('entity.node.canonical', {'node': item['#node'].id()}) }}" style="margin-left:0.5rem;font-weight:600;color:var(--navy-800)">
-                  {{ item['#node'].title.value }}
+                <a href="{{ path('entity.node.canonical', {'node': ref.entity.id()}) }}" class="ciq-card-link" style="margin-left:0.5rem">
+                  {{ ref.entity.title.value }}
                 </a>
               </div>
-              {% if item['#node'].field_regulation.entity %}
-                <span class="ciq-badge ciq-badge--regulation">{{ item['#node'].field_regulation.entity.name.value }}</span>
+              {% if ref.entity.field_regulation.entity %}
+                <span class="ciq-badge ciq-badge--regulation">{{ ref.entity.field_regulation.entity.name.value }}</span>
               {% endif %}
             </div>
           </div>
@@ -65,32 +64,25 @@
     </section>
   {% endif %}
 
-  {# Related Cases #}
-  {% if content.field_related_cases[0] %}
-    <section style="margin-bottom:2rem">
+  {% set cases = node.field_related_cases %}
+  {% if cases|length > 0 %}
+    <section class="ciq-related-section">
       <h3 class="ciq-section-header">Related Enforcement Cases</h3>
-      {% for item in content.field_related_cases %}
-        {% if item['#node'] is defined %}
+      {% for ref in cases %}
+        {% if ref.entity %}
           <div class="ciq-card">
-            <a href="{{ path('entity.node.canonical', {'node': item['#node'].id()}) }}" style="font-weight:600;color:var(--navy-800)">
-              {{ item['#node'].title.value }}
+            <a href="{{ path('entity.node.canonical', {'node': ref.entity.id()}) }}" class="ciq-card-link">
+              {{ ref.entity.title.value }}
             </a>
-            {% if item['#node'].field_penalty_amount.value %}
+            {% if ref.entity.field_penalty_amount.value %}
               <span style="margin-left:0.75rem;font-family:var(--font-mono);font-size:0.875rem;color:var(--alert-red)">
-                {{ item['#node'].field_penalty_amount.value }}
+                {{ ref.entity.field_penalty_amount.value }}
               </span>
             {% endif %}
           </div>
         {% endif %}
       {% endfor %}
     </section>
-  {% endif %}
-
-  {# Last reviewed #}
-  {% if node.field_last_reviewed.value %}
-    <div style="font-size:0.8125rem;color:var(--navy-400);padding-top:1rem;border-top:1px solid var(--border-subtle)">
-      Last reviewed: {{ node.field_last_reviewed.value|date('F j, Y') }}
-    </div>
   {% endif %}
 
 </article>

@@ -817,4 +817,89 @@ PROMPT;
     ];
   }
 
+  // -------------------------------------------------------------------------
+  // Generate clean URL path aliases for all custom content types.
+  // -------------------------------------------------------------------------
+  #[CLI\Command(name: 'complianceiq:generate-aliases', aliases: ['ciq-aliases'])]
+  #[CLI\Usage(name: 'drush complianceiq:generate-aliases', description: 'Generate path aliases for all custom content nodes')]
+  public function generateAliases(): void {
+    $framework_slugs = [
+      'GDPR'            => 'gdpr',
+      'HIPAA'           => 'hipaa',
+      'CCPA/CPRA'       => 'ccpa',
+      'SOX'             => 'sox',
+      'PCI-DSS'         => 'pci-dss',
+      'FERPA'           => 'ferpa',
+      'ADA/Section 508' => 'ada-508',
+      'FedRAMP'         => 'fedramp',
+    ];
+    $audience_slugs = [
+      'Legal/Compliance' => 'legal',
+      'IT/Security'      => 'it',
+      'Executive/Board'  => 'executive',
+      'HR'               => 'hr',
+      'All'              => 'all',
+    ];
+
+    $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+    $node_storage  = \Drupal::entityTypeManager()->getStorage('node');
+    $types = ['regulation_section', 'guidance_article', 'enforcement_case',
+              'checklist', 'comparison', 'glossary_term'];
+
+    $nids = \Drupal::entityQuery('node')
+      ->condition('type', $types, 'IN')
+      ->condition('status', 1)
+      ->accessCheck(FALSE)
+      ->execute();
+
+    $count = 0;
+    foreach ($node_storage->loadMultiple($nids) as $node) {
+      $slug        = $this->toSlug($node->getTitle());
+      $system_path = '/node/' . $node->id();
+
+      $alias = match($node->bundle()) {
+        'regulation_section' => (function() use ($node, $slug, $framework_slugs) {
+          $fw = $node->field_regulation->entity?->getName() ?? '';
+          $fw_slug = $framework_slugs[$fw] ?? 'general';
+          return "/regulations/$fw_slug/$slug";
+        })(),
+        'guidance_article' => (function() use ($node, $slug, $audience_slugs) {
+          $aud = $node->field_audience->entity?->getName() ?? '';
+          $aud_slug = $audience_slugs[$aud] ?? 'general';
+          return "/guidance/$aud_slug/$slug";
+        })(),
+        'enforcement_case' => "/enforcement/$slug",
+        'checklist'        => "/checklists/$slug",
+        'comparison'       => "/comparisons/$slug",
+        'glossary_term'    => "/glossary/$slug",
+        default            => null,
+      };
+
+      if (!$alias) {
+        continue;
+      }
+
+      foreach ($alias_storage->loadByProperties(['path' => $system_path]) as $e) {
+        $e->delete();
+      }
+
+      $alias_storage->create([
+        'path'     => $system_path,
+        'alias'    => $alias,
+        'langcode' => 'en',
+      ])->save();
+      $count++;
+    }
+
+    \Drupal::service('path_alias.manager')->cacheClear();
+    $this->logger()->success("Created $count path aliases.");
+  }
+
+  private function toSlug(string $title): string {
+    $slug = strtolower(trim($title));
+    $slug = preg_replace('/[^a-z0-9\s-]/', '', $slug);
+    $slug = preg_replace('/[\s-]+/', '-', $slug);
+    return trim($slug, '-');
+  }
+
 }

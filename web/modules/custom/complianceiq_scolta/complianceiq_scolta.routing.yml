@@ -13,3 +13,93 @@ complianceiq.search.api:
   requirements:
     _access: 'TRUE'
   methods: [GET]
+
+complianceiq.search.summary:
+  path: '/api/search/summary'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\SearchController::searchSummaryApi'
+  requirements:
+    _access: 'TRUE'
+  methods: [GET]
+
+complianceiq.regulations:
+  path: '/regulations/{framework}'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\ListingController::regulation'
+    _title: 'Regulations'
+  requirements:
+    _access: 'TRUE'
+
+complianceiq.guidance:
+  path: '/guidance'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\ListingController::guidance'
+    _title: 'Guidance'
+    audience: ''
+  requirements:
+    _access: 'TRUE'
+
+complianceiq.guidance.audience:
+  path: '/guidance/{audience}'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\ListingController::guidance'
+    _title: 'Guidance'
+  requirements:
+    _access: 'TRUE'
+
+complianceiq.enforcement:
+  path: '/enforcement'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\ListingController::enforcement'
+    _title: 'Enforcement Actions'
+    filter: ''
+  requirements:
+    _access: 'TRUE'
+
+complianceiq.enforcement.filter:
+  path: '/enforcement/{filter}'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\ListingController::enforcement'
+    _title: 'Enforcement Actions'
+  requirements:
+    _access: 'TRUE'
+
+complianceiq.about:
+  path: '/about'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\ListingController::about'
+    _title: 'About ComplianceIQ'
+  requirements:
+    _access: 'TRUE'
+
+complianceiq.checklists:
+  path: '/checklists'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\ListingController::checklists'
+    _title: 'Checklists'
+  requirements:
+    _access: 'TRUE'
+
+complianceiq.comparisons:
+  path: '/comparisons'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\ListingController::comparisons'
+    _title: 'Comparisons'
+  requirements:
+    _access: 'TRUE'
+
+complianceiq.glossary:
+  path: '/glossary'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\ListingController::glossary'
+    _title: 'Glossary'
+  requirements:
+    _access: 'TRUE'
+
+complianceiq.sources:
+  path: '/sources'
+  defaults:
+    _controller: '\Drupal\complianceiq_scolta\Controller\ListingController::sources'
+    _title: 'Sources'
+  requirements:
+    _access: 'TRUE'

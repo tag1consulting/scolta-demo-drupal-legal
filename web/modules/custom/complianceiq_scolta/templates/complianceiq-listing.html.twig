@@ -1,0 +1,23 @@
+<div class="ciq-listing-page">
+
+  <h1 class="ciq-page-title">{{ page_title }}</h1>
+
+  {% if items %}
+    <ul class="ciq-item-list">
+      {% for row in items %}
+        <li class="ciq-item-list__item">
+          <a href="{{ row.url }}" class="ciq-item-list__link">{{ row.title }}</a>
+          {% if row.penalty is defined and row.penalty %}
+            <span class="ciq-badge ciq-badge--case" style="margin-left:0.5rem">${{ row.penalty|number_format }}</span>
+          {% endif %}
+          <p class="ciq-item-list__snippet">
+            {{ row.body_value|striptags|slice(0,180) }}{% if row.body_value|length > 180 %}…{% endif %}
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="ciq-empty">{{ empty_message }}</p>
+  {% endif %}
+
+</div>

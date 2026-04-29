@@ -1,89 +1,112 @@
 {%
-  set classes = [
-    'node',
-    'node--type-regulation-section',
-    'node--full',
-  ]
+  set classes = ['node', 'node--type-regulation-section', 'node--full']
 %}
 <article{{ attributes.addClass(classes) }}>
 
-  {# Header: section number + title + badges #}
-  <header class="ciq-node-header" style="margin-bottom:1.5rem">
-    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
-      {% if content.field_section_number[0] %}
-        <code class="section-ref">{{ content.field_section_number[0] }}</code>
+  <header class="ciq-node-header">
+    <div class="ciq-node-meta-row">
+      {% if node.field_section_number.value %}
+        <code class="section-ref">{{ node.field_section_number.value }}</code>
       {% endif %}
-      {% if content.field_severity[0] %}
+      {% if node.field_severity.value %}
         <span class="ciq-badge ciq-badge--{{ node.field_severity.value|lower }}">
           {{ node.field_severity.value }} Severity
         </span>
       {% endif %}
-      {% if content.field_effective_date[0] %}
-        <span class="ciq-version-badge">
-          &#9679; Current as of {{ node.field_effective_date.value|date('M j, Y') }}
-        </span>
+      {% if node.field_regulation.entity %}
+        <span class="ciq-badge ciq-badge--regulation">{{ node.field_regulation.entity.name.value }}</span>
+      {% endif %}
+      {% if node.field_jurisdiction.entity %}
+        <span class="ciq-badge ciq-badge--guidance">{{ node.field_jurisdiction.entity.name.value }}</span>
       {% endif %}
     </div>
 
     <h1>{{ node.title.value }}</h1>
 
-    <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;margin-top:0.75rem">
-      {% if content.field_regulation[0] %}
-        <span class="ciq-badge ciq-badge--regulation">{{ node.field_regulation.entity.name.value }}</span>
-      {% endif %}
-      {% if content.field_jurisdiction[0] %}
-        <span class="ciq-badge ciq-badge--guidance">{{ node.field_jurisdiction.entity.name.value }}</span>
-      {% endif %}
-      {% if content.field_enforcement_body[0] %}
-        <span style="font-size:0.8125rem;color:var(--navy-400)">
-          Enforced by: {{ node.field_enforcement_body.value }}
-        </span>
-      {% endif %}
-    </div>
+    {% if node.field_enforcement_body.value %}
+      <div class="ciq-node-subline">Enforced by: {{ node.field_enforcement_body.value }}</div>
+    {% endif %}
+    {% if node.field_effective_date.value %}
+      <div class="ciq-node-subline">Current as of {{ node.field_effective_date.value|date('F j, Y') }}</div>
+    {% endif %}
   </header>
 
-  {# Plain Language Summary #}
-  {% if content.field_plain_summary[0] %}
-    <div class="ciq-callout" style="margin-bottom:1.5rem">
+  {% if node.field_plain_summary.value %}
+    <div class="ciq-callout">
       <div class="ciq-callout-title">Plain Language Summary</div>
-      <div style="font-size:0.9375rem">{{ content.field_plain_summary }}</div>
+      <div>{{ node.field_plain_summary.processed }}</div>
     </div>
   {% endif %}
 
-  {# Full Regulatory Text #}
-  <div class="ciq-regulation-body" style="margin-bottom:2rem">
-    {{ content.body }}
-  </div>
+  {% if node.body.value %}
+    <div class="ciq-regulation-body">
+      {{ node.body.processed }}
+    </div>
+  {% endif %}
 
-  {# Export + actions bar #}
-  <div style="display:flex;gap:0.75rem;margin-bottom:2rem;padding-top:1rem;border-top:1px solid var(--border-subtle)">
-    <button class="ciq-export-btn" type="button">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-      Export PDF
-    </button>
+  <div class="ciq-action-bar">
     <button class="ciq-export-btn" type="button" onclick="window.print()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>
       Print
     </button>
   </div>
 
-  {# Related Sections (cross-references) #}
-  {% if content.field_related_sections[0] %}
-    <section style="margin-bottom:2rem">
-      <h3 style="font-size:0.875rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:var(--navy-500);margin-bottom:0.75rem;padding-bottom:0.375rem;border-bottom:1px solid var(--border-subtle)">Related Sections</h3>
-      {% for item in content.field_related_sections %}
-        {% if item['#node'] is defined %}
-          <div class="ciq-card" style="display:flex;justify-content:space-between;align-items:flex-start">
-            <div>
-              <a href="{{ path('entity.node.canonical', {'node': item['#node'].id()}) }}" style="font-weight:600;color:var(--navy-800);font-size:0.9375rem">
-                {{ item['#node'].title.value }}
-              </a>
-              {% if item['#node'].field_section_number.value %}
-                <code class="section-ref" style="margin-left:0.5rem">{{ item['#node'].field_section_number.value }}</code>
+  {% set related = node.field_related_sections %}
+  {% if related|length > 0 %}
+    <section class="ciq-related-section">
+      <h3 class="ciq-section-header">Related Sections</h3>
+      {% for ref in related %}
+        {% if ref.entity %}
+          <div class="ciq-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div>
+                {% if ref.entity.field_section_number.value %}
+                  <code class="section-ref">{{ ref.entity.field_section_number.value }}</code>
+                {% endif %}
+                <a href="{{ path('entity.node.canonical', {'node': ref.entity.id()}) }}" class="ciq-card-link">
+                  {{ ref.entity.title.value }}
+                </a>
+              </div>
+              {% if ref.entity.field_regulation.entity %}
+                <span class="ciq-badge ciq-badge--regulation">{{ ref.entity.field_regulation.entity.name.value }}</span>
               {% endif %}
             </div>
-            {% if item['#node'].field_regulation.entity %}
-              <span class="ciq-badge ciq-badge--regulation">{{ item['#node'].field_regulation.entity.name.value }}</span>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </section>
+  {% endif %}
+
+  {% set guidance = node.field_related_guidance %}
+  {% if guidance|length > 0 %}
+    <section class="ciq-related-section">
+      <h3 class="ciq-section-header">Related Guidance</h3>
+      {% for ref in guidance %}
+        {% if ref.entity %}
+          <div class="ciq-card">
+            <a href="{{ path('entity.node.canonical', {'node': ref.entity.id()}) }}" class="ciq-card-link">
+              {{ ref.entity.title.value }}
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </section>
+  {% endif %}
+
+  {% set cases = node.field_related_cases %}
+  {% if cases|length > 0 %}
+    <section class="ciq-related-section">
+      <h3 class="ciq-section-header">Related Enforcement Cases</h3>
+      {% for ref in cases %}
+        {% if ref.entity %}
+          <div class="ciq-card">
+            <a href="{{ path('entity.node.canonical', {'node': ref.entity.id()}) }}" class="ciq-card-link">
+              {{ ref.entity.title.value }}
+            </a>
+            {% if ref.entity.field_penalty_amount.value %}
+              <span style="margin-left:0.75rem;font-family:var(--font-mono);font-size:0.875rem;color:var(--alert-red)">
+                {{ ref.entity.field_penalty_amount.value }}
+              </span>
             {% endif %}
           </div>
         {% endif %}

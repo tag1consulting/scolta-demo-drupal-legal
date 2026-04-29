@@ -1,0 +1,34 @@
+<div class="ciq-listing-page" style="max-width:680px">
+  <h1 class="ciq-page-title">Regulatory Sources</h1>
+  <p>All primary regulatory text used in ComplianceIQ is sourced from public domain government publications.</p>
+
+  {% set sources = [
+    {name: 'GDPR', body: 'EUR-Lex — Official Journal of the European Union. Regulation (EU) 2016/679 as published. Freely reproducible under EUR-Lex reuse policy.'},
+    {name: 'HIPAA', body: 'U.S. Department of Health &amp; Human Services (HHS). Privacy Rule, Security Rule, and Breach Notification Rule: 45 CFR Parts 160 and 164. U.S. Federal government work — public domain (17 USC §105).'},
+    {name: 'CCPA / CPRA', body: 'California Legislative Information. Civil Code §§1798.100–1798.199. California state law — public domain.'},
+    {name: 'SOX', body: 'U.S. Securities and Exchange Commission (SEC). Sarbanes-Oxley Act of 2002, Sections 302, 404, 409, 802, 906. U.S. Federal government work — public domain (17 USC §105).'},
+    {name: 'FERPA', body: 'U.S. Department of Education. 20 U.S.C. §1232g; 34 CFR Part 99. U.S. Federal government work — public domain (17 USC §105).'},
+    {name: 'ADA / Section 508', body: 'ADA Title III: U.S. Department of Justice, ADA.gov. Section 508: U.S. Access Board, 29 U.S.C. §794d. WCAG 2.1: W3C Web Accessibility Initiative under W3C Software License.'},
+    {name: 'FedRAMP', body: 'FedRAMP Program Management Office (GSA). FedRAMP Authorization Act (FY2023 NDAA, §5921). U.S. Federal government work — public domain (17 USC §105).'},
+    {name: 'PCI-DSS', body: 'PCI Security Standards Council — publicly available requirement summaries only. PCI DSS v4.0 (effective March 31, 2024). The full PCI DSS standard is copyrighted by PCI SSC; only public summaries are used here.'},
+  ] %}
+
+  {% for s in sources %}
+    <section class="ciq-listing-section">
+      <h2 class="ciq-section-header">{{ s.name }}</h2>
+      <p style="font-size:0.875rem;color:var(--navy-600);line-height:1.6;margin:0">{{ s.body|raw }}</p>
+    </section>
+  {% endfor %}
+
+  <section class="ciq-listing-section">
+    <h2 class="ciq-section-header">Guidance, Checklists &amp; Glossary</h2>
+    <p style="font-size:0.875rem;color:var(--navy-600);line-height:1.6;margin:0">
+      Original content generated using the Anthropic Claude API, with primary regulatory text as source material.
+      Each article cites specific regulation sections. Content represents analysis and explanation of public domain regulatory requirements.
+    </p>
+  </section>
+
+  <p style="font-size:0.8125rem;color:var(--navy-400);margin-top:1.5rem">
+    For demonstration purposes only. Not legal advice. Consult qualified legal counsel for actual compliance decisions.
+  </p>
+</div>

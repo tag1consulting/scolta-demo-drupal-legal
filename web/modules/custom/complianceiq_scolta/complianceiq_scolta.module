@@ -16,8 +16,31 @@ function complianceiq_scolta_theme(): array {
         'results' => [],
         'total' => 0,
         'expansion_terms' => [],
+        'ai_summary' => '',
         'filters' => [],
       ],
+    ],
+    'complianceiq_regulation' => [
+      'variables' => [
+        'framework' => '',
+        'sections'   => [],
+        'guidance'   => [],
+        'cases'      => [],
+        'checklists' => [],
+      ],
+    ],
+    'complianceiq_listing' => [
+      'variables' => [
+        'page_title'    => '',
+        'items'         => [],
+        'empty_message' => '',
+      ],
+    ],
+    'complianceiq_about' => [
+      'variables' => [],
+    ],
+    'complianceiq_sources' => [
+      'variables' => [],
     ],
   ];
 }

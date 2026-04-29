@@ -1,7 +1,7 @@
 <article class="node node--type-checklist node--full">
 
-  <header style="margin-bottom:1.5rem">
-    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap">
+  <header class="ciq-node-header">
+    <div class="ciq-node-meta-row">
       <span class="ciq-badge ciq-badge--checklist">Checklist</span>
       {% if node.field_audience.entity %}
         <span class="ciq-badge" style="background:rgba(15,43,70,0.08);color:var(--navy-700);border:1px solid var(--border-subtle)">
@@ -12,58 +12,44 @@
         <span class="ciq-badge ciq-badge--regulation">{{ node.field_regulation.entity.name.value }}</span>
       {% endif %}
     </div>
-
     <h1>{{ node.title.value }}</h1>
   </header>
 
-  {# Progress indicator (visual only) #}
-  <div style="background:var(--bg-section);border:1px solid var(--border-subtle);border-radius:3px;padding:0.875rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between">
-    <span style="font-size:0.8125rem;font-weight:600;color:var(--navy-600)">Checklist Progress</span>
-    <span style="font-size:0.8125rem;color:var(--navy-400);font-family:var(--font-mono)">0 of — items reviewed</span>
-  </div>
-
-  {# Intro #}
-  {% if content.body[0] %}
-    <div style="margin-bottom:1.5rem">{{ content.body }}</div>
+  {% if node.body.value %}
+    <div class="ciq-article-body">{{ node.body.processed }}</div>
   {% endif %}
 
-  {# Checklist items #}
-  {% if content.field_checklist_items[0] %}
-    <div style="margin-bottom:2rem">
-      {{ content.field_checklist_items }}
+  {% if node.field_checklist_items.value %}
+    <div class="ciq-checklist-body">
+      {{ node.field_checklist_items.processed }}
     </div>
   {% endif %}
 
-  {# Export #}
-  <div style="display:flex;gap:0.75rem;margin-bottom:2rem;padding-top:1rem;border-top:1px solid var(--border-subtle)">
-    <button class="ciq-export-btn" type="button">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-      Export PDF
-    </button>
+  <div class="ciq-action-bar">
     <button class="ciq-export-btn" type="button" onclick="window.print()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>
       Print
     </button>
   </div>
 
-  {# Related Sections #}
-  {% if content.field_related_sections[0] %}
-    <section>
+  {% set related = node.field_related_sections %}
+  {% if related|length > 0 %}
+    <section class="ciq-related-section">
       <h3 class="ciq-section-header">Regulatory Basis</h3>
-      {% for item in content.field_related_sections %}
-        {% if item['#node'] is defined %}
+      {% for ref in related %}
+        {% if ref.entity %}
           <div class="ciq-card">
             <div style="display:flex;justify-content:space-between;align-items:center">
               <div>
-                {% if item['#node'].field_section_number.value %}
-                  <code class="section-ref">{{ item['#node'].field_section_number.value }}</code>
+                {% if ref.entity.field_section_number.value %}
+                  <code class="section-ref">{{ ref.entity.field_section_number.value }}</code>
                 {% endif %}
-                <a href="{{ path('entity.node.canonical', {'node': item['#node'].id()}) }}" style="margin-left:0.5rem;font-weight:600;color:var(--navy-800)">
-                  {{ item['#node'].title.value }}
+                <a href="{{ path('entity.node.canonical', {'node': ref.entity.id()}) }}" class="ciq-card-link" style="margin-left:0.5rem">
+                  {{ ref.entity.title.value }}
                 </a>
               </div>
-              {% if item['#node'].field_regulation.entity %}
-                <span class="ciq-badge ciq-badge--regulation">{{ item['#node'].field_regulation.entity.name.value }}</span>
+              {% if ref.entity.field_regulation.entity %}
+                <span class="ciq-badge ciq-badge--regulation">{{ ref.entity.field_regulation.entity.name.value }}</span>
               {% endif %}
             </div>
           </div>

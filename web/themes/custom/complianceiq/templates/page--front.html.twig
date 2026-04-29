@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ html_attributes.lang }}" data-theme="">
+<html lang="{{ html_attributes.lang }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,7 +26,6 @@
       </div>
 
       <div class="ciq-header-actions">
-        <button class="ciq-dark-toggle" type="button">Dark Mode</button>
       </div>
     </header>
 
@@ -39,20 +38,6 @@
           <span class="ciq-hero-scolta-badge">Powered by Scolta</span>
           Semantic search across GDPR, HIPAA, CCPA, SOX, PCI-DSS, FERPA, ADA, and FedRAMP
         </p>
-
-        <div class="ciq-hero-search">
-          <form action="{{ path('complianceiq.search') }}" method="get">
-            <input
-              type="search"
-              name="q"
-              placeholder='Try "we got hacked, what do we do" or "can we email customers in Europe"'
-              aria-label="Search regulations"
-              autocomplete="off"
-              style="flex:1;padding:0.875rem 1.25rem;font-size:1rem;border:1.5px solid rgba(255,255,255,0.2);border-right:none;background:rgba(255,255,255,0.08);color:#fff;font-family:var(--font-sans);border-radius:3px 0 0 3px;outline:none;width:100%"
-            >
-            <button type="submit" style="padding:0.875rem 1.75rem;background:var(--teal-500);color:#fff;font-weight:700;font-size:1rem;border:none;cursor:pointer;font-family:var(--font-sans);border-radius:0 3px 3px 0;white-space:nowrap">Search</button>
-          </form>
-        </div>
 
         <div class="ciq-popular-searches">
           <span style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-right:0.25rem">Popular:</span>
@@ -178,19 +163,19 @@
 
     </main>
 
-    <footer id="complianceiq-footer" role="contentinfo">
-      <p class="ciq-footer-disclaimer">
-        For demonstration purposes only. Not legal advice. Consult qualified legal counsel for compliance decisions.
-        Content is sourced from public domain government publications.
-        <a href="/sources" style="color:rgba(255,255,255,0.5)">Sources</a>
-      </p>
-      <div class="ciq-footer-branding">
-        Search powered by <span class="ciq-footer-scolta">Scolta</span>
-        &nbsp;&middot;&nbsp; A Tag1 Consulting Demo
-      </div>
-    </footer>
-
   </div>
+
+  <footer id="complianceiq-footer" role="contentinfo">
+    <p class="ciq-footer-disclaimer">
+      For demonstration purposes only. Not legal advice. Consult qualified legal counsel for compliance decisions.
+      Content is sourced from public domain government publications.
+      <a href="/sources" style="color:rgba(255,255,255,0.5)">Sources</a>
+    </p>
+    <div class="ciq-footer-branding">
+      Search powered by <a href="https://www.tag1.com/scolta" class="ciq-footer-scolta" style="text-decoration:none">Scolta</a>
+      &nbsp;&middot;&nbsp; A Tag1 Consulting Demo
+    </div>
+  </footer>
 
   {{ page_bottom }}
   {{ scripts }}

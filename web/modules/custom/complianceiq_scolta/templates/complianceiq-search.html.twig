@@ -2,41 +2,41 @@
 
   <div style="display:grid;grid-template-columns:220px 1fr;gap:2rem;align-items:start">
 
-    {# Left: Faceted Filters #}
+    {# Left: Faceted Filters — submitted as a GET form so multiple values accumulate #}
     <aside class="ciq-facets">
-      <div class="ciq-facet-group">
-        <div class="ciq-facet-title">Regulation</div>
-        {% set frameworks = ['GDPR', 'HIPAA', 'CCPA/CPRA', 'SOX', 'PCI-DSS', 'FERPA', 'ADA/Section 508', 'FedRAMP'] %}
-        {% for fw in frameworks %}
-          <div class="ciq-facet-item">
-            <a href="?q={{ query|url_encode }}&regulation={{ fw|url_encode }}"
-               style="color:inherit;text-decoration:none;display:flex;width:100%;align-items:center;gap:0.5rem">
-              <span style="width:12px;height:12px;border:1.5px solid var(--border-subtle);border-radius:2px;flex-shrink:0{% if filters.regulation == fw %};background:var(--teal-500);border-color:var(--teal-500){% endif %}"></span>
-              {{ fw }}
-            </a>
-          </div>
-        {% endfor %}
-      </div>
+      <form id="ciq-filter-form" method="get" action="">
+        <input type="hidden" name="q" value="{{ query|e('html_attr') }}">
 
-      <div class="ciq-facet-group">
-        <div class="ciq-facet-title">Content Type</div>
-        {% set types = {'regulation_section': 'Regulation', 'guidance_article': 'Guidance', 'enforcement_case': 'Case', 'checklist': 'Checklist', 'comparison': 'Comparison', 'glossary_term': 'Glossary'} %}
-        {% for machine, label in types %}
-          <div class="ciq-facet-item">
-            <a href="?q={{ query|url_encode }}&content_type={{ machine }}"
-               style="color:inherit;text-decoration:none;display:flex;width:100%;align-items:center;gap:0.5rem">
-              <span style="width:12px;height:12px;border:1.5px solid var(--border-subtle);border-radius:2px;flex-shrink:0{% if filters.content_type == machine %};background:var(--teal-500);border-color:var(--teal-500){% endif %}"></span>
-              {{ label }}
-            </a>
-          </div>
-        {% endfor %}
-      </div>
-
-      {% if filters.regulation or filters.content_type %}
-        <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-subtle)">
-          <a href="?q={{ query|url_encode }}" style="font-size:0.75rem;color:var(--teal-500)">Clear filters ×</a>
+        <div class="ciq-facet-group">
+          <div class="ciq-facet-title">Regulation</div>
+          {% set frameworks = ['GDPR', 'HIPAA', 'CCPA/CPRA', 'SOX', 'PCI-DSS', 'FERPA', 'ADA/Section 508', 'FedRAMP'] %}
+          {% for fw in frameworks %}
+            <label class="ciq-facet-item">
+              <input type="checkbox" class="ciq-facet-check" name="regulation[]" value="{{ fw|e('html_attr') }}"
+                     {{ fw in filters.regulation ? 'checked' : '' }}>
+              <span class="ciq-facet-label">{{ fw }}</span>
+            </label>
+          {% endfor %}
         </div>
-      {% endif %}
+
+        <div class="ciq-facet-group">
+          <div class="ciq-facet-title">Content Type</div>
+          {% set types = {'regulation_section': 'Regulation', 'guidance_article': 'Guidance', 'enforcement_case': 'Case', 'checklist': 'Checklist', 'comparison': 'Comparison', 'glossary_term': 'Glossary'} %}
+          {% for machine, label in types %}
+            <label class="ciq-facet-item">
+              <input type="checkbox" class="ciq-facet-check" name="content_type[]" value="{{ machine }}"
+                     {{ machine in filters.content_type ? 'checked' : '' }}>
+              <span class="ciq-facet-label">{{ label }}</span>
+            </label>
+          {% endfor %}
+        </div>
+
+        {% if filters.regulation or filters.content_type %}
+          <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--border-subtle)">
+            <a href="?q={{ query|url_encode }}" class="ciq-clear-filters">Clear filters ×</a>
+          </div>
+        {% endif %}
+      </form>
     </aside>
 
     {# Right: Results #}
@@ -50,6 +50,25 @@
             {% for term in expansion_terms %}
               <span class="ciq-expansion-pill">{{ term }}</span>
             {% endfor %}
+          </div>
+        {% endif %}
+
+        {# AI Summary — populated asynchronously by JS #}
+        {% if results %}
+          <div class="ciq-ai-summary" data-summary-query="{{ query|e('html_attr') }}">
+            <div class="ciq-ai-summary__label">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+              AI Summary
+            </div>
+            <div class="ciq-ai-summary__disclaimer">
+              Demo only — not legal advice. Consult qualified counsel for compliance decisions.
+            </div>
+            <div class="ciq-ai-summary__text ciq-ai-summary--loading">
+              <div class="ciq-skeleton ciq-skeleton--line" style="width:90%"></div>
+              <div class="ciq-skeleton ciq-skeleton--line" style="width:75%"></div>
+              <div class="ciq-skeleton ciq-skeleton--line" style="width:82%"></div>
+              <div class="ciq-skeleton ciq-skeleton--line" style="width:60%"></div>
+            </div>
           </div>
         {% endif %}
 
