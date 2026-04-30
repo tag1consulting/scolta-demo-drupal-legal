@@ -15,6 +15,10 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/tag1consulting/scolta-drupal"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/tag1consulting/scolta-php"
         }
     ],
@@ -27,7 +31,8 @@
         "drupal/core-recommended": "^11.3",
         "drupal/search_api": "^1.40",
         "drush/drush": "^13.7",
-        "tag1/scolta-php": "^0.3.6"
+        "tag1/scolta-drupal": "0.3.7",
+        "tag1/scolta-php": "0.3.7"
     },
     "conflict": {
         "drupal/drupal": "*"
