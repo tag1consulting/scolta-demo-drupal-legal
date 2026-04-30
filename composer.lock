@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aeffc1dd1986676e0f2d857fe923eed1",
+    "content-hash": "d0b02e63a8401f3189d4af12ba01342d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6337,10 +6337,16 @@
         {
             "name": "tag1/scolta-php",
             "version": "0.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tag1consulting/scolta-php.git",
+                "reference": "f3076aeb87f81d9a424710f1c69c861bafc0b25e"
+            },
             "dist": {
-                "type": "path",
-                "url": "./scolta-php",
-                "reference": "ba6e70695835c92e91de9d0cec4f1aaeafa64042"
+                "type": "zip",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/f3076aeb87f81d9a424710f1c69c861bafc0b25e",
+                "reference": "f3076aeb87f81d9a424710f1c69c861bafc0b25e",
+                "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.0",
@@ -6390,10 +6396,11 @@
                 "MIT"
             ],
             "description": "AI-powered search with Pagefind — PHP language binding",
-            "transport-options": {
-                "symlink": false,
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/tag1consulting/scolta-php/tree/v0.3.6",
+                "issues": "https://github.com/tag1consulting/scolta-php/issues"
+            },
+            "time": "2026-04-29T16:33:14+00:00"
         },
         {
             "name": "twig/twig",

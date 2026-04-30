@@ -14,11 +14,8 @@
             "url": "https://packages.drupal.org/8"
         },
         {
-            "type": "path",
-            "url": "./scolta-php",
-            "options": {
-                "symlink": false
-            }
+            "type": "vcs",
+            "url": "https://github.com/tag1consulting/scolta-php"
         }
     ],
     "require": {
