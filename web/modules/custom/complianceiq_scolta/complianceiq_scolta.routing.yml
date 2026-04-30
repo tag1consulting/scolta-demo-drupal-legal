@@ -6,21 +6,6 @@ complianceiq.search:
   requirements:
     _access: 'TRUE'
 
-complianceiq.search.api:
-  path: '/api/search'
-  defaults:
-    _controller: '\Drupal\complianceiq_scolta\Controller\SearchController::searchApi'
-  requirements:
-    _access: 'TRUE'
-  methods: [GET]
-
-complianceiq.search.summary:
-  path: '/api/search/summary'
-  defaults:
-    _controller: '\Drupal\complianceiq_scolta\Controller\SearchController::searchSummaryApi'
-  requirements:
-    _access: 'TRUE'
-  methods: [GET]
 
 complianceiq.regulations:
   path: '/regulations/{framework}'

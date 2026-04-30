@@ -1,0 +1,28 @@
+<article class="node node--type-glossary-term node--full">
+
+  <header class="ciq-node-header">
+    <div class="ciq-node-meta-row">
+      <span class="ciq-badge ciq-badge--guidance">Glossary</span>
+      {% for reg in node.field_regulations %}
+        {% if reg.entity %}
+          <span class="ciq-badge ciq-badge--regulation">{{ reg.entity.name.value }}</span>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <h1>{{ node.title.value }}</h1>
+  </header>
+
+  {% if node.body.value %}
+    <div class="ciq-article-body">
+      {{ node.body.processed }}
+    </div>
+  {% endif %}
+
+  {% if node.field_regulation_definitions.value %}
+    <div class="ciq-callout" style="margin-top:2rem">
+      <div class="ciq-callout-title">Regulatory Definitions</div>
+      <div>{{ node.field_regulation_definitions.processed }}</div>
+    </div>
+  {% endif %}
+
+</article>

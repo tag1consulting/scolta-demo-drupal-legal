@@ -1237,3 +1237,13 @@ table.ciq-table {
   margin-bottom: 0.6rem;
   display: block;
 }
+
+/* Scolta search: prevent grid items from overflowing their column */
+#scolta-search .scolta-layout > div {
+  min-width: 0;
+}
+
+#scolta-search .scolta-ai-summary {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
