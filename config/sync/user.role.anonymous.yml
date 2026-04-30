@@ -7,6 +7,7 @@ dependencies:
   module:
     - comment
     - filter
+    - scolta
     - search
     - system
 _core:
@@ -19,4 +20,5 @@ permissions:
   - 'access comments'
   - 'access content'
   - 'search content'
+  - 'use scolta ai'
   - 'use text format restricted_html'

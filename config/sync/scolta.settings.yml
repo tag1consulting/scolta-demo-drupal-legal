@@ -1,0 +1,47 @@
+_core:
+  default_config_hash: vpc2ijOkSECIRv98eV4kPcOdOXZWmaYBWuSOSd5_8iE
+ai_provider: anthropic
+ai_model: claude-sonnet-4-5-20250929
+ai_expansion_model: ''
+ai_base_url: ''
+ai_expand_query: true
+ai_summarize: true
+ai_languages:
+  - en
+max_follow_ups: 3
+site_name: ComplianceIQ
+site_description: 'Enterprise compliance knowledge base covering GDPR, HIPAA, CCPA/CPRA, SOX, PCI-DSS, FERPA, ADA/Section 508, and FedRAMP. Includes regulation text, plain-language guidance articles, enforcement case studies, compliance checklists, cross-regulation comparisons, and a glossary. Search across all regulatory frameworks at once.'
+scoring:
+  title_match_boost: 2.0
+  title_all_terms_multiplier: 1.5
+  content_match_boost: 0.5
+  recency_boost_max: 0.1
+  recency_half_life_days: 3650
+  recency_penalty_after_days: 36500
+  recency_max_penalty: 0.05
+  expand_primary_weight: 0.6
+  language: en
+  custom_stop_words: {  }
+  recency_strategy: exponential
+  recency_curve: {  }
+display:
+  excerpt_length: 350
+  results_per_page: 12
+  max_pagefind_results: 60
+  ai_summary_top_n: 10
+  ai_summary_max_chars: 4000
+cache_ttl: 2592000
+prompt_expand_query: ''
+prompt_summarize: ''
+prompt_follow_up: ''
+indexer: auto
+memory_budget:
+  profile: conservative
+  custom_bytes: null
+  chunk_size: null
+pagefind:
+  build_dir: 'private://scolta-build'
+  output_dir: 'public://scolta-pagefind'
+  binary: pagefind
+  auto_rebuild: true
+  view_mode: search_index
