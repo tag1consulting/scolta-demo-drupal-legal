@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "705a666ce3c13c8578b6159ce222be6c",
+    "content-hash": "b8cec1d076ce57eb05ae9008dc247955",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -806,6 +806,54 @@
                 "source": "https://github.com/consolidation/site-process/tree/5.4.2"
             },
             "time": "2024-12-13T19:25:56+00:00"
+        },
+        {
+            "name": "cweagans/composer-patches",
+            "version": "1.7.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cweagans/composer-patches.git",
+                "reference": "e190d4466fe2b103a55467dfa83fc2fecfcaf2db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/e190d4466fe2b103a55467dfa83fc2fecfcaf2db",
+                "reference": "e190d4466fe2b103a55467dfa83fc2fecfcaf2db",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0 || ^2.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "composer/composer": "~1.0 || ~2.0",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "cweagans\\Composer\\Patches"
+            },
+            "autoload": {
+                "psr-4": {
+                    "cweagans\\Composer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Cameron Eagans",
+                    "email": "me@cweagans.net"
+                }
+            ],
+            "description": "Provides a way to patch Composer packages.",
+            "support": {
+                "issues": "https://github.com/cweagans/composer-patches/issues",
+                "source": "https://github.com/cweagans/composer-patches/tree/1.7.3"
+            },
+            "time": "2022-12-20T22:53:13+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -6336,16 +6384,16 @@
         },
         {
             "name": "tag1/scolta-drupal",
-            "version": "0.3.8",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-drupal.git",
-                "reference": "fab82e8a5a5c7d9c4e0e357ebec1ad0da0b1152f"
+                "reference": "511405c86529b17707ed8b9e7749ef20b0a59970"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/fab82e8a5a5c7d9c4e0e357ebec1ad0da0b1152f",
-                "reference": "fab82e8a5a5c7d9c4e0e357ebec1ad0da0b1152f",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/511405c86529b17707ed8b9e7749ef20b0a59970",
+                "reference": "511405c86529b17707ed8b9e7749ef20b0a59970",
                 "shasum": ""
             },
             "require": {
@@ -6360,6 +6408,7 @@
                 "phpunit/phpunit": "^10.0|^11.0",
                 "symfony/yaml": "^6.0|^7.0"
             },
+            "default-branch": true,
             "type": "drupal-module",
             "autoload": {
                 "psr-4": {
@@ -6409,10 +6458,10 @@
             ],
             "description": "Scolta AI Search for Drupal — Search API backend with Pagefind client-side search",
             "support": {
-                "source": "https://github.com/tag1consulting/scolta-drupal/tree/v0.3.8",
+                "source": "https://github.com/tag1consulting/scolta-drupal/tree/main",
                 "issues": "https://github.com/tag1consulting/scolta-drupal/issues"
             },
-            "time": "2026-05-01T09:17:03+00:00"
+            "time": "2026-05-01T09:36:26+00:00"
         },
         {
             "name": "tag1/scolta-php",
@@ -6787,7 +6836,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "tag1/scolta-drupal": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {},

@@ -24,6 +24,7 @@
     ],
     "require": {
         "composer/installers": "^2.3",
+        "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3.6",
         "drupal/core-composer-scaffold": "^11.3",
         "drupal/core-project-message": "^11.3",
@@ -42,6 +43,7 @@
     "config": {
         "allow-plugins": {
             "composer/installers": true,
+            "cweagans/composer-patches": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-recipe-unpack": true,
             "drupal/core-project-message": true,
@@ -89,6 +91,11 @@
             "recipes/{$name}": [
                 "type:drupal-recipe"
             ]
+        },
+        "patches": {
+            "tag1/scolta-drupal": {
+                "Fix strip_tags(FilteredMarkup) TypeError — remove with 0.3.9": "patches/scolta-drupal-filteredmarkup-fix.patch"
+            }
         },
         "drupal-core-project-message": {
             "include-keys": [
