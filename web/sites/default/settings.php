@@ -880,6 +880,9 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
   include __DIR__ . '/settings.ddev.php';
 }
 
+// Private files directory for Scolta search index.
+$settings['file_private_path'] = $app_root . '/' . $site_path . '/files/private';
+
 /**
  * Load local development override configuration, if available.
  *
@@ -894,9 +897,6 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
  * Keep this code block at the end of this file to take full effect.
  */
 #
-# if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
-#   include $app_root . '/' . $site_path . '/settings.local.php';
-# }
-
-// Private files directory for Scolta search index.
-$settings['file_private_path'] = $app_root . '/' . $site_path . '/files/private';
+if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
+  include $app_root . '/' . $site_path . '/settings.local.php';
+}
