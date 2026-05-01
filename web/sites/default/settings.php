@@ -903,3 +903,5 @@ $settings['file_private_path'] = $app_root . '/' . $site_path . '/files/private'
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
   include $app_root . '/' . $site_path . '/settings.local.php';
 }
+
+$settings['config_sync_directory'] = '../config/sync';
