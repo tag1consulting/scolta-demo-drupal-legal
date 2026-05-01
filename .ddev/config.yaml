@@ -18,4 +18,6 @@ hooks:
         if [ -f /var/www/html/db/dump.sql.gz ]; then
           zcat /var/www/html/db/dump.sql.gz | mysql -u root -proot db
           drush cache:rebuild
+          mkdir -p /var/www/html/web/sites/default/private
+          drush scolta:build
         fi
