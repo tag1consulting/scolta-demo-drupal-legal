@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b8cec1d076ce57eb05ae9008dc247955",
+    "content-hash": "e5a8280a9328bd4e67bfe12c76c147b7",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6384,16 +6384,16 @@
         },
         {
             "name": "tag1/scolta-drupal",
-            "version": "dev-main",
+            "version": "0.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-drupal.git",
-                "reference": "511405c86529b17707ed8b9e7749ef20b0a59970"
+                "reference": "fab82e8a5a5c7d9c4e0e357ebec1ad0da0b1152f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/511405c86529b17707ed8b9e7749ef20b0a59970",
-                "reference": "511405c86529b17707ed8b9e7749ef20b0a59970",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/fab82e8a5a5c7d9c4e0e357ebec1ad0da0b1152f",
+                "reference": "fab82e8a5a5c7d9c4e0e357ebec1ad0da0b1152f",
                 "shasum": ""
             },
             "require": {
@@ -6408,7 +6408,6 @@
                 "phpunit/phpunit": "^10.0|^11.0",
                 "symfony/yaml": "^6.0|^7.0"
             },
-            "default-branch": true,
             "type": "drupal-module",
             "autoload": {
                 "psr-4": {
@@ -6458,10 +6457,10 @@
             ],
             "description": "Scolta AI Search for Drupal — Search API backend with Pagefind client-side search",
             "support": {
-                "source": "https://github.com/tag1consulting/scolta-drupal/tree/main",
+                "source": "https://github.com/tag1consulting/scolta-drupal/tree/v0.3.8",
                 "issues": "https://github.com/tag1consulting/scolta-drupal/issues"
             },
-            "time": "2026-05-01T09:36:26+00:00"
+            "time": "2026-05-01T09:17:03+00:00"
         },
         {
             "name": "tag1/scolta-php",
@@ -6836,9 +6835,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "tag1/scolta-drupal": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {},
