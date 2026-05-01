@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52bb6522b4a03e248f0dfe51b907de29",
+    "content-hash": "705a666ce3c13c8578b6159ce222be6c",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6336,16 +6336,16 @@
         },
         {
             "name": "tag1/scolta-drupal",
-            "version": "0.3.7",
+            "version": "0.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-drupal.git",
-                "reference": "8c75814595b509a028affa80f5742011f69b8b69"
+                "reference": "fab82e8a5a5c7d9c4e0e357ebec1ad0da0b1152f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/8c75814595b509a028affa80f5742011f69b8b69",
-                "reference": "8c75814595b509a028affa80f5742011f69b8b69",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/fab82e8a5a5c7d9c4e0e357ebec1ad0da0b1152f",
+                "reference": "fab82e8a5a5c7d9c4e0e357ebec1ad0da0b1152f",
                 "shasum": ""
             },
             "require": {
@@ -6409,23 +6409,23 @@
             ],
             "description": "Scolta AI Search for Drupal — Search API backend with Pagefind client-side search",
             "support": {
-                "source": "https://github.com/tag1consulting/scolta-drupal/tree/v0.3.7",
+                "source": "https://github.com/tag1consulting/scolta-drupal/tree/v0.3.8",
                 "issues": "https://github.com/tag1consulting/scolta-drupal/issues"
             },
-            "time": "2026-04-30T07:56:16+00:00"
+            "time": "2026-05-01T09:17:03+00:00"
         },
         {
             "name": "tag1/scolta-php",
-            "version": "0.3.7",
+            "version": "0.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-php.git",
-                "reference": "2228bb863ebf0fa1507e5f0ac14897d9efb6106a"
+                "reference": "234700c10bab77915c426af7efe3981013580e0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/2228bb863ebf0fa1507e5f0ac14897d9efb6106a",
-                "reference": "2228bb863ebf0fa1507e5f0ac14897d9efb6106a",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/234700c10bab77915c426af7efe3981013580e0f",
+                "reference": "234700c10bab77915c426af7efe3981013580e0f",
                 "shasum": ""
             },
             "require": {
@@ -6477,10 +6477,10 @@
             ],
             "description": "AI-powered search with Pagefind — PHP language binding",
             "support": {
-                "source": "https://github.com/tag1consulting/scolta-php/tree/v0.3.7",
+                "source": "https://github.com/tag1consulting/scolta-php/tree/v0.3.8",
                 "issues": "https://github.com/tag1consulting/scolta-php/issues"
             },
-            "time": "2026-04-30T07:56:08+00:00"
+            "time": "2026-05-01T07:56:21+00:00"
         },
         {
             "name": "twig/twig",
