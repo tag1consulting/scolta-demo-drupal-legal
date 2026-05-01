@@ -156,7 +156,8 @@ RUN ln -sf /app/web/sites/default/instances/docker/settings.local.php web/sites/
     ln -sf /app/vendor/drush/drush/drush /usr/local/bin/drush && \
     ln -sf /app/vendor/drush/drush/drush.php /usr/local/bin/drush.php
 
-RUN chown -R 1001:0 web/sites/default/private && \
+RUN mkdir -p web/sites/default/private && \
+    chown -R 1001:0 web/sites/default/private && \
     chmod -R g+w web/sites/default/private
 
 USER 1001
