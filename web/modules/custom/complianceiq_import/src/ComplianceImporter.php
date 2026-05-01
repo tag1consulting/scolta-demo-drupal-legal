@@ -91,6 +91,11 @@ class ComplianceImporter {
   public function createEnforcementCase(array $data): int {
     $storage = $this->entityTypeManager->getStorage('node');
 
+    $existing = $storage->loadByProperties(['type' => 'enforcement_case', 'title' => $data['title']]);
+    if ($existing) {
+      return reset($existing)->id();
+    }
+
     $fields = [
       'type' => 'enforcement_case',
       'title' => $data['title'],
@@ -143,6 +148,11 @@ class ComplianceImporter {
   public function createGuidanceArticle(array $data): int {
     $storage = $this->entityTypeManager->getStorage('node');
 
+    $existing = $storage->loadByProperties(['type' => 'guidance_article', 'title' => $data['title']]);
+    if ($existing) {
+      return reset($existing)->id();
+    }
+
     $fields = [
       'type' => 'guidance_article',
       'title' => $data['title'],
@@ -182,6 +192,11 @@ class ComplianceImporter {
   public function createChecklist(array $data): int {
     $storage = $this->entityTypeManager->getStorage('node');
 
+    $existing = $storage->loadByProperties(['type' => 'checklist', 'title' => $data['title']]);
+    if ($existing) {
+      return reset($existing)->id();
+    }
+
     $fields = [
       'type' => 'checklist',
       'title' => $data['title'],
@@ -209,6 +224,11 @@ class ComplianceImporter {
    */
   public function createComparison(array $data): int {
     $storage = $this->entityTypeManager->getStorage('node');
+
+    $existing = $storage->loadByProperties(['type' => 'comparison', 'title' => $data['title']]);
+    if ($existing) {
+      return reset($existing)->id();
+    }
 
     $fields = [
       'type' => 'comparison',
@@ -241,6 +261,11 @@ class ComplianceImporter {
    */
   public function createGlossaryTerm(array $data): int {
     $storage = $this->entityTypeManager->getStorage('node');
+
+    $existing = $storage->loadByProperties(['type' => 'glossary_term', 'title' => $data['title']]);
+    if ($existing) {
+      return reset($existing)->id();
+    }
 
     $fields = [
       'type' => 'glossary_term',
