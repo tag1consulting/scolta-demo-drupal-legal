@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e5a8280a9328bd4e67bfe12c76c147b7",
+    "content-hash": "b8cf1669d72da22946a871c1012a87fd",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -806,54 +806,6 @@
                 "source": "https://github.com/consolidation/site-process/tree/5.4.2"
             },
             "time": "2024-12-13T19:25:56+00:00"
-        },
-        {
-            "name": "cweagans/composer-patches",
-            "version": "1.7.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cweagans/composer-patches.git",
-                "reference": "e190d4466fe2b103a55467dfa83fc2fecfcaf2db"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/e190d4466fe2b103a55467dfa83fc2fecfcaf2db",
-                "reference": "e190d4466fe2b103a55467dfa83fc2fecfcaf2db",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0 || ^2.0",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "composer/composer": "~1.0 || ~2.0",
-                "phpunit/phpunit": "~4.6"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "cweagans\\Composer\\Patches"
-            },
-            "autoload": {
-                "psr-4": {
-                    "cweagans\\Composer\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Cameron Eagans",
-                    "email": "me@cweagans.net"
-                }
-            ],
-            "description": "Provides a way to patch Composer packages.",
-            "support": {
-                "issues": "https://github.com/cweagans/composer-patches/issues",
-                "source": "https://github.com/cweagans/composer-patches/tree/1.7.3"
-            },
-            "time": "2022-12-20T22:53:13+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -6384,16 +6336,16 @@
         },
         {
             "name": "tag1/scolta-drupal",
-            "version": "0.3.8",
+            "version": "0.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-drupal.git",
-                "reference": "fab82e8a5a5c7d9c4e0e357ebec1ad0da0b1152f"
+                "reference": "b4f48c919a9176a5104ac28dccf49a798efdb029"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/fab82e8a5a5c7d9c4e0e357ebec1ad0da0b1152f",
-                "reference": "fab82e8a5a5c7d9c4e0e357ebec1ad0da0b1152f",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/b4f48c919a9176a5104ac28dccf49a798efdb029",
+                "reference": "b4f48c919a9176a5104ac28dccf49a798efdb029",
                 "shasum": ""
             },
             "require": {
@@ -6457,23 +6409,23 @@
             ],
             "description": "Scolta AI Search for Drupal — Search API backend with Pagefind client-side search",
             "support": {
-                "source": "https://github.com/tag1consulting/scolta-drupal/tree/v0.3.8",
+                "source": "https://github.com/tag1consulting/scolta-drupal/tree/v0.3.9",
                 "issues": "https://github.com/tag1consulting/scolta-drupal/issues"
             },
-            "time": "2026-05-01T09:17:03+00:00"
+            "time": "2026-05-02T11:00:54+00:00"
         },
         {
             "name": "tag1/scolta-php",
-            "version": "0.3.8",
+            "version": "0.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-php.git",
-                "reference": "234700c10bab77915c426af7efe3981013580e0f"
+                "reference": "2f6b484e42417fd2fd2ebf5743699fa027cd4354"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/234700c10bab77915c426af7efe3981013580e0f",
-                "reference": "234700c10bab77915c426af7efe3981013580e0f",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/2f6b484e42417fd2fd2ebf5743699fa027cd4354",
+                "reference": "2f6b484e42417fd2fd2ebf5743699fa027cd4354",
                 "shasum": ""
             },
             "require": {
@@ -6525,10 +6477,10 @@
             ],
             "description": "AI-powered search with Pagefind — PHP language binding",
             "support": {
-                "source": "https://github.com/tag1consulting/scolta-php/tree/v0.3.8",
+                "source": "https://github.com/tag1consulting/scolta-php/tree/v0.3.9",
                 "issues": "https://github.com/tag1consulting/scolta-php/issues"
             },
-            "time": "2026-05-01T07:56:21+00:00"
+            "time": "2026-05-02T08:12:48+00:00"
         },
         {
             "name": "twig/twig",
