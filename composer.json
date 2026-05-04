@@ -46,6 +46,15 @@
         },
         "sort-packages": true
     },
+    "scripts": {
+        "post-install-cmd": [
+            "@sync-scolta-assets"
+        ],
+        "post-update-cmd": [
+            "@sync-scolta-assets"
+        ],
+        "sync-scolta-assets": "php -r \"foreach(glob('web/modules/contrib/scolta*/js') as $d) { if(file_exists('vendor/tag1/scolta-php/assets/js/scolta.js')) copy('vendor/tag1/scolta-php/assets/js/scolta.js', $d.'/scolta.js'); }\""
+    },
     "extra": {
         "drupal-scaffold": {
             "locations": {
