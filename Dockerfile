@@ -74,7 +74,7 @@ ENV HTTPD_MAX_SPARE_SERVERS=10
 ENV HTTPD_MAX_REQUEST_WORKERS=50
 ENV HTTPD_MAX_CONNECTIONS_PER_CHILD=2000
 
-WORKDIR /app
+WORKDIR /var/www/html
 
 RUN apt-get update && \
     apt-get install -y \
@@ -109,8 +109,8 @@ RUN { \
 
 RUN { \
     echo '<VirtualHost *:8080>'; \
-    echo 'DocumentRoot /app/web'; \
-    echo '<Directory /app/web>'; \
+    echo 'DocumentRoot /var/www/html/web'; \
+    echo '<Directory /var/www/html/web>'; \
     echo '    Options FollowSymLinks'; \
     echo '    AllowOverride All'; \
     echo '    Require all granted'; \
@@ -152,9 +152,9 @@ RUN a2enmod rewrite remoteip
 # Copy site from composer output
 COPY --from=composer /app .
 
-RUN ln -sf /app/web/sites/default/instances/docker/settings.local.php web/sites/default/settings.local.php && \
-    ln -sf /app/vendor/drush/drush/drush /usr/local/bin/drush && \
-    ln -sf /app/vendor/drush/drush/drush.php /usr/local/bin/drush.php
+RUN ln -sf /var/www/html/web/sites/default/instances/docker/settings.local.php web/sites/default/settings.local.php && \
+    ln -sf /var/www/html/vendor/drush/drush/drush /usr/local/bin/drush && \
+    ln -sf /var/www/html/vendor/drush/drush/drush.php /usr/local/bin/drush.php
 
 RUN mkdir -p web/sites/default/private && \
     chown -R 1001:0 web/sites/default/private && \
