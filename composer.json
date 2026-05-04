@@ -12,14 +12,6 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/tag1consulting/scolta-drupal"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/tag1consulting/scolta-php"
         }
     ],
     "require": {
@@ -32,7 +24,8 @@
         "drupal/search_api": "^1.40",
         "drush/drush": "^13.7",
         "tag1/scolta-drupal": "0.3.9",
-        "tag1/scolta-php": "0.3.9"
+        "tag1/scolta-php": "0.3.9",
+        "cweagans/composer-patches": "^1.7"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -48,7 +41,8 @@
             "phpstan/extension-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "php-http/discovery": true,
-            "php-tuf/composer-integration": true
+            "php-tuf/composer-integration": true,
+            "cweagans/composer-patches": true
         },
         "sort-packages": true
     },
@@ -110,6 +104,12 @@
                 "  * Remove the plugin that prints this message:",
                 "      composer remove drupal/core-project-message"
             ]
+        },
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "tag1/scolta-php": {
+                "URL normalization and filters support (pending v0.3.10)": "patches/scolta-php-url-and-filters.patch"
+            }
         }
     }
 }
