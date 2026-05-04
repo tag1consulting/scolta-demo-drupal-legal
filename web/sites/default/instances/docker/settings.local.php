@@ -15,4 +15,4 @@ $databases['default']['default'] = [
 
 $settings['hash_salt'] = getenv('DRUPAL_HASH_SALT');
 
-$settings['file_private_path'] = '/app/web/sites/default/private';
+$settings['file_private_path'] = '/var/www/html/web/sites/default/private';
