@@ -8,12 +8,20 @@
         "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
         "chat": "https://www.drupal.org/node/314178"
     },
-    "repositories": [
-        {
+    "repositories": {
+        "https://packages.drupal.org/8": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        "scolta-php": {
+            "type": "vcs",
+            "url": "https://github.com/tag1consulting/scolta-php"
+        },
+        "scolta-drupal": {
+            "type": "vcs",
+            "url": "https://github.com/tag1consulting/scolta-drupal"
         }
-    ],
+    },
     "require": {
         "composer/installers": "^2.3",
         "drupal/admin_toolbar": "^3.6",
@@ -23,8 +31,8 @@
         "drupal/core-recommended": "^11.3",
         "drupal/search_api": "^1.40",
         "drush/drush": "^13.7",
-        "tag1/scolta-drupal": "0.3.9",
-        "tag1/scolta-php": "0.3.9"
+        "tag1/scolta-drupal": "0.3.10",
+        "tag1/scolta-php": "0.3.10"
     },
     "conflict": {
         "drupal/drupal": "*"
