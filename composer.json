@@ -53,7 +53,7 @@
         "post-update-cmd": [
             "@sync-scolta-assets"
         ],
-        "sync-scolta-assets": "php -r \"foreach(glob('web/modules/contrib/scolta*/js') as $d) { if(file_exists('vendor/tag1/scolta-php/assets/js/scolta.js')) copy('vendor/tag1/scolta-php/assets/js/scolta.js', $d.'/scolta.js'); }\""
+        "sync-scolta-assets": "@php scripts/sync-scolta-assets.php"
     },
     "extra": {
         "drupal-scaffold": {
