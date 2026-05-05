@@ -117,7 +117,8 @@
         "composer-exit-on-patch-failure": true,
         "patches": {
             "tag1/scolta-php": {
-                "URL normalization and filters support (pending v0.3.10)": "patches/scolta-php-url-and-filters.patch"
+                "URL normalization and filters support (pending v0.3.10)": "patches/scolta-php-url-and-filters.patch",
+                "Fix stripHtml() double-encoding of HTML entities in titles and excerpts": "patches/scolta-php-strip-html-entities.patch"
             }
         }
     }
