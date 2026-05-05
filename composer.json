@@ -24,8 +24,7 @@
         "drupal/search_api": "^1.40",
         "drush/drush": "^13.7",
         "tag1/scolta-drupal": "0.3.9",
-        "tag1/scolta-php": "0.3.9",
-        "cweagans/composer-patches": "^1.7"
+        "tag1/scolta-php": "0.3.9"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -41,8 +40,7 @@
             "phpstan/extension-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "php-http/discovery": true,
-            "php-tuf/composer-integration": true,
-            "cweagans/composer-patches": true
+            "php-tuf/composer-integration": true
         },
         "sort-packages": true
     },
@@ -100,7 +98,7 @@
             ],
             "post-create-project-cmd-message": [
                 "<bg=blue;fg=white>                                                         </>",
-                "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
+                "<bg=blue;fg=white>  Congratulations, you\u2019ve installed the Drupal codebase  </>",
                 "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",
                 "<bg=blue;fg=white>                                                         </>",
                 "",
@@ -113,13 +111,6 @@
                 "  * Remove the plugin that prints this message:",
                 "      composer remove drupal/core-project-message"
             ]
-        },
-        "composer-exit-on-patch-failure": true,
-        "patches": {
-            "tag1/scolta-php": {
-                "URL normalization and filters support (pending v0.3.10)": "patches/scolta-php-url-and-filters.patch",
-                "Fix stripHtml() double-encoding of HTML entities in titles and excerpts": "patches/scolta-php-strip-html-entities.patch"
-            }
         }
     }
 }
