@@ -45,3 +45,4 @@ pagefind:
   binary: pagefind
   auto_rebuild: true
   view_mode: search_index
+preset: reference

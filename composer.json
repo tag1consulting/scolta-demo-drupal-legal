@@ -12,19 +12,10 @@
         {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/tag1consulting/scolta-drupal"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/tag1consulting/scolta-php"
         }
     ],
     "require": {
         "composer/installers": "^2.3",
-        "cweagans/composer-patches": "^1.7",
         "drupal/admin_toolbar": "^3.6",
         "drupal/core-composer-scaffold": "^11.3",
         "drupal/core-project-message": "^11.3",
@@ -32,8 +23,9 @@
         "drupal/core-recommended": "^11.3",
         "drupal/search_api": "^1.40",
         "drush/drush": "^13.7",
-        "tag1/scolta-drupal": "0.3.8",
-        "tag1/scolta-php": "0.3.8"
+        "tag1/scolta-drupal": "0.3.9",
+        "tag1/scolta-php": "0.3.9",
+        "cweagans/composer-patches": "^1.7"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -43,16 +35,25 @@
     "config": {
         "allow-plugins": {
             "composer/installers": true,
-            "cweagans/composer-patches": true,
             "drupal/core-composer-scaffold": true,
             "drupal/core-recipe-unpack": true,
             "drupal/core-project-message": true,
             "phpstan/extension-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "php-http/discovery": true,
-            "php-tuf/composer-integration": true
+            "php-tuf/composer-integration": true,
+            "cweagans/composer-patches": true
         },
         "sort-packages": true
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "@sync-scolta-assets"
+        ],
+        "post-update-cmd": [
+            "@sync-scolta-assets"
+        ],
+        "sync-scolta-assets": "php -r \"foreach(glob('web/modules/contrib/scolta*/js') as $d) { if(file_exists('vendor/tag1/scolta-php/assets/js/scolta.js')) copy('vendor/tag1/scolta-php/assets/js/scolta.js', $d.'/scolta.js'); }\""
     },
     "extra": {
         "drupal-scaffold": {
@@ -92,11 +93,6 @@
                 "type:drupal-recipe"
             ]
         },
-        "patches": {
-            "tag1/scolta-drupal": {
-                "Fix strip_tags(FilteredMarkup) TypeError — remove with 0.3.9": "patches/scolta-drupal-filteredmarkup-fix.patch"
-            }
-        },
         "drupal-core-project-message": {
             "include-keys": [
                 "homepage",
@@ -117,6 +113,12 @@
                 "  * Remove the plugin that prints this message:",
                 "      composer remove drupal/core-project-message"
             ]
+        },
+        "composer-exit-on-patch-failure": true,
+        "patches": {
+            "tag1/scolta-php": {
+                "URL normalization and filters support (pending v0.3.10)": "patches/scolta-php-url-and-filters.patch"
+            }
         }
     }
 }
