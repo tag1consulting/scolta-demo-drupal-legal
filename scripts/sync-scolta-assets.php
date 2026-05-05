@@ -1,6 +1,6 @@
 <?php
 // Prefer the monorepo source (development) over the installed vendor copy.
-$monorepo = __DIR__ . '/../../../../packages/scolta-php/assets/js/scolta.js';
+$monorepo = __DIR__ . '/../../../packages/scolta-php/assets/js/scolta.js';
 $vendor   = __DIR__ . '/../vendor/tag1/scolta-php/assets/js/scolta.js';
 $src = file_exists($monorepo) ? $monorepo : (file_exists($vendor) ? $vendor : null);
 
