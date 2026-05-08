@@ -31,8 +31,8 @@
         "drupal/core-recommended": "^11.3",
         "drupal/search_api": "^1.40",
         "drush/drush": "^13.7",
-        "tag1/scolta-drupal": "0.3.10",
-        "tag1/scolta-php": "0.3.10"
+        "tag1/scolta-drupal": "^1.0@dev",
+        "tag1/scolta-php": "^1.0@dev"
     },
     "conflict": {
         "drupal/drupal": "*"
