@@ -15,6 +15,9 @@ hooks:
   post-start:
     - exec: composer install --no-interaction
     - exec: |
+        # Remove stale pre-1.x module directory; composer now installs to scolta-drupal/.
+        rm -rf /var/www/html/web/modules/contrib/scolta
+    - exec: |
         if [ -f /var/www/html/db/dump.sql.gz ]; then
           zcat /var/www/html/db/dump.sql.gz | mysql -u root -proot db
           drush config:import --partial --source=../config/sync -y
