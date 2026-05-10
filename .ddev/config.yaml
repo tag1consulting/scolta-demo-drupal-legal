@@ -8,9 +8,6 @@ database:
   type: mariadb
   version: "10.11"
 
-web_environment:
-  - SCOLTA_API_KEY=SCOLTA_API_KEY_PLACEHOLDER
-
 hooks:
   post-start:
     - exec: composer install --no-interaction
