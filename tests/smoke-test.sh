@@ -59,3 +59,7 @@ if [ "$PAGE_COUNT" -lt "$MIN_PAGES" ]; then
   exit 1
 fi
 echo "PASS: $PAGE_COUNT pages indexed (minimum: $MIN_PAGES)"
+
+echo "==> Verifying About page setup script exists..."
+test -f scripts/setup-about-page.php || (echo "FAIL: scripts/setup-about-page.php missing from repo" && exit 1)
+echo "PASS: scripts/setup-about-page.php committed (About page created on ddev start)"
