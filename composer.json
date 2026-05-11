@@ -31,13 +31,13 @@
         "drupal/core-recommended": "^11.3",
         "drupal/search_api": "^1.40",
         "drush/drush": "^13.7",
-        "tag1/scolta-drupal": "^1.0@dev",
-        "tag1/scolta-php": "^1.0@dev"
+        "tag1/scolta-drupal": "^1.0.0-rc1",
+        "tag1/scolta-php": "^1.0.0-rc1"
     },
     "conflict": {
         "drupal/drupal": "*"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "RC",
     "prefer-stable": true,
     "config": {
         "allow-plugins": {
