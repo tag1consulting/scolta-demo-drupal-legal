@@ -48,7 +48,46 @@ foreach ($nids as $nid) {
 
   $decoded = json_decode($stripped, true);
 
-  if (json_last_error() !== JSON_ERROR_NONE || !isset($decoded['body'])) {
+  if (json_last_error() !== JSON_ERROR_NONE) {
+    // The LLM sometimes emits literal control characters (newlines, tabs) inside
+    // the JSON string value, making it invalid. Extract the body with a regex
+    // fallback that handles unescaped control characters and unescaped quotes.
+    if (preg_match('/"body"\s*:\s*"(.*)/s', $stripped, $m)) {
+      // Walk from the start of the value, collecting chars until the closing ".
+      // A bare " that is not preceded by an odd run of backslashes ends the value.
+      $rest  = $m[1];
+      $html  = '';
+      $i     = 0;
+      $len   = strlen($rest);
+      while ($i < $len) {
+        $ch = $rest[$i];
+        if ($ch === '\\' && $i + 1 < $len) {
+          // Honour JSON escape sequences.
+          $next = $rest[$i + 1];
+          $html .= match ($next) {
+            '"'  => '"',
+            '\\' => '\\',
+            '/'  => '/',
+            'n'  => "\n",
+            'r'  => "\r",
+            't'  => "\t",
+            default => $next,
+          };
+          $i += 2;
+        }
+        elseif ($ch === '"') {
+          break; // End of string value.
+        }
+        else {
+          $html .= $ch;
+          $i++;
+        }
+      }
+      $decoded = ['body' => $html];
+    }
+  }
+
+  if (empty($decoded['body'])) {
     echo "  FAIL: node $nid — could not parse JSON: " . json_last_error_msg() . "\n";
     $failed++;
     continue;
