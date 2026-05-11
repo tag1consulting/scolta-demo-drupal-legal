@@ -6345,12 +6345,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-drupal.git",
-                "reference": "9d847ff7838fe56f36c9d9d5f56db0f2b7570e1e"
+                "reference": "95d08d10913e569ed75a9d3827146d14bc09ff28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/9d847ff7838fe56f36c9d9d5f56db0f2b7570e1e",
-                "reference": "9d847ff7838fe56f36c9d9d5f56db0f2b7570e1e",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/95d08d10913e569ed75a9d3827146d14bc09ff28",
+                "reference": "95d08d10913e569ed75a9d3827146d14bc09ff28",
                 "shasum": ""
             },
             "require": {
@@ -6424,7 +6424,7 @@
                 "source": "https://github.com/tag1consulting/scolta-drupal/tree/main",
                 "issues": "https://github.com/tag1consulting/scolta-drupal/issues"
             },
-            "time": "2026-05-09T09:25:52+00:00"
+            "time": "2026-05-11T09:20:18+00:00"
         },
         {
             "name": "tag1/scolta-php",
@@ -6432,12 +6432,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-php.git",
-                "reference": "e09558dfb14fa517ce390bef633854e13cdec30f"
+                "reference": "37999bf426e872ea4c686cd5efa9cbcab95f0c63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/e09558dfb14fa517ce390bef633854e13cdec30f",
-                "reference": "e09558dfb14fa517ce390bef633854e13cdec30f",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/37999bf426e872ea4c686cd5efa9cbcab95f0c63",
+                "reference": "37999bf426e872ea4c686cd5efa9cbcab95f0c63",
                 "shasum": ""
             },
             "require": {
@@ -6498,7 +6498,7 @@
                 "source": "https://github.com/tag1consulting/scolta-php/tree/main",
                 "issues": "https://github.com/tag1consulting/scolta-php/issues"
             },
-            "time": "2026-05-09T16:28:15+00:00"
+            "time": "2026-05-11T09:28:55+00:00"
         },
         {
             "name": "twig/twig",
