@@ -8,9 +8,6 @@ database:
   type: mariadb
   version: "10.11"
 
-web_environment:
-  - SCOLTA_API_KEY=SCOLTA_API_KEY_PLACEHOLDER
-
 hooks:
   post-start:
     - exec: composer install --no-interaction
@@ -22,6 +19,9 @@ hooks:
           zcat /var/www/html/db/dump.sql.gz | mysql -u root -proot db
           drush config:import --partial --source=../config/sync -y
           drush cache:rebuild
+          drush php:script /var/www/html/scripts/fix-json-bodies.php
+          drush php:script /var/www/html/scripts/generate-path-aliases.php
+          drush php:script /var/www/html/scripts/setup-about-page.php
           mkdir -p /var/www/html/web/sites/default/private
           drush scolta:build
         fi
