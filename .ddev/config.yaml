@@ -20,7 +20,7 @@ hooks:
           drush config:import --partial --source=../config/sync -y
           drush cache:rebuild
           drush php:script /var/www/html/scripts/fix-json-bodies.php
-          drush pathauto:aliases-generate all
+          drush php:script /var/www/html/scripts/generate-path-aliases.php
           drush php:script /var/www/html/scripts/setup-about-page.php
           mkdir -p /var/www/html/web/sites/default/private
           drush scolta:build
