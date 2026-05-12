@@ -1,5 +1,6 @@
 _core:
   default_config_hash: vpc2ijOkSECIRv98eV4kPcOdOXZWmaYBWuSOSd5_8iE
+preset: reference
 ai_provider: anthropic
 ai_model: claude-sonnet-4-5-20250929
 ai_expansion_model: ''
@@ -45,4 +46,3 @@ pagefind:
   binary: pagefind
   auto_rebuild: true
   view_mode: search_index
-preset: reference
