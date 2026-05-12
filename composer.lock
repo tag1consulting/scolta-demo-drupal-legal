@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e89d94f45b05e43081837d398538633d",
+    "content-hash": "b5d56d2fdb609c6dfa0675630a8c4267",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6341,16 +6341,16 @@
         },
         {
             "name": "tag1/scolta-drupal",
-            "version": "dev-main",
+            "version": "1.0.0-rc2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-drupal.git",
-                "reference": "579426361bd3b15f9ff3b606305849ce932ca849"
+                "reference": "cd48fc6200124ef9dcdbfcdc25966b66244db9f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/579426361bd3b15f9ff3b606305849ce932ca849",
-                "reference": "579426361bd3b15f9ff3b606305849ce932ca849",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/cd48fc6200124ef9dcdbfcdc25966b66244db9f1",
+                "reference": "cd48fc6200124ef9dcdbfcdc25966b66244db9f1",
                 "shasum": ""
             },
             "require": {
@@ -6366,7 +6366,6 @@
                 "phpunit/phpunit": "^10.0|^11.0",
                 "symfony/yaml": "^6.0|^7.0"
             },
-            "default-branch": true,
             "type": "drupal-module",
             "extra": {
                 "branch-alias": {
@@ -6421,23 +6420,23 @@
             ],
             "description": "Scolta AI Search for Drupal — Search API backend with Pagefind client-side search",
             "support": {
-                "source": "https://github.com/tag1consulting/scolta-drupal/tree/main",
+                "source": "https://github.com/tag1consulting/scolta-drupal/tree/v1.0.0-rc2",
                 "issues": "https://github.com/tag1consulting/scolta-drupal/issues"
             },
-            "time": "2026-05-12T08:21:41+00:00"
+            "time": "2026-05-12T18:54:11+00:00"
         },
         {
             "name": "tag1/scolta-php",
-            "version": "dev-main",
+            "version": "1.0.0-rc2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-php.git",
-                "reference": "e8cc30f00a9f4ee4774fc3af0113b4cfc1d45db7"
+                "reference": "b5dcce7b9ee4063c79e00ec78e69d0d576c07b11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/e8cc30f00a9f4ee4774fc3af0113b4cfc1d45db7",
-                "reference": "e8cc30f00a9f4ee4774fc3af0113b4cfc1d45db7",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/b5dcce7b9ee4063c79e00ec78e69d0d576c07b11",
+                "reference": "b5dcce7b9ee4063c79e00ec78e69d0d576c07b11",
                 "shasum": ""
             },
             "require": {
@@ -6453,7 +6452,6 @@
             "suggest": {
                 "ext-intl": "Improves Unicode diacritic normalization quality. Falls back to strtr() mapping without it."
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -6498,10 +6496,10 @@
             ],
             "description": "AI-powered search with Pagefind — PHP language binding",
             "support": {
-                "source": "https://github.com/tag1consulting/scolta-php/tree/main",
+                "source": "https://github.com/tag1consulting/scolta-php/tree/v1.0.0-rc2",
                 "issues": "https://github.com/tag1consulting/scolta-php/issues"
             },
-            "time": "2026-05-12T16:11:29+00:00"
+            "time": "2026-05-12T18:54:07+00:00"
         },
         {
             "name": "twig/twig",
@@ -6808,10 +6806,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "tag1/scolta-drupal": 20,
-        "tag1/scolta-php": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {},
