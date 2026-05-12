@@ -6432,12 +6432,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-php.git",
-                "reference": "82d8711c78f4fadc4e33c24362cb21fca3b093a2"
+                "reference": "e8cc30f00a9f4ee4774fc3af0113b4cfc1d45db7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/82d8711c78f4fadc4e33c24362cb21fca3b093a2",
-                "reference": "82d8711c78f4fadc4e33c24362cb21fca3b093a2",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/e8cc30f00a9f4ee4774fc3af0113b4cfc1d45db7",
+                "reference": "e8cc30f00a9f4ee4774fc3af0113b4cfc1d45db7",
                 "shasum": ""
             },
             "require": {
@@ -6501,7 +6501,7 @@
                 "source": "https://github.com/tag1consulting/scolta-php/tree/main",
                 "issues": "https://github.com/tag1consulting/scolta-php/issues"
             },
-            "time": "2026-05-12T11:06:41+00:00"
+            "time": "2026-05-12T16:11:29+00:00"
         },
         {
             "name": "twig/twig",
