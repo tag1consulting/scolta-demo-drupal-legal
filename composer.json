@@ -31,13 +31,13 @@
         "drupal/core-recommended": "^11.3",
         "drupal/search_api": "^1.40",
         "drush/drush": "^13.7",
-        "tag1/scolta-drupal": "^1.0.0-rc1",
-        "tag1/scolta-php": "^1.0.0-rc1"
+        "tag1/scolta-drupal": "dev-main",
+        "tag1/scolta-php": "dev-main"
     },
     "conflict": {
         "drupal/drupal": "*"
     },
-    "minimum-stability": "RC",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
         "allow-plugins": {
@@ -106,7 +106,7 @@
             ],
             "post-create-project-cmd-message": [
                 "<bg=blue;fg=white>                                                         </>",
-                "<bg=blue;fg=white>  Congratulations, you\u2019ve installed the Drupal codebase  </>",
+                "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
                 "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",
                 "<bg=blue;fg=white>                                                         </>",
                 "",
