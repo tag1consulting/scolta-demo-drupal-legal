@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5d56d2fdb609c6dfa0675630a8c4267",
+    "content-hash": "e89d94f45b05e43081837d398538633d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6341,16 +6341,16 @@
         },
         {
             "name": "tag1/scolta-drupal",
-            "version": "1.0.0-rc2",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-drupal.git",
-                "reference": "cd48fc6200124ef9dcdbfcdc25966b66244db9f1"
+                "reference": "4c10d374c2b8af8a93b42adc8028ec4d159ee96b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/cd48fc6200124ef9dcdbfcdc25966b66244db9f1",
-                "reference": "cd48fc6200124ef9dcdbfcdc25966b66244db9f1",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/4c10d374c2b8af8a93b42adc8028ec4d159ee96b",
+                "reference": "4c10d374c2b8af8a93b42adc8028ec4d159ee96b",
                 "shasum": ""
             },
             "require": {
@@ -6366,6 +6366,7 @@
                 "phpunit/phpunit": "^10.0|^11.0",
                 "symfony/yaml": "^6.0|^7.0"
             },
+            "default-branch": true,
             "type": "drupal-module",
             "extra": {
                 "branch-alias": {
@@ -6396,6 +6397,9 @@
                     "cp vendor/tag1/scolta-php/assets/wasm/scolta_core.js js/wasm/scolta_core.js",
                     "cp vendor/tag1/scolta-php/assets/wasm/scolta_core_bg.wasm js/wasm/scolta_core_bg.wasm"
                 ],
+                "analyse": [
+                    "phpstan analyse --no-progress"
+                ],
                 "test": [
                     "phpunit"
                 ],
@@ -6420,14 +6424,14 @@
             ],
             "description": "Scolta AI Search for Drupal — Search API backend with Pagefind client-side search",
             "support": {
-                "source": "https://github.com/tag1consulting/scolta-drupal/tree/v1.0.0-rc2",
+                "source": "https://github.com/tag1consulting/scolta-drupal/tree/main",
                 "issues": "https://github.com/tag1consulting/scolta-drupal/issues"
             },
-            "time": "2026-05-12T18:54:11+00:00"
+            "time": "2026-05-13T09:39:07+00:00"
         },
         {
             "name": "tag1/scolta-php",
-            "version": "1.0.0-rc2",
+            "version": "dev-main",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-php.git",
@@ -6452,6 +6456,7 @@
             "suggest": {
                 "ext-intl": "Improves Unicode diacritic normalization quality. Falls back to strtr() mapping without it."
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -6806,7 +6811,10 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {},
+    "stability-flags": {
+        "tag1/scolta-drupal": 20,
+        "tag1/scolta-php": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {},
