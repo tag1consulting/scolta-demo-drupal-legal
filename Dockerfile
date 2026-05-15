@@ -120,6 +120,13 @@ RUN { \
     echo '    AllowOverride All'; \
     echo '    Require all granted'; \
     echo '</Directory>'; \
+    echo '<Directory /var/www/html/web/sites/default/files>'; \
+    echo '    <IfModule mod_headers.c>'; \
+    echo '        <FilesMatch "\.pf_fragment$">'; \
+    echo '            Header set Cache-Control "public, max-age=31536000, immutable"'; \
+    echo '        </FilesMatch>'; \
+    echo '    </IfModule>'; \
+    echo '</Directory>'; \
     echo 'ErrorLog /dev/stderr'; \
     echo 'CustomLog /dev/stdout combined'; \
     echo '</VirtualHost>'; \
@@ -152,7 +159,7 @@ RUN sed -i "s/^Listen 80/Listen 0.0.0.0:8080/" /etc/apache2/ports.conf && \
       chown -R 1001:0 /run/apache2 /var/log/apache2 && \
       chmod -R g+wX /run/apache2 /var/log/apache2
 
-RUN a2enmod rewrite remoteip
+RUN a2enmod headers rewrite remoteip
 
 # Copy site from composer output
 COPY --from=composer /app .
