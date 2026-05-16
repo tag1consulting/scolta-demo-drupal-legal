@@ -6345,18 +6345,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-drupal.git",
-                "reference": "1ab419151ed82e6c3bb9d06b31962f12eb5a05ac"
+                "reference": "ddea30d27d1326b6c89a7f8879d678f14773aa86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/1ab419151ed82e6c3bb9d06b31962f12eb5a05ac",
-                "reference": "1ab419151ed82e6c3bb9d06b31962f12eb5a05ac",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/ddea30d27d1326b6c89a7f8879d678f14773aa86",
+                "reference": "ddea30d27d1326b6c89a7f8879d678f14773aa86",
                 "shasum": ""
             },
             "require": {
                 "drupal/search_api": "^1.0",
                 "php": ">=8.1",
-                "tag1/scolta-php": "^1.0"
+                "tag1/scolta-php": "^1.0@dev"
             },
             "require-dev": {
                 "drupal/coder": "^9.0",
@@ -6365,6 +6365,9 @@
                 "phpstan/phpstan-deprecation-rules": "^2.0",
                 "phpunit/phpunit": "^10.0|^11.0",
                 "symfony/yaml": "^6.0|^7.0"
+            },
+            "suggest": {
+                "drupal/ai": "For enhanced multi-provider AI support via the Drupal AI Initiative module (48+ providers, Key module integration, rate limiting, token tracking)"
             },
             "default-branch": true,
             "type": "drupal-module",
@@ -6427,7 +6430,7 @@
                 "source": "https://github.com/tag1consulting/scolta-drupal/tree/main",
                 "issues": "https://github.com/tag1consulting/scolta-drupal/issues"
             },
-            "time": "2026-05-15T12:03:36+00:00"
+            "time": "2026-05-16T06:37:25+00:00"
         },
         {
             "name": "tag1/scolta-php",
@@ -6435,12 +6438,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-php.git",
-                "reference": "2fd350be6cea3bacfadb83e4719381d89b7d27a6"
+                "reference": "2a89f2d39c7ebe904f7bacee00ecfa1ae8a56bb6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/2fd350be6cea3bacfadb83e4719381d89b7d27a6",
-                "reference": "2fd350be6cea3bacfadb83e4719381d89b7d27a6",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/2a89f2d39c7ebe904f7bacee00ecfa1ae8a56bb6",
+                "reference": "2a89f2d39c7ebe904f7bacee00ecfa1ae8a56bb6",
                 "shasum": ""
             },
             "require": {
@@ -6504,7 +6507,7 @@
                 "source": "https://github.com/tag1consulting/scolta-php/tree/main",
                 "issues": "https://github.com/tag1consulting/scolta-php/issues"
             },
-            "time": "2026-05-15T11:43:05+00:00"
+            "time": "2026-05-16T06:22:58+00:00"
         },
         {
             "name": "twig/twig",
