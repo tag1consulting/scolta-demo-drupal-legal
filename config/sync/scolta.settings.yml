@@ -12,6 +12,8 @@ ai_languages:
 max_follow_ups: 3
 site_name: ComplianceIQ
 site_description: 'Enterprise compliance knowledge base covering GDPR, HIPAA, CCPA/CPRA, SOX, PCI-DSS, FERPA, ADA/Section 508, and FedRAMP. Includes regulation text, plain-language guidance articles, enforcement case studies, compliance checklists, cross-regulation comparisons, and a glossary. Search across all regulatory frameworks at once.'
+sortable_fields:
+  - date
 scoring:
   title_match_boost: 2.0
   title_all_terms_multiplier: 1.5
@@ -35,8 +37,6 @@ cache_ttl: 2592000
 prompt_expand_query: ''
 prompt_summarize: ''
 prompt_follow_up: ''
-sortable_fields:
-  - date
 indexer: php
 memory_budget:
   profile: conservative
