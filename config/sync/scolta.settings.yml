@@ -13,7 +13,25 @@ max_follow_ups: 3
 site_name: ComplianceIQ
 site_description: 'Enterprise compliance knowledge base covering GDPR, HIPAA, CCPA/CPRA, SOX, PCI-DSS, FERPA, ADA/Section 508, and FedRAMP. Includes regulation text, plain-language guidance articles, enforcement case studies, compliance checklists, cross-regulation comparisons, and a glossary. Search across all regulatory frameworks at once.'
 sortable_fields:
+  - penalty_amount
+  - effective_date
   - date
+sortable_field_descriptions:
+  penalty_amount: 'Monetary penalty or fine amount in USD (for enforcement cases)'
+  effective_date: 'Date the regulation or amendment took effect'
+  date: 'Publication date of the document'
+filter_fields:
+  - regulation
+  - jurisdiction
+  - industry
+  - severity
+  - audience
+filter_field_descriptions:
+  regulation: "Regulatory framework. Map the user's query to one of these values: GDPR (EU data protection, European privacy, General Data Protection Regulation), HIPAA (health data, patient privacy, healthcare compliance, PHI, protected health information), CCPA/CPRA (California privacy, consumer privacy, California Consumer Privacy Act), SOX (Sarbanes-Oxley, financial reporting, internal controls, audit), PCI-DSS (payment card, credit card security, cardholder data), FERPA (student records, educational privacy, school data), ADA/Section 508 (accessibility, disability, assistive technology, WCAG), FedRAMP (federal cloud, government cloud authorization)"
+  jurisdiction: "Geographic jurisdiction. Values: European Union (EU member states, EEA), US Federal (federal agencies, nationwide), California (CCPA/CPRA specific), All US States (state-level requirements), International (cross-border, multinational)"
+  industry: "Industry sector. Values: Healthcare (hospitals, clinics, health tech, pharma), Financial Services (banking, insurance, fintech, investment), Education (universities, schools, EdTech), Government (federal, state, municipal agencies), Technology (SaaS, cloud, software, data processing), Retail (e-commerce, consumer goods, POS systems), All (cross-industry requirements)"
+  severity: "Severity or risk level. Values: Critical (immediate action required, major breach risk), High (significant compliance gap, large penalties), Medium (moderate risk, should address in current cycle), Low (minor issue, best practice improvement)"
+  audience: "Target audience. Values: Legal/Compliance (attorneys, compliance officers, DPOs), IT/Security (engineers, CISOs, security analysts), Executive/Board (C-suite, board members, strategic), HR (human resources, employee data), All (general audience)"
 scoring:
   title_match_boost: 2.0
   title_all_terms_multiplier: 1.5

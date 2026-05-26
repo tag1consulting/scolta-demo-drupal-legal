@@ -5,6 +5,92 @@
  * ComplianceIQ Scolta integration module.
  */
 
+use Drupal\Core\Entity\FieldableEntityInterface;
+use Tag1\Scolta\Export\ContentItem;
+
+/**
+ * Implements hook_scolta_content_item_alter().
+ */
+function complianceiq_scolta_scolta_content_item_alter(ContentItem &$item, FieldableEntityInterface $entity): void {
+  $filters = $item->filters;
+  $sortable = $item->sortable;
+
+  // Regulation framework — multiple possible field names across content types
+  $regulationFields = [
+    'field_regulation',
+    'field_regulation_violated',
+    'field_regulations_covered',
+    'field_regulations_compared',
+    'field_regulations',
+  ];
+  foreach ($regulationFields as $fieldName) {
+    if (!empty($filters['regulation'])) {
+      break;
+    }
+    if ($entity->hasField($fieldName) && !$entity->get($fieldName)->isEmpty()) {
+      $values = [];
+      foreach ($entity->get($fieldName) as $ref) {
+        if ($ref->entity) {
+          $values[] = $ref->entity->label();
+        }
+      }
+      if (!empty($values)) {
+        $filters['regulation'] = $values;
+      }
+    }
+  }
+
+  // Jurisdiction (single-value entity reference)
+  if ($entity->hasField('field_jurisdiction') && !$entity->get('field_jurisdiction')->isEmpty()) {
+    $ref = $entity->get('field_jurisdiction')->entity;
+    if ($ref) {
+      $filters['jurisdiction'] = $ref->label();
+    }
+  }
+
+  // Industry (entity reference, may be multi-value)
+  if ($entity->hasField('field_industry') && !$entity->get('field_industry')->isEmpty()) {
+    $values = [];
+    foreach ($entity->get('field_industry') as $ref) {
+      if ($ref->entity) {
+        $values[] = $ref->entity->label();
+      }
+    }
+    if (!empty($values)) {
+      $filters['industry'] = $values;
+    }
+  }
+
+  // Severity (list_string — stored as lowercase key, use label mapping)
+  if ($entity->hasField('field_severity') && !$entity->get('field_severity')->isEmpty()) {
+    $value = $entity->get('field_severity')->value;
+    $labelMap = ['critical' => 'Critical', 'high' => 'High', 'medium' => 'Medium', 'low' => 'Low'];
+    $filters['severity'] = $labelMap[$value] ?? ucfirst($value);
+  }
+
+  // Audience (entity reference taxonomy)
+  if ($entity->hasField('field_audience') && !$entity->get('field_audience')->isEmpty()) {
+    $ref = $entity->get('field_audience')->entity;
+    if ($ref) {
+      $filters['audience'] = $ref->label();
+    }
+  }
+
+  // Penalty amount (sortable, integer)
+  if ($entity->hasField('field_penalty_numeric') && !$entity->get('field_penalty_numeric')->isEmpty()) {
+    $sortable['penalty_amount'] = (int) $entity->get('field_penalty_numeric')->value;
+  }
+
+  // Effective date (sortable)
+  if ($entity->hasField('field_effective_date') && !$entity->get('field_effective_date')->isEmpty()) {
+    $sortable['effective_date'] = $entity->get('field_effective_date')->value;
+  }
+
+  if ($filters !== $item->filters || $sortable !== $item->sortable) {
+    $item = $item->cloneWith(['filters' => $filters, 'sortable' => $sortable]);
+  }
+}
+
 /**
  * Implements hook_theme().
  */
