@@ -50,7 +50,10 @@
             "php-http/discovery": true,
             "php-tuf/composer-integration": true
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "audit": {
+            "block-insecure": false
+        }
     },
     "scripts": {
         "post-install-cmd": [
