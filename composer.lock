@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e89d94f45b05e43081837d398538633d",
+    "content-hash": "7bdd11972c7621fa6463f1f452c5a5dd",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1823,16 +1823,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.10.4",
+            "version": "7.10.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "aec528da477062d3af11f51e6b33402be233b21f"
+                "reference": "e7412b3180912c01650cc66647f18c1d1cbe9b94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/aec528da477062d3af11f51e6b33402be233b21f",
-                "reference": "aec528da477062d3af11f51e6b33402be233b21f",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/e7412b3180912c01650cc66647f18c1d1cbe9b94",
+                "reference": "e7412b3180912c01650cc66647f18c1d1cbe9b94",
                 "shasum": ""
             },
             "require": {
@@ -1850,7 +1850,7 @@
                 "bamarni/composer-bin-plugin": "^1.8.2",
                 "ext-curl": "*",
                 "guzzle/client-integration-tests": "3.0.2",
-                "guzzlehttp/test-server": "^0.3.2",
+                "guzzlehttp/test-server": "^0.4",
                 "php-http/message-factory": "^1.1",
                 "phpunit/phpunit": "^8.5.52 || ^9.6.34",
                 "psr/log": "^1.1 || ^2.0 || ^3.0"
@@ -1930,7 +1930,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.10.4"
+                "source": "https://github.com/guzzle/guzzle/tree/7.10.6"
             },
             "funding": [
                 {
@@ -1946,7 +1946,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-22T19:00:53+00:00"
+            "time": "2026-06-01T13:06:22+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -6342,22 +6342,22 @@
         },
         {
             "name": "tag1/scolta-drupal",
-            "version": "dev-main",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-drupal.git",
-                "reference": "0e8afb8d004a54987097728f3fbc4c18811f42d3"
+                "reference": "278cfde315075ea3ff2c75ad9b6a880e0e21266b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/0e8afb8d004a54987097728f3fbc4c18811f42d3",
-                "reference": "0e8afb8d004a54987097728f3fbc4c18811f42d3",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/278cfde315075ea3ff2c75ad9b6a880e0e21266b",
+                "reference": "278cfde315075ea3ff2c75ad9b6a880e0e21266b",
                 "shasum": ""
             },
             "require": {
                 "drupal/search_api": "^1.0",
                 "php": ">=8.1",
-                "tag1/scolta-php": "^1.0@dev"
+                "tag1/scolta-php": "^1.0"
             },
             "require-dev": {
                 "drupal/coder": "^9.0",
@@ -6370,7 +6370,6 @@
             "suggest": {
                 "drupal/ai": "For enhanced multi-provider AI support via the Drupal AI Initiative module (48+ providers, Key module integration, rate limiting, token tracking)"
             },
-            "default-branch": true,
             "type": "drupal-module",
             "extra": {
                 "installer-name": "scolta",
@@ -6429,23 +6428,23 @@
             ],
             "description": "Scolta AI Search for Drupal — Search API backend with Pagefind client-side search",
             "support": {
-                "source": "https://github.com/tag1consulting/scolta-drupal/tree/main",
+                "source": "https://github.com/tag1consulting/scolta-drupal/tree/v1.0.2",
                 "issues": "https://github.com/tag1consulting/scolta-drupal/issues"
             },
-            "time": "2026-05-27T04:26:04+00:00"
+            "time": "2026-06-03T07:09:01+00:00"
         },
         {
             "name": "tag1/scolta-php",
-            "version": "dev-main",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-php.git",
-                "reference": "7b9d632d6aafbc76e705474f40965dd1f2946596"
+                "reference": "e71c47926861ca66f8052c0d25d781e4401aadc0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/7b9d632d6aafbc76e705474f40965dd1f2946596",
-                "reference": "7b9d632d6aafbc76e705474f40965dd1f2946596",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/e71c47926861ca66f8052c0d25d781e4401aadc0",
+                "reference": "e71c47926861ca66f8052c0d25d781e4401aadc0",
                 "shasum": ""
             },
             "require": {
@@ -6461,7 +6460,6 @@
             "suggest": {
                 "ext-intl": "Improves Unicode diacritic normalization quality. Falls back to strtr() mapping without it."
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -6480,6 +6478,7 @@
             },
             "archive": {
                 "exclude": [
+                    "vendor/",
                     "tests/",
                     "scripts/",
                     "benchmarks/",
@@ -6537,7 +6536,7 @@
                 "issues": "https://github.com/tag1consulting/scolta-php/issues",
                 "source": "https://github.com/tag1consulting/scolta-php"
             },
-            "time": "2026-05-27T04:23:52+00:00"
+            "time": "2026-06-03T06:40:41+00:00"
         },
         {
             "name": "twig/twig",
@@ -6844,10 +6843,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "tag1/scolta-drupal": 20,
-        "tag1/scolta-php": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {},
