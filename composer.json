@@ -12,14 +12,6 @@
         "https://packages.drupal.org/8": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
-        },
-        "scolta-php": {
-            "type": "vcs",
-            "url": "https://github.com/tag1consulting/scolta-php"
-        },
-        "scolta-drupal": {
-            "type": "vcs",
-            "url": "https://github.com/tag1consulting/scolta-drupal"
         }
     },
     "require": {
@@ -29,9 +21,9 @@
         "drupal/core-project-message": "^11.3",
         "drupal/core-recipe-unpack": "^11.3",
         "drupal/core-recommended": "^11.3",
+        "drupal/scolta": "^1.0.2",
         "drupal/search_api": "^1.40",
         "drush/drush": "^13.7",
-        "tag1/scolta-drupal": "^1.0.2",
         "tag1/scolta-php": "^1.0.2"
     },
     "conflict": {
