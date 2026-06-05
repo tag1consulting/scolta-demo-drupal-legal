@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "454f9218f663bf81d1e3d8680879e192",
+    "content-hash": "ff05dabbc0736459665dbc53155f44a8",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1428,17 +1428,17 @@
         },
         {
             "name": "drupal/scolta",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/scolta.git",
-                "reference": "1.0.2"
+                "reference": "1.0.3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/scolta-1.0.2.zip",
-                "reference": "1.0.2",
-                "shasum": "24029c6ef96fb29312137234e3cc5896d46cd18a"
+                "url": "https://ftp.drupal.org/files/projects/scolta-1.0.3.zip",
+                "reference": "1.0.3",
+                "shasum": "86e68d43df15c947e7ce404570ac9148c72c8380"
             },
             "require": {
                 "drupal/core": "^10.3 || ^11",
@@ -1460,8 +1460,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.0.2",
-                    "datestamp": "1780470722",
+                    "version": "1.0.3",
+                    "datestamp": "1780695474",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -6448,16 +6448,16 @@
         },
         {
             "name": "tag1/scolta-php",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-php.git",
-                "reference": "e71c47926861ca66f8052c0d25d781e4401aadc0"
+                "reference": "313e43e2a53fef670f425a4849ba71461784566b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/e71c47926861ca66f8052c0d25d781e4401aadc0",
-                "reference": "e71c47926861ca66f8052c0d25d781e4401aadc0",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/313e43e2a53fef670f425a4849ba71461784566b",
+                "reference": "313e43e2a53fef670f425a4849ba71461784566b",
                 "shasum": ""
             },
             "require": {
@@ -6507,7 +6507,7 @@
                 "issues": "https://github.com/tag1consulting/scolta-php/issues",
                 "source": "https://github.com/tag1consulting/scolta-php"
             },
-            "time": "2026-06-03T06:40:41+00:00"
+            "time": "2026-06-05T20:08:58+00:00"
         },
         {
             "name": "twig/twig",
