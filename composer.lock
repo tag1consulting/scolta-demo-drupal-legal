@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fa6fca6fa8d7c9940f80565eb3bf2f9b",
+    "content-hash": "e89d94f45b05e43081837d398538633d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1427,124 +1427,18 @@
             "description": "Core and its dependencies with known-compatible minor versions. Require this project INSTEAD OF drupal/core."
         },
         {
-            "name": "drupal/scolta",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupalcode.org/project/scolta.git",
-                "reference": "1.0.3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/scolta-1.0.3.zip",
-                "reference": "1.0.3",
-                "shasum": "86e68d43df15c947e7ce404570ac9148c72c8380"
-            },
-            "require": {
-                "drupal/core": "^10.3 || ^11",
-                "drupal/search_api": "^1.0",
-                "php": ">=8.1",
-                "tag1/scolta-php": "^1.0"
-            },
-            "require-dev": {
-                "drupal/coder": "^9.0",
-                "mglaman/phpstan-drupal": "^2.0",
-                "phpstan/phpstan": "^2.1",
-                "phpstan/phpstan-deprecation-rules": "^2.0",
-                "phpunit/phpunit": "^10.0|^11.0",
-                "symfony/yaml": "^6.0|^7.0"
-            },
-            "suggest": {
-                "drupal/ai": "For enhanced multi-provider AI support via the Drupal AI Initiative module (48+ providers, Key module integration, rate limiting, token tracking)"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "drupal": {
-                    "version": "1.0.3",
-                    "datestamp": "1780695474",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                },
-                "installer-name": "scolta",
-                "branch-alias": {
-                    "dev-main": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Drupal\\scolta\\": "src/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Drupal\\scolta\\Tests\\": "tests/src/"
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "scripts": {
-                "post-install-cmd": [
-                    "@copy-assets"
-                ],
-                "post-update-cmd": [
-                    "@copy-assets"
-                ],
-                "copy-assets": [
-                    "mkdir -p js js/wasm css",
-                    "cp vendor/tag1/scolta-php/assets/js/scolta.js js/scolta.js",
-                    "cp vendor/tag1/scolta-php/assets/css/scolta.css css/scolta.css",
-                    "cp vendor/tag1/scolta-php/assets/wasm/scolta_core.js js/wasm/scolta_core.js",
-                    "cp vendor/tag1/scolta-php/assets/wasm/scolta_core_bg.wasm js/wasm/scolta_core_bg.wasm"
-                ],
-                "analyse": [
-                    "phpstan analyse --no-progress"
-                ],
-                "test": [
-                    "phpunit"
-                ],
-                "lint": [
-                    "phpcs"
-                ],
-                "format": [
-                    "phpcbf"
-                ],
-                "validate-release": [
-                    "php scripts/validate-release.php"
-                ]
-            },
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Tag1 Consulting",
-                    "homepage": "https://www.tag1.com"
-                },
-                {
-                    "name": "jeremy",
-                    "homepage": "https://www.drupal.org/user/409"
-                }
-            ],
-            "description": "Scolta AI Search for Drupal — Search API backend with Pagefind client-side search",
-            "homepage": "https://www.drupal.org/project/scolta",
-            "support": {
-                "source": "https://git.drupalcode.org/project/scolta"
-            }
-        },
-        {
             "name": "drupal/search_api",
-            "version": "1.40.0",
+            "version": "1.41.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/search_api.git",
-                "reference": "8.x-1.40"
+                "reference": "8.x-1.41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/search_api-8.x-1.40.zip",
-                "reference": "8.x-1.40",
-                "shasum": "64ac71887786da63ced27a43e37342ea3b765a88"
+                "url": "https://ftp.drupal.org/files/projects/search_api-8.x-1.41.zip",
+                "reference": "8.x-1.41",
+                "shasum": "bb030951ee9a09fac67e8cde5b495c3b67e2949d"
             },
             "require": {
                 "drupal/core": "^10.3 || ^11"
@@ -1566,8 +1460,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.40",
-                    "datestamp": "1762031191",
+                    "version": "8.x-1.41",
+                    "datestamp": "1780907071",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -6447,17 +6341,111 @@
             "time": "2026-05-25T06:06:12+00:00"
         },
         {
-            "name": "tag1/scolta-php",
-            "version": "1.0.3",
+            "name": "tag1/scolta-drupal",
+            "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tag1consulting/scolta-php.git",
-                "reference": "313e43e2a53fef670f425a4849ba71461784566b"
+                "url": "https://github.com/tag1consulting/scolta-drupal.git",
+                "reference": "0e529ee767fce569df0d7d2c070d69a2ca52eb9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/313e43e2a53fef670f425a4849ba71461784566b",
-                "reference": "313e43e2a53fef670f425a4849ba71461784566b",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/0e529ee767fce569df0d7d2c070d69a2ca52eb9b",
+                "reference": "0e529ee767fce569df0d7d2c070d69a2ca52eb9b",
+                "shasum": ""
+            },
+            "require": {
+                "drupal/search_api": "^1.0",
+                "php": ">=8.1",
+                "tag1/scolta-php": "^1.0"
+            },
+            "require-dev": {
+                "drupal/coder": "^9.0",
+                "mglaman/phpstan-drupal": "^2.0",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-deprecation-rules": "^2.0",
+                "phpunit/phpunit": "^10.0|^11.0",
+                "symfony/yaml": "^6.0|^7.0"
+            },
+            "suggest": {
+                "drupal/ai": "For enhanced multi-provider AI support via the Drupal AI Initiative module (48+ providers, Key module integration, rate limiting, token tracking)"
+            },
+            "default-branch": true,
+            "type": "drupal-module",
+            "extra": {
+                "installer-name": "scolta",
+                "branch-alias": {
+                    "dev-main": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Drupal\\scolta\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Drupal\\scolta\\Tests\\": "tests/src/"
+                }
+            },
+            "scripts": {
+                "post-install-cmd": [
+                    "@copy-assets"
+                ],
+                "post-update-cmd": [
+                    "@copy-assets"
+                ],
+                "copy-assets": [
+                    "mkdir -p js js/wasm css",
+                    "cp vendor/tag1/scolta-php/assets/js/scolta.js js/scolta.js",
+                    "cp vendor/tag1/scolta-php/assets/css/scolta.css css/scolta.css",
+                    "cp vendor/tag1/scolta-php/assets/wasm/scolta_core.js js/wasm/scolta_core.js",
+                    "cp vendor/tag1/scolta-php/assets/wasm/scolta_core_bg.wasm js/wasm/scolta_core_bg.wasm"
+                ],
+                "analyse": [
+                    "phpstan analyse --no-progress"
+                ],
+                "test": [
+                    "phpunit"
+                ],
+                "lint": [
+                    "phpcs"
+                ],
+                "format": [
+                    "phpcbf"
+                ],
+                "validate-release": [
+                    "php scripts/validate-release.php"
+                ]
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Tag1 Consulting",
+                    "homepage": "https://www.tag1.com"
+                }
+            ],
+            "description": "Scolta AI Search for Drupal — Search API backend with Pagefind client-side search",
+            "support": {
+                "source": "https://github.com/tag1consulting/scolta-drupal/tree/main",
+                "issues": "https://github.com/tag1consulting/scolta-drupal/issues"
+            },
+            "time": "2026-06-08T09:53:07+00:00"
+        },
+        {
+            "name": "tag1/scolta-php",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tag1consulting/scolta-php.git",
+                "reference": "4ed932f59914e3b8883c8f748a0b37b575e72ac6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/4ed932f59914e3b8883c8f748a0b37b575e72ac6",
+                "reference": "4ed932f59914e3b8883c8f748a0b37b575e72ac6",
                 "shasum": ""
             },
             "require": {
@@ -6473,6 +6461,7 @@
             "suggest": {
                 "ext-intl": "Improves Unicode diacritic normalization quality. Falls back to strtr() mapping without it."
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -6484,7 +6473,54 @@
                     "Tag1\\Scolta\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Tag1\\Scolta\\Tests\\": "tests/"
+                }
+            },
+            "archive": {
+                "exclude": [
+                    "vendor/",
+                    "tests/",
+                    "scripts/",
+                    "benchmarks/",
+                    ".github/",
+                    "phpunit.xml",
+                    ".php-cs-fixer.dist.php",
+                    "CLAUDE.md",
+                    ".editorconfig",
+                    "docs/BENCHMARKS-LATEST.md",
+                    "docs/LANGUAGE_PARITY.md"
+                ]
+            },
+            "scripts": {
+                "test": [
+                    "phpunit --no-coverage"
+                ],
+                "lint": [
+                    "php-cs-fixer fix --dry-run --diff"
+                ],
+                "format": [
+                    "php-cs-fixer fix"
+                ],
+                "update-browser-wasm": [
+                    "cp ../scolta-core/pkg/scolta_core_bg.wasm assets/wasm/ && cp ../scolta-core/pkg/scolta_core.js assets/wasm/",
+                    "@update-js-checksum"
+                ],
+                "update-asset-manifest": [
+                    "cd assets && sha256sum js/scolta.js css/scolta.css wasm/scolta_core.js wasm/scolta_core_bg.wasm > ASSETS.sha256"
+                ],
+                "update-js-checksum": [
+                    "@update-asset-manifest",
+                    "awk '$2==\"js/scolta.js\"{print $1}' assets/ASSETS.sha256 > assets/js/scolta.js.sha256"
+                ],
+                "validate-release": [
+                    "php scripts/validate-release.php"
+                ],
+                "check-version-sync": [
+                    "php scripts/check-version-sync.php"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -6507,7 +6543,7 @@
                 "issues": "https://github.com/tag1consulting/scolta-php/issues",
                 "source": "https://github.com/tag1consulting/scolta-php"
             },
-            "time": "2026-06-05T20:08:58+00:00"
+            "time": "2026-06-08T11:02:55+00:00"
         },
         {
             "name": "twig/twig",
@@ -6813,8 +6849,11 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": {},
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "tag1/scolta-drupal": 20,
+        "tag1/scolta-php": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {},
