@@ -11,9 +11,12 @@ database:
 hooks:
   post-start:
     - exec: composer install --no-interaction
-    - exec: |
-        # Remove stale pre-1.x module directory; composer now installs to scolta-drupal/.
-        rm -rf /var/www/html/web/modules/contrib/scolta
+    # NOTE: tag1/scolta-drupal installs to web/modules/contrib/scolta (its
+    # installer-name is "scolta", module machine name "scolta"). Do NOT rm that
+    # directory here — it deletes the module composer just installed, which left
+    # the site with no routes (/api/scolta 404), no scolta: drush namespace, and
+    # no Pagefind index. web/modules/contrib/ is gitignored and composer-managed,
+    # so there is no stale pre-1.x committed copy to clean.
     - exec: |
         if [ -f /var/www/html/db/dump.sql.gz ]; then
           zcat /var/www/html/db/dump.sql.gz | mysql -u root -proot db

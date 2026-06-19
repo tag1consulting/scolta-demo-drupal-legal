@@ -5006,71 +5006,6 @@
             "time": "2024-12-23T08:48:59+00:00"
         },
         {
-            "name": "symfony/polyfill-php72",
-            "version": "v1.31.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php72.git",
-                "reference": "fa2ae56c44f03bed91a39bfc9822e31e7c5c38ce"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/fa2ae56c44f03bed91a39bfc9822e31e7c5c38ce",
-                "reference": "fa2ae56c44f03bed91a39bfc9822e31e7c5c38ce",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2"
-            },
-            "type": "metapackage",
-            "extra": {
-                "thanks": {
-                    "url": "https://github.com/symfony/polyfill",
-                    "name": "symfony/polyfill"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill backporting some PHP 7.2+ features to lower PHP versions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-php72/tree/v1.31.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-09-09T11:45:10+00:00"
-        },
-        {
             "name": "symfony/polyfill-php81",
             "version": "v1.38.1",
             "source": {
@@ -5152,16 +5087,16 @@
         },
         {
             "name": "symfony/polyfill-php83",
-            "version": "v1.38.1",
+            "version": "v1.38.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php83.git",
-                "reference": "8339098cae28673c15cce00d80734af0453054e2"
+                "reference": "796a26abb75ce49f3a84433cd81bf1009d73d5f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php83/zipball/8339098cae28673c15cce00d80734af0453054e2",
-                "reference": "8339098cae28673c15cce00d80734af0453054e2",
+                "url": "https://api.github.com/repos/symfony/polyfill-php83/zipball/796a26abb75ce49f3a84433cd81bf1009d73d5f8",
+                "reference": "796a26abb75ce49f3a84433cd81bf1009d73d5f8",
                 "shasum": ""
             },
             "require": {
@@ -5208,7 +5143,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-php83/tree/v1.38.1"
+                "source": "https://github.com/symfony/polyfill-php83/tree/v1.38.2"
             },
             "funding": [
                 {
@@ -5228,7 +5163,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-05-26T12:51:13+00:00"
+            "time": "2026-05-27T06:51:48+00:00"
         },
         {
             "name": "symfony/polyfill-php84",
@@ -6345,13 +6280,13 @@
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tag1consulting/scolta-drupal.git",
-                "reference": "0e529ee767fce569df0d7d2c070d69a2ca52eb9b"
+                "url": "git@github.com:tag1consulting/scolta-drupal.git",
+                "reference": "734333007e22a3adc18f87e96894f4d127f3087a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/0e529ee767fce569df0d7d2c070d69a2ca52eb9b",
-                "reference": "0e529ee767fce569df0d7d2c070d69a2ca52eb9b",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-drupal/zipball/734333007e22a3adc18f87e96894f4d127f3087a",
+                "reference": "734333007e22a3adc18f87e96894f4d127f3087a",
                 "shasum": ""
             },
             "require": {
@@ -6428,34 +6363,32 @@
                 }
             ],
             "description": "Scolta AI Search for Drupal — Search API backend with Pagefind client-side search",
-            "support": {
-                "source": "https://github.com/tag1consulting/scolta-drupal/tree/main",
-                "issues": "https://github.com/tag1consulting/scolta-drupal/issues"
-            },
-            "time": "2026-06-08T09:53:07+00:00"
+            "time": "2026-06-16T07:39:30+00:00"
         },
         {
             "name": "tag1/scolta-php",
             "version": "dev-main",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tag1consulting/scolta-php.git",
-                "reference": "4ed932f59914e3b8883c8f748a0b37b575e72ac6"
+                "url": "git@github.com:tag1consulting/scolta-php.git",
+                "reference": "75168637b4c1262808f13609cdf1dd485ecf6e5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/4ed932f59914e3b8883c8f748a0b37b575e72ac6",
-                "reference": "4ed932f59914e3b8883c8f748a0b37b575e72ac6",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/75168637b4c1262808f13609cdf1dd485ecf6e5f",
+                "reference": "75168637b4c1262808f13609cdf1dd485ecf6e5f",
                 "shasum": ""
             },
             "require": {
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
                 "guzzlehttp/guzzle": "^7.0",
                 "php": ">=8.1",
-                "psr/log": "^3.0",
-                "wamania/php-stemmer": "^3.0"
+                "psr/log": "^3.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": "^2.1",
                 "phpunit/phpunit": "^10.0|^11.0"
             },
             "suggest": {
@@ -6487,6 +6420,8 @@
                     ".github/",
                     "phpunit.xml",
                     ".php-cs-fixer.dist.php",
+                    "phpstan.neon",
+                    "phpstan-baseline.neon",
                     "CLAUDE.md",
                     ".editorconfig",
                     "docs/BENCHMARKS-LATEST.md",
@@ -6502,6 +6437,9 @@
                 ],
                 "format": [
                     "php-cs-fixer fix"
+                ],
+                "analyse": [
+                    "phpstan analyse --no-progress --memory-limit=512M"
                 ],
                 "update-browser-wasm": [
                     "cp ../scolta-core/pkg/scolta_core_bg.wasm assets/wasm/ && cp ../scolta-core/pkg/scolta_core.js assets/wasm/",
@@ -6543,7 +6481,7 @@
                 "issues": "https://github.com/tag1consulting/scolta-php/issues",
                 "source": "https://github.com/tag1consulting/scolta-php"
             },
-            "time": "2026-06-08T11:02:55+00:00"
+            "time": "2026-06-16T07:39:11+00:00"
         },
         {
             "name": "twig/twig",
@@ -6623,228 +6561,6 @@
                 }
             ],
             "time": "2025-12-14T11:28:47+00:00"
-        },
-        {
-            "name": "voku/portable-ascii",
-            "version": "2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/voku/portable-ascii.git",
-                "reference": "8e1051fe39379367aecf014f41744ce7539a856f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-ascii/zipball/8e1051fe39379367aecf014f41744ce7539a856f",
-                "reference": "8e1051fe39379367aecf014f41744ce7539a856f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~8.5 || ~9.6 || ~10.5 || ~11.5"
-            },
-            "suggest": {
-                "ext-intl": "Use Intl for transliterator_transliterate() support"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "voku\\": "src/voku/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Lars Moelleken",
-                    "homepage": "https://www.moelleken.org/"
-                }
-            ],
-            "description": "Portable ASCII library - performance optimized (ascii) string functions for php.",
-            "homepage": "https://github.com/voku/portable-ascii",
-            "keywords": [
-                "ascii",
-                "clean",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/voku/portable-ascii/issues",
-                "source": "https://github.com/voku/portable-ascii/tree/2.1.1"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/moelleken",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/voku",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/portable-ascii",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://www.patreon.com/voku",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/voku/portable-ascii",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-04-26T05:33:54+00:00"
-        },
-        {
-            "name": "voku/portable-utf8",
-            "version": "6.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/voku/portable-utf8.git",
-                "reference": "837e32cd4b166320cc3e70e3ffe1ba413e81ee46"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/voku/portable-utf8/zipball/837e32cd4b166320cc3e70e3ffe1ba413e81ee46",
-                "reference": "837e32cd4b166320cc3e70e3ffe1ba413e81ee46",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0",
-                "symfony/polyfill-iconv": "~1.0",
-                "symfony/polyfill-intl-grapheme": "~1.0",
-                "symfony/polyfill-intl-normalizer": "~1.0",
-                "symfony/polyfill-mbstring": "~1.0",
-                "symfony/polyfill-php72": "~1.0",
-                "voku/portable-ascii": "~2.1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~6.0 || ~7.0 || ~8.0 || ~9.0"
-            },
-            "suggest": {
-                "ext-ctype": "Use Ctype for e.g. hexadecimal digit detection",
-                "ext-fileinfo": "Use Fileinfo for better binary file detection",
-                "ext-iconv": "Use iconv for best performance",
-                "ext-intl": "Use Intl for best performance",
-                "ext-json": "Use JSON for string detection",
-                "ext-mbstring": "Use Mbstring for best performance"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "voku\\": "src/voku/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "(Apache-2.0 or GPL-2.0)"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Hamid Sarfraz",
-                    "homepage": "http://pageconfig.com/"
-                },
-                {
-                    "name": "Lars Moelleken",
-                    "homepage": "http://www.moelleken.org/"
-                }
-            ],
-            "description": "Portable UTF-8 library - performance optimized (unicode) string functions for php.",
-            "homepage": "https://github.com/voku/portable-utf8",
-            "keywords": [
-                "UTF",
-                "clean",
-                "php",
-                "unicode",
-                "utf-8",
-                "utf8"
-            ],
-            "support": {
-                "issues": "https://github.com/voku/portable-utf8/issues",
-                "source": "https://github.com/voku/portable-utf8/tree/6.1.1"
-            },
-            "funding": [
-                {
-                    "url": "https://www.paypal.me/moelleken",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/voku",
-                    "type": "github"
-                },
-                {
-                    "url": "https://opencollective.com/portable-utf8",
-                    "type": "open_collective"
-                },
-                {
-                    "url": "https://www.patreon.com/voku",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/voku/portable-utf8",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-04-17T02:42:01+00:00"
-        },
-        {
-            "name": "wamania/php-stemmer",
-            "version": "v3.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/wamania/php-stemmer.git",
-                "reference": "8ea32b6fa27d6888587fe860b64a8763525c5a66"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/wamania/php-stemmer/zipball/8ea32b6fa27d6888587fe860b64a8763525c5a66",
-                "reference": "8ea32b6fa27d6888587fe860b64a8763525c5a66",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.3",
-                "voku/portable-utf8": "^5.4|^6.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^9.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Wamania\\Snowball\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Wamania",
-                    "homepage": "http://wamania.com"
-                }
-            ],
-            "description": "Native PHP Stemmer",
-            "keywords": [
-                "php",
-                "porter",
-                "stemmer"
-            ],
-            "support": {
-                "issues": "https://github.com/wamania/php-stemmer/issues",
-                "source": "https://github.com/wamania/php-stemmer/tree/v3.0.1"
-            },
-            "time": "2023-05-11T10:50:27+00:00"
         }
     ],
     "packages-dev": [],
