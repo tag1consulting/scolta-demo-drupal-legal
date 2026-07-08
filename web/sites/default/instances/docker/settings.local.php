@@ -13,6 +13,12 @@ $databases['default']['default'] = [
   'prefix' => '',
 ];
 
+if ($ssl_ca = getenv('MYSQL_ATTR_SSL_CA')) {
+  $databases['default']['default']['pdo'] = [
+    \PDO::MYSQL_ATTR_SSL_CA => $ssl_ca,
+  ];
+}
+
 $settings['hash_salt'] = getenv('DRUPAL_HASH_SALT');
 
 $settings['file_private_path'] = '/var/www/html/web/sites/default/private';
