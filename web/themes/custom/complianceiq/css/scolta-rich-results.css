@@ -1,0 +1,276 @@
+/**
+ * @file
+ * ComplianceIQ styling for Scolta's result cards and search-as-you-type
+ * dropdown.
+ *
+ * Loaded after the module's scolta.css, which is never edited. Two techniques
+ * only: override the documented custom properties, and style the theme's own
+ * complianceiq-* classes on the markup its renderers emit. No selector here is
+ * more specific than one class.
+ *
+ * The card keeps Scolta's scolta-result-card, scolta-result-title and
+ * scolta-result-excerpt classes, so anything the theme gives a result still
+ * applies and this file adds only what the badge row needs.
+ */
+
+/* Retheme Scolta's neutral palette to the navy and teal the rest of the site
+   is built on. scolta.css declares these on :root; this file loads after it,
+   so a same-specificity redeclaration is all it takes. */
+:root {
+  --scolta-primary: var(--navy-800);
+  --scolta-primary-hover: var(--navy-900);
+  --scolta-accent: var(--teal-600);
+  --scolta-bg: var(--bg-section);
+  --scolta-card-bg: var(--bg-white);
+  --scolta-text: var(--navy-900);
+  --scolta-text-muted: var(--navy-500);
+  --scolta-text-light: var(--navy-400);
+  --scolta-border: var(--border-subtle);
+  --scolta-highlight: #FEF3C7;
+  --scolta-badge-bg: var(--navy-50);
+
+  /* Search-as-you-type. The seven documented knobs, nothing more. */
+  --scolta-sayt-bg: var(--bg-white);
+  --scolta-sayt-border: var(--border-subtle);
+  --scolta-sayt-shadow: 0 8px 24px rgba(15, 43, 70, 0.16);
+  --scolta-sayt-radius: 8px;
+  --scolta-sayt-max-height: 24rem;
+  --scolta-sayt-active-bg: var(--navy-50);
+  --scolta-sayt-z-index: 60;
+}
+
+/* --------------------------------------------------------------------------
+ * Result card
+ *
+ * Text-forward on purpose: this corpus has no per-item image, so the card's
+ * job is to answer "what kind of document is this, whose rules, how urgent"
+ * before the click, not to carry a picture.
+ * ----------------------------------------------------------------------- */
+
+.complianceiq-result__title {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+/* scolta.css highlights an excerpt's <mark> and leaves a title's to the
+   browser default, so a hit was soft amber in the body and vivid yellow in the
+   heading above it. Same treatment in both places, at one class deep. */
+.complianceiq-result__title mark {
+  background: #FEF3C7;
+  color: inherit;
+  padding: 0.05em 0.15em;
+  border-radius: 2px;
+}
+
+.complianceiq-result__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.4rem 0 0.5rem;
+}
+
+/* The neutral chip. Every badge starts here; only severity moves off it. */
+.complianceiq-result__badge {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.16rem 0.5rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 3px;
+  background: var(--navy-50);
+  color: var(--navy-700);
+  white-space: nowrap;
+}
+
+/* A framework name is an acronym and reads better as one: GDPR, PCI-DSS,
+   ADA/Section 508. The theme's mono face sets it apart from the document type
+   beside it without a second colour. */
+.complianceiq-result__badge--regulation {
+  font-family: var(--font-mono);
+  letter-spacing: 0;
+  border-color: var(--navy-200);
+  background: var(--bg-white);
+  color: var(--navy-800);
+}
+
+/* Severity is the one badge that is a judgement rather than a label, so it is
+   the one that gets colour. Uppercase as well as coloured: colour alone is not
+   a distinction a reader who cannot see it can use, and the word is the actual
+   carrier either way. */
+.complianceiq-result__badge--severity {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.complianceiq-result__badge--sev-critical {
+  border-color: var(--alert-red);
+  background: rgba(220, 38, 38, 0.08);
+  color: var(--alert-red);
+}
+
+.complianceiq-result__badge--sev-high {
+  border-color: var(--alert-amber);
+  background: rgba(217, 119, 6, 0.09);
+  color: var(--alert-amber);
+}
+
+.complianceiq-result__badge--sev-medium {
+  border-color: var(--navy-300);
+  background: var(--navy-50);
+  color: var(--navy-600);
+}
+
+.complianceiq-result__badge--sev-low {
+  border-color: var(--alert-green);
+  background: rgba(5, 150, 105, 0.08);
+  color: var(--alert-green);
+}
+
+.complianceiq-result__date {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--navy-400);
+}
+
+.complianceiq-result__excerpt {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  overflow: hidden;
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+ * Search-as-you-type dropdown
+ *
+ * Layout and rhythm only. The dropdown stays absolutely positioned inside
+ * .scolta-search-input-wrap, so opening and updating it shifts nothing.
+ * ----------------------------------------------------------------------- */
+
+.scolta-sayt {
+  font-family: var(--font-sans);
+  padding: 0.25rem 0;
+}
+
+.scolta-sayt-option {
+  padding: 0.55rem 0.9rem;
+  border-bottom: none;
+  border-left: 3px solid transparent;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+}
+
+.scolta-sayt-option:hover {
+  background: var(--bg-section);
+}
+
+.scolta-sayt-option-active {
+  border-left-color: var(--teal-500);
+}
+
+.scolta-sayt-kind {
+  color: var(--teal-600);
+  font-size: 0.95rem;
+}
+
+.scolta-sayt-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--navy-900);
+}
+
+/* A recent search is history, not a document: lighter and italic, so the two
+   kinds of row are told apart without reading the glyph. */
+.scolta-sayt-option-recent .scolta-sayt-kind {
+  color: var(--navy-400);
+}
+
+.scolta-sayt-option-recent .scolta-sayt-title {
+  font-weight: 400;
+  font-style: italic;
+}
+
+.scolta-sayt-excerpt {
+  font-size: 0.8rem;
+  color: var(--navy-500);
+  margin-top: 0.1rem;
+}
+
+/* --------------------------------------------------------------------------
+ * Suggestion row with a document-type tag
+ *
+ * Inner markup emitted by the suggestion renderer in
+ * js/scolta-rich-results.js for title suggestions. The option element around
+ * it stays the bundle's, so the rules below never reach past the row's inside.
+ *
+ * Title and excerpt carry the scolta-* class as well as the complianceiq-* one,
+ * so they inherit the typography set above and these rules add only layout.
+ * Same specificity, resolved by source order — this block is last.
+ * ----------------------------------------------------------------------- */
+
+.complianceiq-sayt {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* Fixed width, so every row's title starts on the same line whether or not
+   the item has a type, and a longer type name cannot push one row's text out
+   of column with its neighbours. Sized for "Regulation Section", the widest
+   value in the vocabulary and the most common type in the corpus; the ellipsis
+   stays as the guard for a content type added later. */
+.complianceiq-sayt__type {
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  width: 9.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.16rem 0.4rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: 3px;
+  background: var(--navy-50);
+  color: var(--navy-700);
+}
+
+/* Sized, not drawn: a suggestion with no type keeps the column so the list
+   still reads as one list, without painting an empty box. */
+.complianceiq-sayt__type--empty {
+  border-color: transparent;
+  background: none;
+}
+
+.complianceiq-sayt__text {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+/* One line each, ellipsised. A suggestion is a pointer, not a summary, and a
+   row that wrapped would resize the dropdown on every keystroke. */
+.complianceiq-sayt__title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Overrides the glyph gutter scolta.css gives an excerpt: in this row the type
+   tag is the gutter, and the text column is already indented. */
+.complianceiq-sayt__excerpt {
+  display: block;
+  margin-top: 0.05rem;
+  margin-left: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
