@@ -9,11 +9,20 @@ use Drupal\Core\Entity\FieldableEntityInterface;
 use Tag1\Scolta\Export\ContentItem;
 
 /**
+ * How many badges a search result card paints.
+ *
+ * Three is what fits on one row under a title at the theme's 780px content
+ * width without wrapping.
+ */
+const COMPLIANCEIQ_SCOLTA_CARD_BADGE_LIMIT = 3;
+
+/**
  * Implements hook_scolta_content_item_alter().
  */
 function complianceiq_scolta_scolta_content_item_alter(ContentItem &$item, FieldableEntityInterface $entity): void {
   $filters = $item->filters;
   $sortable = $item->sortable;
+  $metadata = $item->metadata;
 
   // Regulation framework — multiple possible field names across content types
   $regulationFields = [
@@ -86,9 +95,124 @@ function complianceiq_scolta_scolta_content_item_alter(ContentItem &$item, Field
     $sortable['effective_date'] = $entity->get('field_effective_date')->value;
   }
 
-  if ($filters !== $item->filters || $sortable !== $item->sortable) {
-    $item = $item->cloneWith(['filters' => $filters, 'sortable' => $sortable]);
+  // Per-item data the client-side renderers paint. It rides along in the
+  // fragment's meta map, so a card and a suggestion each cost zero per-result
+  // server calls.
+  //
+  // There is no image key here and no thumbnail on the card. This corpus is
+  // regulation text, guidance, enforcement cases and checklists, and it
+  // carries no per-item picture at all: no populated image field, no managed
+  // files. A stock gavel photograph on a GDPR article would be decoration
+  // pretending to be information. A compliance search wants to know what kind
+  // of document a hit is, which framework it belongs to and how urgent it is,
+  // and that is what the card says instead.
+  //
+  // Metadata costs only the bytes of its own keys in each fragment, unlike
+  // sortable, which writes a corpus-wide pf_meta entry. The keys "title" and
+  // "date" are deliberately avoided: they lose to the built-in values on a
+  // collision.
+  $badges = _complianceiq_scolta_card_badges($entity, $filters);
+  if (!empty($badges)) {
+    $encoded = json_encode($badges);
+    if (is_string($encoded)) {
+      $metadata['badges'] = $encoded;
+    }
   }
+
+  // The one label a suggestion row has space for. Document type rather than
+  // regulation because in a dropdown the useful question is what kind of
+  // document a hit is; the regulation is usually already in the query.
+  $doc_type = _complianceiq_scolta_document_type($entity);
+  if ($doc_type !== '') {
+    $metadata['doc_type'] = $doc_type;
+  }
+
+  if ($filters !== $item->filters || $sortable !== $item->sortable || $metadata !== $item->metadata) {
+    $item = $item->cloneWith([
+      'filters' => $filters,
+      'sortable' => $sortable,
+      'metadata' => $metadata,
+    ]);
+  }
+}
+
+/**
+ * The human label for an entity's bundle.
+ *
+ * "Regulation Section", "Enforcement Case", "Checklist". Read from the bundle
+ * info rather than hardcoded, so a content type added later is labelled
+ * without touching this file.
+ */
+function _complianceiq_scolta_document_type(FieldableEntityInterface $entity): string {
+  $info = \Drupal::service('entity_type.bundle.info')
+    ->getBundleInfo($entity->getEntityTypeId());
+  return (string) ($info[$entity->bundle()]['label'] ?? '');
+}
+
+/**
+ * Builds the ordered, deduplicated badge list a result card paints.
+ *
+ * Each badge is a [kind, label] pair rather than a bare string, because the
+ * card treats one kind differently: a severity is a risk level and gets the
+ * theme's alert colours, where a document type or a framework is a category
+ * and gets the neutral chip. Encoding the kind here rather than having the
+ * renderer guess from the text means "Critical" as a future regulation name
+ * could not accidentally paint itself red.
+ *
+ * The order is what a compliance search asks in order: what kind of document
+ * is this, which framework does it belong to, how urgent is it, and where does
+ * it apply. Only the first three that exist are kept, because no item carries
+ * all of them and the panel shows every facet anyway. Coverage across the 143
+ * indexed items: document type 143, regulation 142, severity 59, jurisdiction
+ * 59.
+ *
+ * Regulation is multi-value and every value becomes its own badge, capped with
+ * everything else. That is deliberate: a Comparison document compares two
+ * frameworks, and showing only the first would misdescribe it.
+ *
+ * Values are read back from the resolved filters rather than re-read from the
+ * entity, so a badge's text is character-for-character the facet value it
+ * corresponds to — click that facet and this result is in the set. Document
+ * type is the one exception: it is not a facet on this site, so it is
+ * display-only.
+ *
+ * @return array<int, array{0: string, 1: string}>
+ *   Ordered [kind, label] pairs, at most COMPLIANCEIQ_SCOLTA_CARD_BADGE_LIMIT.
+ */
+function _complianceiq_scolta_card_badges(FieldableEntityInterface $entity, array $filters): array {
+  $candidates = [];
+
+  $doc_type = _complianceiq_scolta_document_type($entity);
+  if ($doc_type !== '') {
+    $candidates[] = ['type', $doc_type];
+  }
+  foreach ((array) ($filters['regulation'] ?? []) as $regulation) {
+    if (is_string($regulation) && $regulation !== '') {
+      $candidates[] = ['regulation', $regulation];
+    }
+  }
+  foreach (['severity', 'jurisdiction'] as $key) {
+    $value = $filters[$key] ?? NULL;
+    if (is_string($value) && $value !== '') {
+      $candidates[] = [$key, $value];
+    }
+  }
+
+  $badges = [];
+  $seen = [];
+  foreach ($candidates as $candidate) {
+    if (count($badges) >= COMPLIANCEIQ_SCOLTA_CARD_BADGE_LIMIT) {
+      break;
+    }
+    $fold = mb_strtolower($candidate[1]);
+    if (isset($seen[$fold])) {
+      continue;
+    }
+    $seen[$fold] = TRUE;
+    $badges[] = $candidate;
+  }
+
+  return $badges;
 }
 
 /**

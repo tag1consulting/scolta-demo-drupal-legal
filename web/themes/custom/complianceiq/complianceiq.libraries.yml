@@ -17,3 +17,23 @@ search:
     js/search.js: {}
   dependencies:
     - core/drupal
+
+# Scolta result cards plus the themed search-as-you-type dropdown.
+# Attached by ComplianceIQ's SearchController, which builds the Scolta block
+# plugin directly rather than through a block entity, so hook_block_view_alter()
+# would never fire for it.
+#
+# Deliberately NOT header JS. scolta.js defines window.Scolta when it executes
+# and Drupal's scolta bridge behavior calls Scolta.init() on DOMContentLoaded;
+# a header script would run before the first and silently no-op. The
+# scolta/search dependency orders this file after the bundle, and the footer
+# places it before init() runs — the window the renderers have to register in.
+scolta-rich-results:
+  version: 1.x
+  css:
+    theme:
+      css/scolta-rich-results.css: {}
+  js:
+    js/scolta-rich-results.js: {}
+  dependencies:
+    - scolta/search
