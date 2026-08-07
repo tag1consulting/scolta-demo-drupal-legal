@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "050958193c816b42bf9c4fd774db3fd7",
+    "content-hash": "07e93eaeb47f1fe3038f9f2360d343b1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1428,23 +1428,23 @@
         },
         {
             "name": "drupal/scolta",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/scolta.git",
-                "reference": "1.1.0"
+                "reference": "1.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/scolta-1.1.0.zip",
-                "reference": "1.1.0",
-                "shasum": "87b8d5b0d656f1e2e264afdb1399a562853183c6"
+                "url": "https://ftp.drupal.org/files/projects/scolta-1.2.0.zip",
+                "reference": "1.2.0",
+                "shasum": "f4cd3a51081594a4ca1457493b96b73f0e429af4"
             },
             "require": {
                 "drupal/core": "^10.3 || ^11",
                 "drupal/search_api": "^1.0",
                 "php": ">=8.1",
-                "tag1/scolta-php": "^1.1.0"
+                "tag1/scolta-php": "^1.2.0"
             },
             "require-dev": {
                 "drupal/coder": "^9.0",
@@ -1460,8 +1460,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "1.1.0",
-                    "datestamp": "1785577009",
+                    "version": "1.2.0",
+                    "datestamp": "1786102695",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -1469,7 +1469,7 @@
                 },
                 "installer-name": "scolta",
                 "branch-alias": {
-                    "dev-main": "1.1.x-dev"
+                    "dev-main": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -6377,16 +6377,16 @@
         },
         {
             "name": "tag1/scolta-php",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tag1consulting/scolta-php.git",
-                "reference": "8fac0c70d24c06b4e146cfc653af353f3527f9ad"
+                "reference": "9f221eebf2c3a38cfc3d4d9c4a130bc0dd0ffca1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/8fac0c70d24c06b4e146cfc653af353f3527f9ad",
-                "reference": "8fac0c70d24c06b4e146cfc653af353f3527f9ad",
+                "url": "https://api.github.com/repos/tag1consulting/scolta-php/zipball/9f221eebf2c3a38cfc3d4d9c4a130bc0dd0ffca1",
+                "reference": "9f221eebf2c3a38cfc3d4d9c4a130bc0dd0ffca1",
                 "shasum": ""
             },
             "require": {
@@ -6407,7 +6407,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.1.x-dev"
+                    "dev-main": "1.2.x-dev"
                 }
             },
             "autoload": {
@@ -6438,7 +6438,7 @@
                 "issues": "https://github.com/tag1consulting/scolta-php/issues",
                 "source": "https://github.com/tag1consulting/scolta-php"
             },
-            "time": "2026-08-01T06:55:54+00:00"
+            "time": "2026-08-07T09:47:23+00:00"
         },
         {
             "name": "twig/twig",
