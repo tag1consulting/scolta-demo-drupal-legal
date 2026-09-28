@@ -126,6 +126,16 @@
         const pagefind = await import(S.pagefindPath);
         await pagefind.init();
         pagefindBase = S.pagefindPath.replace(/\/pagefind\/pagefind\.js.*$/, '');
+        // The corpus size the specificity and sub-word guards need, read
+        // from the entry file as scolta.js does.
+        let corpusTotal = 0;
+        try {
+          const entry = await (await fetch(S.pagefindPath.replace(/pagefind\.js(\?.*)?$/, '') + 'pagefind-entry.json')).json();
+          corpusTotal = Object.values(entry.languages || {}).reduce((sum, l) => sum + (l.page_count || 0), 0);
+        }
+        catch (e) {
+          corpusTotal = 0;
+        }
         let wasm = null;
         try {
           wasm = await import(S.wasmPath);
@@ -135,7 +145,7 @@
           console.warn('[scolta-chat] WASM unavailable, ranking by Pagefind order:', e.message);
           wasm = null;
         }
-        return { pagefind, wasm };
+        return { pagefind, wasm, corpusTotal };
       })();
       enginePromise.catch(() => { enginePromise = null; });
     }
@@ -154,6 +164,19 @@
     const out = {};
     for (const [k, v] of Object.entries(S.scoring || {})) out[k.toLowerCase()] = v;
     return out;
+  }
+
+  // scolta.js specificityWeight(): damp a term by how common it is, so a
+  // ubiquitous word does not count the same as a rare on-intent one.
+  function specificityWeight(df, total) {
+    if (!total || !df) return null;
+    const floor = (S.scoring && S.scoring.SPECIFICITY_FLOOR != null) ? S.scoring.SPECIFICITY_FLOOR : 0.15;
+    const idf = Math.log(total / Math.min(df, total)) / Math.log(total + 1);
+    return Math.max(floor, Math.min(idf, 1));
+  }
+
+  async function documentFrequency(eng, term) {
+    return (await eng.pagefind.search(term)).results.length;
   }
 
   // Load the top results of one Pagefind search and score them the way
@@ -311,19 +334,76 @@
     let primary = await loadScored(eng, searchQuery, 1.0, searchQuery);
     // scolta.js OR fallback: only when the AND search found nothing.
     if (primary.length === 0 && terms.length > 1) {
-      const orSets = await Promise.all(terms.map(t => loadScored(eng, t, 0.6, searchQuery)));
-      primary = merge(eng, orSets);
+      const orSets = await Promise.all(terms.map(async t => {
+        const w = specificityWeight(await documentFrequency(eng, t), eng.corpusTotal);
+        return loadScored(eng, t, 0.6 * (w ?? 1), searchQuery);
+      }));
+      // Scores add up across the OR terms, so a page matching most of the
+      // question outranks one matching a single rare word. This stands in
+      // for the agreement bonus scolta.js applies after its OR fallback.
+      const summed = new Map();
+      for (const set of orSets) {
+        for (const r of set) {
+          const key = normalizeUrl(resolveUrl(r.data.url || ''));
+          const prev = summed.get(key);
+          summed.set(key, prev ? { data: prev.data, score: prev.score + r.score } : { data: r.data, score: r.score });
+        }
+      }
+      primary = [...summed.values()];
     }
 
     const expansion = await expansionPromise;
     const lowerQuery = query.toLowerCase();
     const expandedTerms = ((expansion && expansion.terms) || [])
       .filter(t => typeof t === 'string' && t && t.toLowerCase() !== lowerQuery && t.toLowerCase() !== searchQuery);
+    // Each expansion phrase, then its words where the sub-word guard admits
+    // them (scolta.js subwordAllowed(): rarer than EXPAND_SUBWORD_MAX_FREQ of
+    // the corpus, or typed by the visitor), weights decaying as scolta.js
+    // does and damped by specificity.
     const base = (S.scoring && S.scoring.EXPAND_PRIMARY_WEIGHT) || 0.5;
-    const expandedSets = await Promise.all(expandedTerms.map((term, i) =>
-      loadScored(eng, term, Math.max(base - i * 0.05, 0.1), searchQuery)));
+    const maxFreq = (S.scoring && S.scoring.EXPAND_SUBWORD_MAX_FREQ != null) ? S.scoring.EXPAND_SUBWORD_MAX_FREQ : 0.05;
+    const typed = new Set(terms);
+    const queries = [];
+    const seen = new Set();
+    for (const term of expandedTerms) {
+      if (seen.has(term)) continue;
+      seen.add(term);
+      queries.push({ term, weight: Math.max(base - queries.length * 0.05, 0.1), phrase: true });
+      const words = extractSearchTerms(term);
+      if (words.length > 1) {
+        for (const word of words) {
+          if (seen.has(word) || word.length <= 2) continue;
+          seen.add(word);
+          queries.push({ term: word, weight: Math.max(base - queries.length * 0.05, 0.1), phrase: false });
+        }
+      }
+    }
+    const dfs = await Promise.all(queries.map(q => documentFrequency(eng, q.term)));
+    const admitted = queries.filter((q, i) => {
+      if (q.phrase) return dfs[i] > 0;
+      const allowed = typed.has(q.term) || (eng.corpusTotal > 0 && dfs[i] / eng.corpusTotal < maxFreq);
+      return allowed && dfs[i] > 0;
+    });
+    const expandedSets = await Promise.all(admitted.map(q => {
+      const w = specificityWeight(dfs[queries.indexOf(q)], eng.corpusTotal);
+      return loadScored(eng, q.term, q.weight * (w ?? 1), searchQuery);
+    }));
 
-    let all = expandedSets.length ? merge(eng, [primary, ...expandedSets]) : primary;
+    // Like scolta.js: the expansion sets pool first (best score per page),
+    // then that pool merges against the primary set once. Merging every set
+    // in one call hands a generic page that matches many expansion terms a
+    // cross-list bonus per set, and it floats to the top of every query.
+    let all = primary;
+    if (expandedSets.length) {
+      const pooled = new Map();
+      for (const set of expandedSets) {
+        for (const r of set) {
+          const key = normalizeUrl(resolveUrl(r.data.url || ''));
+          if (!pooled.has(key) || r.score > pooled.get(key).score) pooled.set(key, r);
+        }
+      }
+      all = merge(eng, [primary, [...pooled.values()]]);
+    }
     all.sort((a, b) => b.score - a.score);
     all = deduplicateByTitle(all);
     const top = all.slice(0, TOP_N);
@@ -586,6 +666,9 @@
   // ---------------------------------------------------------------------------
   // Attach: wrap what deepchat-init.js set up rather than replace it.
   // ---------------------------------------------------------------------------
+
+  // The retrieval alone, for evaluating it without the model.
+  Drupal.scoltaChatPoc = { retrieve };
 
   Drupal.behaviors.scoltaChatPoc = {
     attach(context) {
