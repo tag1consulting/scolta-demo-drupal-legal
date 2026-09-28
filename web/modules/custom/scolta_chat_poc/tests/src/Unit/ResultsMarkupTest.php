@@ -39,6 +39,25 @@ final class ResultsMarkupTest extends UnitTestCase {
   }
 
   /**
+   * The results start collapsed behind a one line summary with the counts.
+   */
+  public function testResultsAreCollapsed(): void {
+    $results = [
+      ['n' => 1, 'title' => 'a', 'url' => '/a', 'excerpt' => ''],
+      ['n' => 2, 'title' => 'b', 'url' => '/b', 'excerpt' => ''],
+      ['n' => 3, 'title' => 'c', 'url' => '/c', 'excerpt' => ''],
+    ];
+    $html = ResultsMarkup::render('q', $results, [1, 3], 'S');
+    $this->assertStringStartsWith('<details class="scolta-chat-results"', $html);
+    $this->assertStringNotContainsString('<details class="scolta-chat-results" open', $html);
+    $this->assertStringContainsString('Sources: 2 cited, 3 found</summary>', $html);
+    $this->assertStringEndsWith('</details>', $html);
+
+    $this->assertStringContainsString('Sources: 3 found, none cited</summary>', ResultsMarkup::render('q', $results, [], 'S'));
+    $this->assertStringContainsString('Sources: no pages matched</summary>', ResultsMarkup::render('q', [], [], 'S'));
+  }
+
+  /**
    * A dangerous scheme never reaches an href, even if the payload let it by.
    */
   public function testDangerousSchemeIsStripped(): void {

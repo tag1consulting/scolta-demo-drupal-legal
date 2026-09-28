@@ -2,7 +2,8 @@
 
 Turns the Drupal AI chatbot (`ai_chatbot`, the DeepChat block) into a
 conversation grounded in Scolta search. Every turn searches the site, the
-answer cites those results, and the results are listed under the answer.
+answer cites those results, and the results are listed under the answer,
+collapsed behind a "Sources" toggle. The view stays at the top of each reply.
 
 ## How a turn runs
 

@@ -11,6 +11,9 @@ use Drupal\Component\Utility\Unicode;
 /**
  * Renders a turn's search results under the answer, and finds citations.
  *
+ * The results sit in a closed <details> element, so a reply shows the answer
+ * and a one line "Sources" toggle rather than five titles and excerpts.
+ *
  * DeepChatApi appends getPostResponseMarkup() after its Xss filter,
  * verbatim, so this markup is trusted output: every value in it comes from
  * the browser and is escaped here. Styles are inline because the chat renders
@@ -65,7 +68,21 @@ final class ResultsMarkup {
     $e = static fn (string $value): string => Html::escape($value);
     $site = $siteName !== '' ? $siteName : 'this site';
 
-    $html = '<div class="scolta-chat-results" style="margin-top:12px;padding-top:8px;border-top:1px solid #d0d7de;font-size:0.92em">';
+    $count = count($results);
+    $citedCount = count(array_intersect(array_column($results, 'n'), $cited));
+    if ($count === 0) {
+      $label = 'Sources: no pages matched';
+    }
+    elseif ($citedCount > 0) {
+      $label = 'Sources: ' . $citedCount . ' cited, ' . $count . ' found';
+    }
+    else {
+      $label = 'Sources: ' . $count . ' found, none cited';
+    }
+
+    $html = '<details class="scolta-chat-results" style="margin-top:10px;padding-top:6px;border-top:1px solid #d0d7de;font-size:0.92em">';
+    $html .= '<summary style="cursor:pointer;color:#57606a">' . $e($label) . '</summary>';
+    $html .= '<div style="margin-top:6px">';
     $html .= '<p style="margin:0 0 6px"><strong>' . $e('Search results for: ' . $query) . '</strong></p>';
 
     if ($results === []) {
@@ -89,7 +106,7 @@ final class ResultsMarkup {
     }
 
     $html .= '<p style="margin:0;color:#57606a">' . $e('From pages on ' . $site) . '</p>';
-    $html .= '</div>';
+    $html .= '</div></details>';
     return $html;
   }
 
