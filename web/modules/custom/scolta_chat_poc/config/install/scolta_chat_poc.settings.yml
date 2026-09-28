@@ -1,0 +1,8 @@
+enabled: true
+window_messages: 6
+summary_words: 120
+context_chars: 6000
+history_chars: 12000
+answer_tokens: 700
+turn_ceiling: 40
+followups_open_chat: true

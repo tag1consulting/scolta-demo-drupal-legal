@@ -1,0 +1,18 @@
+scolta_chat_poc.rewrite:
+  path: '/scolta-chat-poc/rewrite'
+  defaults:
+    _controller: '\Drupal\scolta_chat_poc\Controller\RewriteController::rewrite'
+  methods: [POST]
+  requirements:
+    _permission: 'use scolta ai'
+    _csrf_request_header_token: 'TRUE'
+  options:
+    no_cache: TRUE
+
+scolta_chat_poc.settings:
+  path: '/admin/config/search/scolta/chat-poc'
+  defaults:
+    _form: '\Drupal\scolta_chat_poc\Form\ChatPocSettingsForm'
+    _title: 'Scolta chat (proof of concept)'
+  requirements:
+    _permission: 'administer scolta'

@@ -1,0 +1,41 @@
+uuid: 3633aaba-301d-4a1b-9a3c-fc9cf3c0c487
+langcode: en
+status: true
+dependencies:
+  module:
+    - ai_chatbot
+  theme:
+    - complianceiq
+id: complianceiq_scolta_chat
+theme: complianceiq
+region: content
+weight: 20
+provider: null
+plugin: ai_deepchat_block
+settings:
+  id: ai_deepchat_block
+  label: 'Ask ComplianceIQ'
+  label_display: '0'
+  provider: ai_chatbot
+  bot_name: ComplianceIQ
+  bot_image: /modules/contrib/ai/modules/ai_chatbot/assets/ai-icon-gradient.svg
+  use_username: 0
+  default_username: ''
+  use_avatar: 0
+  default_avatar: ''
+  first_message: 'Ask me anything about the regulations, guidance, enforcement cases and checklists on ComplianceIQ. Every answer is searched from this site and cites its pages.'
+  loading_message: 'Searching ComplianceIQ…'
+  agent_delegation_message: ''
+  stream: 0
+  toggle_state: remember
+  width: 440px
+  height: 560px
+  placement: bottom-right
+  show_copy_icon: true
+  collapse_minimal: false
+  style_file: 'module:ai_chatbot:bard.yml'
+  disable_csrf: false
+  chat_processor_plugin: scolta_grounded
+  plugin_configuration: {  }
+  expansion_method: expand
+visibility: {  }

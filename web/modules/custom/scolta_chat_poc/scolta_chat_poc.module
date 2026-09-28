@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * @file
+ * Grounds the Drupal AI chatbot in Scolta search.
+ */
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Block\BlockPluginInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
+use Drupal\block\BlockInterface;
+
+/**
+ * Implements hook_block_view_BASE_BLOCK_ID_alter() for ai_deepchat_block.
+ *
+ * Wherever a DeepChat block runs the scolta_grounded processor, attach the
+ * script that searches the site before each turn is posted, with the Scolta
+ * settings it needs (the same ones the Scolta search block hands scolta.js).
+ */
+function scolta_chat_poc_block_view_ai_deepchat_block_alter(array &$build, BlockPluginInterface $block): void {
+  if (($block->getConfiguration()['chat_processor_plugin'] ?? '') !== 'scolta_grounded') {
+    return;
+  }
+  $chatSettings = \Drupal::config('scolta_chat_poc.settings');
+  $scoltaSettings = \Drupal::config('scolta.settings');
+  /** @var \Drupal\scolta\Service\ScoltaAiService $aiService */
+  $aiService = \Drupal::service('scolta.ai_service');
+  $config = $aiService->getConfig();
+
+  $outputDir = $scoltaSettings->get('pagefind.output_dir') ?? 'public://scolta-pagefind';
+  $pagefindBase = str_contains($outputDir, '://')
+    ? \Drupal::service('file_url_generator')->generateString($outputDir)
+    : $outputDir;
+  $modulePath = \Drupal::service('extension.list.module')->getPath('scolta');
+
+  $build['#attached']['library'][] = 'scolta_chat_poc/chat';
+  $build['#attached']['drupalSettings']['scoltaChatPoc'] = [
+    'pagefindPath' => rtrim($pagefindBase, '/') . '/pagefind/pagefind.js',
+    'wasmPath' => base_path() . $modulePath . '/js/wasm/scolta_core.js',
+    'scoring' => $config->toJsScoringConfig(),
+    'endpoints' => [
+      'expand' => Url::fromRoute('scolta.expand')->toString(),
+      'rewrite' => Url::fromRoute('scolta_chat_poc.rewrite')->toString(),
+      'sessionToken' => Url::fromRoute('system.csrftoken')->toString(),
+    ],
+    'contextChars' => (int) $chatSettings->get('context_chars'),
+    'followupsOpenChat' => (bool) $chatSettings->get('followups_open_chat'),
+    'siteName' => $config->siteName,
+  ];
+  $build['#cache']['tags'][] = 'config:scolta_chat_poc.settings';
+  $build['#cache']['tags'][] = 'config:scolta.settings';
+}
+
+/**
+ * Implements hook_block_access().
+ *
+ * "Enable chat" off hides every scolta_grounded chatbot; the processor also
+ * refuses turns, so a cached page cannot bring it back.
+ */
+function scolta_chat_poc_block_access(BlockInterface $block, string $operation, AccountInterface $account): AccessResult {
+  if ($operation !== 'view' || $block->getPluginId() !== 'ai_deepchat_block') {
+    return AccessResult::neutral();
+  }
+  $settings = \Drupal::config('scolta_chat_poc.settings');
+  $grounded = ($block->getPlugin()->getConfiguration()['chat_processor_plugin'] ?? '') === 'scolta_grounded';
+  return AccessResult::forbiddenIf($grounded && !$settings->get('enabled'))
+    ->addCacheableDependency($settings)
+    ->addCacheableDependency($block);
+}

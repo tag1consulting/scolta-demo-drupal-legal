@@ -1,0 +1,4 @@
+services:
+  scolta_chat_poc.thread_store:
+    class: Drupal\scolta_chat_poc\Chat\ThreadStore
+    arguments: ['@tempstore.private']
