@@ -561,6 +561,32 @@
       }
       return out;
     };
+
+    // deep-chat scrolls to the bottom of every new message, which puts a long
+    // answer's end in view. For a grounded answer, move the view back to the
+    // top of the reply so it reads from its first line. onMessage fires once
+    // the message is rendered; deepchat-init.js sets its own, so wrap it.
+    const originalOnMessage = el.onMessage;
+    el.onMessage = (event) => {
+      if (originalOnMessage) originalOnMessage.call(el, event);
+      const message = event && event.message;
+      if (!message || message.role !== 'ai' || event.isHistory) return;
+      if (typeof message.html !== 'string' || !message.html.includes('scolta-chat-results')) return;
+      // After deep-chat's own scroll, including its 60 ms image-load retry.
+      setTimeout(() => scrollToReplyTop(el), 80);
+    };
+  }
+
+  function scrollToReplyTop(el) {
+    const root = el.shadowRoot;
+    const list = root && root.getElementById('messages');
+    if (!list) return;
+    const replies = root.querySelectorAll('.scolta-chat-results');
+    const last = replies[replies.length - 1];
+    const bubble = last && last.closest('.outer-message-container');
+    if (!bubble) return;
+    const top = bubble.getBoundingClientRect().top - list.getBoundingClientRect().top + list.scrollTop;
+    list.scrollTop = Math.max(0, top - 8);
   }
 
   // ---------------------------------------------------------------------------
