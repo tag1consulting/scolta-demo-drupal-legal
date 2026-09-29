@@ -17,10 +17,12 @@
     "require": {
         "composer/installers": "^2.3",
         "drupal/admin_toolbar": "^3.6",
+        "drupal/ai": "^1.5",
         "drupal/core-composer-scaffold": "^11.3",
         "drupal/core-project-message": "^11.3",
         "drupal/core-recipe-unpack": "^11.3",
         "drupal/core-recommended": "^11.3",
+        "drupal/field_validation": "^3.0@beta",
         "drupal/scolta": "^1.2.0",
         "drupal/search_api": "^1.40",
         "drush/drush": "^13.7"
@@ -113,5 +115,8 @@
                 "      composer remove drupal/core-project-message"
             ]
         }
+    },
+    "require-dev": {
+        "drupal/core-dev": "11.3.16"
     }
 }

@@ -1,0 +1,8 @@
+name: 'Scolta chat test'
+type: module
+description: 'Swaps the Scolta AI service for a fake that records its calls.'
+package: Testing
+hidden: true
+core_version_requirement: ^11
+dependencies:
+  - scolta_chat_poc:scolta_chat_poc

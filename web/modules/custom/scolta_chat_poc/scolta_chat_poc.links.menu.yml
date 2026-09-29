@@ -1,0 +1,5 @@
+scolta_chat_poc.settings:
+  title: 'Scolta chat (proof of concept)'
+  description: 'Settings for the search grounded chatbot.'
+  route_name: scolta_chat_poc.settings
+  parent: system.admin_config_search

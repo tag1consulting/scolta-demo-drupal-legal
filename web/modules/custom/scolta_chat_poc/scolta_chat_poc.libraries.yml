@@ -1,0 +1,8 @@
+chat:
+  js:
+    js/scolta-chat.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+    - ai_chatbot/deepchat
