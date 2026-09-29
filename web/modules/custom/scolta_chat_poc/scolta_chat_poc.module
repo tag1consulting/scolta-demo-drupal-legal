@@ -42,6 +42,7 @@ function scolta_chat_poc_block_view_ai_deepchat_block_alter(array &$build, Block
     'endpoints' => [
       'expand' => Url::fromRoute('scolta.expand')->toString(),
       'rewrite' => Url::fromRoute('scolta_chat_poc.rewrite')->toString(),
+      'fold' => Url::fromRoute('scolta_chat_poc.fold')->toString(),
       'sessionToken' => Url::fromRoute('system.csrftoken')->toString(),
     ],
     'contextChars' => (int) $chatSettings->get('context_chars'),

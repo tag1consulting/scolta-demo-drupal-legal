@@ -26,7 +26,7 @@ settings:
   first_message: 'Ask me anything about the regulations, guidance, enforcement cases and checklists on ComplianceIQ. Every answer is searched from this site and cites its pages.'
   loading_message: 'Searching ComplianceIQ…'
   agent_delegation_message: ''
-  stream: 0
+  stream: 1
   toggle_state: remember
   width: 440px
   height: 560px
