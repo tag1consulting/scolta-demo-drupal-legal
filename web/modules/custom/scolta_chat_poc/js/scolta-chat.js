@@ -126,7 +126,10 @@
       enginePromise = (async () => {
         const pagefind = await import(S.pagefindPath);
         await pagefind.init();
-        pagefindBase = S.pagefindPath.replace(/\/pagefind\/pagefind\.js.*$/, '');
+        // Pagefind prepends its base path to root relative page URLs. The
+        // base is compared as a path: pagefindPath is an absolute URL on
+        // WordPress and a root relative one on Drupal.
+        pagefindBase = new URL(S.pagefindPath, window.location.href).pathname.replace(/\/pagefind\/pagefind\.js.*$/, '');
         // The corpus size the specificity and sub-word guards need, read
         // from the entry file as scolta.js does.
         let corpusTotal = 0;
