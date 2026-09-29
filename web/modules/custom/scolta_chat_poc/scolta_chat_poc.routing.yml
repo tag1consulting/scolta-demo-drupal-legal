@@ -16,3 +16,14 @@ scolta_chat_poc.settings:
     _title: 'Scolta chat (proof of concept)'
   requirements:
     _permission: 'administer scolta'
+
+scolta_chat_poc.fold:
+  path: '/scolta-chat-poc/fold'
+  defaults:
+    _controller: '\Drupal\scolta_chat_poc\Controller\FoldController::fold'
+  methods: [POST]
+  requirements:
+    _permission: 'use scolta ai'
+    _csrf_request_header_token: 'TRUE'
+  options:
+    no_cache: TRUE

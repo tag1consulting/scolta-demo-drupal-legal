@@ -1,4 +1,4 @@
 services:
   scolta_chat_poc.thread_store:
     class: Drupal\scolta_chat_poc\Chat\ThreadStore
-    arguments: ['@tempstore.private']
+    arguments: ['@tempstore.private', '@keyvalue.expirable', '@current_user', '@request_stack', '%tempstore.expire%']

@@ -4,16 +4,17 @@
  *
  * Scolta search runs only in the browser (Pagefind plus the scolta-core
  * WebAssembly module), so retrieval for a chat turn happens here, before the
- * turn leaves: rewrite the turn into a standalone query, expand it, search,
- * re-rank, keep the best five, extract context within a character budget,
- * and add all of it to the DeepChat request body as `scolta`. The
- * scolta_grounded chat processor answers from exactly those results.
+ * turn leaves: on a follow up, one planning call rewrites the turn into a
+ * standalone query and expands it; on a first turn, Scolta's expand-query
+ * endpoint expands the message. Then search, re-rank, keep the best five,
+ * extract context within a character budget, and add all of it to the
+ * DeepChat request body as `scolta`. The scolta_grounded chat processor
+ * answers from exactly those results, streamed when the block streams.
  *
- * The retrieval duplicates the follow up path of scolta.js
- * (searchForFollowUpContext) plus its expansion merge, simplified: scolta.js
- * exports no module API, and this proof of concept must not edit it. What is
- * left out of the merge: sub-word admission, agreement bonus and specificity
- * weighting.
+ * The retrieval is a partial copy of scolta.js (its follow up search plus
+ * its expansion merge): scolta.js keeps that pipeline inside its search
+ * widget and returns no results as data, and this proof of concept must not
+ * edit it.
  *
  * It also turns the Scolta follow up box into a hand off: a follow up typed
  * under a search summary opens the chatbot, seeded with that search.
@@ -145,7 +146,20 @@
           console.warn('[scolta-chat] WASM unavailable, ranking by Pagefind order:', e.message);
           wasm = null;
         }
-        return { pagefind, wasm, corpusTotal };
+        // Remember searches for the life of the page, as scolta.js does
+        // (searchMemo): one turn asks for the same term more than once (its
+        // document frequency, then its results), and follow ups repeat terms.
+        const memo = new Map();
+        const search = (q) => {
+          if (!memo.has(q)) {
+            if (memo.size >= 300) memo.delete(memo.keys().next().value);
+            const p = pagefind.search(q);
+            p.catch(() => memo.delete(q));
+            memo.set(q, p);
+          }
+          return memo.get(q);
+        };
+        return { pagefind, search, wasm, corpusTotal };
       })();
       enginePromise.catch(() => { enginePromise = null; });
     }
@@ -176,13 +190,13 @@
   }
 
   async function documentFrequency(eng, term) {
-    return (await eng.pagefind.search(term)).results.length;
+    return (await eng.search(term)).results.length;
   }
 
   // Load the top results of one Pagefind search and score them the way
   // scolta.js scoreResults() does.
   async function loadScored(eng, query, weight, primaryQuery) {
-    const search = await eng.pagefind.search(query);
+    const search = await eng.search(query);
     const toLoad = Math.min(search.results.length, LOAD_N);
     if (toLoad === 0) return [];
     const loaded = await Promise.all(search.results.slice(0, toLoad).map(r => r.data()));
@@ -324,12 +338,17 @@
     return extracted.map((item, i) => `[${i + 1}] ${item.title}\n${item.url}\n${item.context}`).join('\n\n');
   }
 
-  // The whole retrieval for one standalone query.
-  async function retrieve(query) {
+  // The whole retrieval for one standalone query. `plannedTerms` are the
+  // expansion terms the follow up's planning call already produced; without
+  // them (a first turn) Scolta's expand-query endpoint is asked, as search
+  // does.
+  async function retrieve(query, plannedTerms) {
     const eng = await engine();
     const terms = extractSearchTerms(query);
     const searchQuery = terms.length ? terms.join(' ') : query;
-    const expansionPromise = expand(query);
+    const expansionPromise = Array.isArray(plannedTerms) && plannedTerms.length
+      ? Promise.resolve((S.scoring && S.scoring.AI_EXPAND_QUERY) ? { terms: plannedTerms } : null)
+      : expand(query);
 
     let primary = await loadScored(eng, searchQuery, 1.0, searchQuery);
     // scolta.js OR fallback: only when the AND search found nothing.
@@ -482,6 +501,7 @@
     const rw = await rewrite(text, exchanges);
     stat.rewrite_ms = Math.round(performance.now() - r0);
     stat.rewritten_query = rw.query;
+    stat.planned_terms = Array.isArray(rw.terms) ? rw.terms.length : 0;
     stat.needs_search = rw.needs_search !== false;
 
     if (rw.needs_search === false) {
@@ -490,7 +510,7 @@
     const s0 = performance.now();
     let scolta;
     try {
-      scolta = await retrieve(rw.query || text);
+      scolta = await retrieve(rw.query || text, rw.terms);
       scolta.needs_search = true;
     }
     catch (e) {
@@ -518,10 +538,12 @@
       const t0 = performance.now();
       const req = (originalRequest ? await originalRequest.call(el, request) : null) || request;
       const body = req.body || {};
+      recordPending(el);
       if (body.thread_id && threadId && body.thread_id !== threadId) {
         // The visitor cleared the chat: a new thread starts from nothing.
         exchanges = [];
         sentUrls.clear();
+        pendingTurn = null;
       }
       threadId = body.thread_id || threadId;
 
@@ -545,36 +567,99 @@
       body.scolta = scolta;
       req.body = body;
       pendingTurn = { text, t0, stat };
+      followReplyTop(el);
       return req;
     };
 
-    const originalResponse = el.responseInterceptor;
-    el.responseInterceptor = (response) => {
-      const out = originalResponse ? originalResponse.call(el, response) : response;
-      if (pendingTurn && out && typeof out.html === 'string') {
-        const answer = answerText(out.html);
-        exchanges.push({ role: 'user', content: pendingTurn.text }, { role: 'assistant', content: answer });
-        pendingTurn.stat.total_ms = Math.round(performance.now() - pendingTurn.t0);
-        pendingTurn.stat.answer = answer;
-        stats.push(pendingTurn.stat);
-        pendingTurn = null;
-      }
-      return out;
-    };
-
-    // deep-chat scrolls to the bottom of every new message, which puts a long
-    // answer's end in view. For a grounded answer, move the view back to the
-    // top of the reply so it reads from its first line. onMessage fires once
-    // the message is rendered; deepchat-init.js sets its own, so wrap it.
+    // A turn is recorded once its reply is complete. With streaming on,
+    // DeepChat's response interceptor sees every piece, so the reply is read
+    // from the widget instead: when onMessage reports it, or at the latest
+    // when the next turn starts.
     const originalOnMessage = el.onMessage;
     el.onMessage = (event) => {
       if (originalOnMessage) originalOnMessage.call(el, event);
       const message = event && event.message;
       if (!message || message.role !== 'ai' || event.isHistory) return;
-      if (typeof message.html !== 'string' || !message.html.includes('scolta-chat-results')) return;
-      // After deep-chat's own scroll, including its 60 ms image-load retry.
-      setTimeout(() => scrollToReplyTop(el), 80);
+      if (isTemporary(message.html)) return;
+      recordPending(el);
+      if (typeof message.html === 'string' && message.html.includes('scolta-chat-results')) {
+        // After deep-chat's own scroll, including its 60 ms image-load retry.
+        setTimeout(() => scrollToReplyTop(el), 80);
+      }
     };
+  }
+
+  function isTemporary(html) {
+    return typeof html === 'string' && html.includes('deep-chat-temporary-message');
+  }
+
+  // Records the finished reply of the pending turn, read from the widget.
+  function recordPending(el) {
+    if (!pendingTurn) return;
+    const messages = typeof el.getMessages === 'function' ? el.getMessages() : [];
+    const last = [...messages].reverse().find(m => m.role === 'ai' && !isTemporary(m.html));
+    if (!last) return;
+    const answer = answerText(last.html || last.text || '');
+    if (!answer) return;
+    exchanges.push({ role: 'user', content: pendingTurn.text }, { role: 'assistant', content: answer });
+    pendingTurn.stat.total_ms = Math.round(performance.now() - pendingTurn.t0);
+    pendingTurn.stat.answer = answer;
+    stats.push(pendingTurn.stat);
+    pendingTurn = null;
+    foldAfterReply();
+  }
+
+  // Asks the server to refresh the conversation summary now that the reply
+  // is in, in a request nobody waits for. It returns at once when there is
+  // nothing to fold.
+  async function foldAfterReply() {
+    if (!S.endpoints || !S.endpoints.fold) return;
+    try {
+      await fetch(S.endpoints.fold, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': await csrfToken() },
+        body: '{}',
+      });
+    }
+    catch (e) {
+      // The next turn folds for itself.
+    }
+  }
+
+  // The newest reply bubble, skipping DeepChat's temporary loading message.
+  function lastReply(el) {
+    const root = el.shadowRoot;
+    if (!root) return null;
+    const bubbles = [...root.querySelectorAll('.outer-message-container')].filter(b => !b.querySelector('.deep-chat-temporary-message'));
+    const last = bubbles[bubbles.length - 1];
+    return last && last.querySelector('.ai-message') ? last : null;
+  }
+
+  // deep-chat follows a growing reply to its bottom. Once a reply is taller
+  // than the view, pin the view to the reply's first line; deep-chat stops
+  // following as soon as the view is not at the bottom, so the visitor reads
+  // from the top while the rest streams in below.
+  let pinObserver = null;
+  function followReplyTop(el) {
+    const root = el.shadowRoot;
+    const list = root && root.getElementById('messages');
+    if (!list || typeof MutationObserver === 'undefined') return;
+    if (pinObserver) pinObserver.disconnect();
+    const before = lastReply(el);
+    pinObserver = new MutationObserver(() => {
+      const bubble = lastReply(el);
+      if (!bubble || bubble === before) return;
+      const top = bubble.getBoundingClientRect().top - list.getBoundingClientRect().top;
+      if (top < 0) {
+        list.scrollTop = Math.max(0, list.scrollTop + top - 8);
+        pinObserver.disconnect();
+        pinObserver = null;
+      }
+    });
+    pinObserver.observe(list, { childList: true, subtree: true, characterData: true });
+    // Stop watching after two minutes whatever happens.
+    setTimeout(() => { if (pinObserver) { pinObserver.disconnect(); pinObserver = null; } }, 120000);
   }
 
   function scrollToReplyTop(el) {

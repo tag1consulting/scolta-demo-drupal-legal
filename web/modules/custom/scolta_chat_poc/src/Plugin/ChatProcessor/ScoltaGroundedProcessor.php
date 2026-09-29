@@ -6,6 +6,7 @@ namespace Drupal\scolta_chat_poc\Plugin\ChatProcessor;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Component\Uuid\UuidInterface;
+use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Flood\FloodInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -15,9 +16,12 @@ use Drupal\ai\Attribute\ChatProcessor;
 use Drupal\ai\Base\ChatProcessorBase;
 use Drupal\ai\OperationType\Chat\ChatMessage;
 use Drupal\ai\OperationType\Chat\ChatOutput;
+use Drupal\scolta_chat_poc\Chat\AnswerCache;
 use Drupal\scolta_chat_poc\Chat\ContextAssembler;
 use Drupal\scolta_chat_poc\Chat\PromptBuilder;
 use Drupal\scolta_chat_poc\Chat\ResultsMarkup;
+use Drupal\scolta_chat_poc\Chat\ScoltaStreamIterator;
+use Drupal\scolta_chat_poc\Chat\StreamingClient;
 use Drupal\scolta_chat_poc\Chat\ThreadState;
 use Drupal\scolta_chat_poc\Chat\ThreadStore;
 use Drupal\scolta_chat_poc\Chat\TurnPayload;
@@ -38,6 +42,16 @@ use Tag1\Scolta\Service\AiServiceAdapter;
  * Budgets come from scolta_chat_poc.settings, never from the plugin
  * configuration: DeepChat posts plugin_configuration from the browser, so
  * anything read from it is client controlled.
+ *
+ * Speed:
+ * - With the block's streaming option on, the answer streams as the provider
+ *   writes it (StreamingClient), and the turn is recorded in
+ *   onStreamComplete(), once DeepChat has the whole text.
+ * - An opening turn's answer is cached by question, results and prompt, for
+ *   Scolta's AI cache lifetime.
+ * - The running summary is refreshed after the reply, by a separate request
+ *   the browser sends (FoldController), not before the answer. A turn still
+ *   folds first when it finds work a previous fold did not finish.
  */
 #[ChatProcessor(
   id: 'scolta_grounded',
@@ -67,6 +81,18 @@ class ScoltaGroundedProcessor extends ChatProcessorBase implements ContainerFact
    */
   protected bool $showResults = FALSE;
 
+  /**
+   * A streamed turn waiting for onStreamComplete(), or NULL.
+   *
+   * @var array{thread: string, state: \Drupal\scolta_chat_poc\Chat\ThreadState, question: string, stats: array, cache_key: ?string, ttl: int, start: float}|null
+   */
+  protected ?array $pendingTurn = NULL;
+
+  /**
+   * Whether the streamed answer failed, so the turn is not recorded.
+   */
+  protected bool $streamFailed = FALSE;
+
   public function __construct(
     array $configuration,
     $plugin_id,
@@ -79,6 +105,7 @@ class ScoltaGroundedProcessor extends ChatProcessorBase implements ContainerFact
     protected readonly AccountInterface $currentUser,
     protected readonly UuidInterface $uuid,
     protected readonly LoggerInterface $logger,
+    protected readonly CacheBackendInterface $cache,
   ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
   }
@@ -99,6 +126,7 @@ class ScoltaGroundedProcessor extends ChatProcessorBase implements ContainerFact
       $container->get('current_user'),
       $container->get('uuid'),
       $container->get('logger.factory')->get('scolta_chat_poc'),
+      $container->get('cache.default'),
     );
   }
 
@@ -179,6 +207,9 @@ class ScoltaGroundedProcessor extends ChatProcessorBase implements ContainerFact
     $threadId = (string) $this->getThreadId();
     $state = $this->threads->load($threadId);
     $this->threads->setCurrentThreadId($threadId);
+    // A streamed reply is recorded once the session is closed, so fix the
+    // owner now.
+    $this->threads->bindOwner();
 
     $request = $this->requestStack->getCurrentRequest();
     $body = Json::decode((string) $request?->getContent()) ?: [];
@@ -228,53 +259,147 @@ class ScoltaGroundedProcessor extends ChatProcessorBase implements ContainerFact
     if ($this->payload->needsSearch && $this->payload->results === []) {
       // Nothing to ground an answer in. Answering anyway would come from
       // general knowledge, so this reply is fixed and costs no model call.
-      $answer = (string) new TranslatableMarkup('I searched @site for "@query" and found nothing that answers this, so I can\'t answer it from the site. Try asking with the specific regulation, term or document you have in mind.', [
+      $answer = (string) new TranslatableMarkup('I searched @site for "@query" and found nothing that answers this, so I can\'t answer it from the site. Try asking with the specific name, term or document you have in mind.', [
         '@site' => $siteName,
         '@query' => $this->payload->query,
       ]);
       $this->showResults = TRUE;
-      $stats += ['prompt_chars' => 0, 'answer_ms' => 0, 'cited' => [], 'dropped' => 0, 'mode' => 'no_results'];
+      $stats += ['prompt_chars' => 0, 'answer_ms' => 0, 'cited' => [], 'dropped' => 0, 'mode' => 'no_results', 'cached' => FALSE];
+      $this->finishTurn($threadId, $state, $question, $answer, $stats);
+      return $this->reply($answer);
     }
-    else {
-      $mode = $this->payload->needsSearch ? PromptBuilder::MODE_GROUNDED : PromptBuilder::MODE_SMALL_TALK;
-      $system = PromptBuilder::system(
-        $this->aiService->getFollowUpPrompt(),
-        $siteName,
-        $state->summary,
-        $assembler->priorSources($state),
-        $mode,
-      );
-      $assembled = $assembler->assemble($state, PromptBuilder::userTurn($question, $this->payload));
-      $promptChars = mb_strlen($system);
-      foreach ($assembled['messages'] as $message) {
-        $promptChars += mb_strlen($message['content']);
-      }
 
-      $start = microtime(TRUE);
-      try {
-        $answer = trim($this->aiService->conversation($system, $assembled['messages'], max(100, (int) $settings->get('answer_tokens'))));
+    $mode = $this->payload->needsSearch ? PromptBuilder::MODE_GROUNDED : PromptBuilder::MODE_SMALL_TALK;
+    $system = PromptBuilder::system(
+      $this->aiService->getFollowUpPrompt(),
+      $siteName,
+      $state->summary,
+      $assembler->priorSources($state),
+      $mode,
+    );
+    $assembled = $assembler->assemble($state, PromptBuilder::userTurn($question, $this->payload));
+    $promptChars = mb_strlen($system);
+    foreach ($assembled['messages'] as $message) {
+      $promptChars += mb_strlen($message['content']);
+    }
+    $maxTokens = max(100, (int) $settings->get('answer_tokens'));
+    $this->showResults = $this->payload->needsSearch;
+    $stats += [
+      'prompt_chars' => $promptChars,
+      'system_chars' => mb_strlen($system),
+      'dropped' => $assembled['dropped'],
+      'mode' => $mode,
+    ];
+
+    // An opening turn with search results can be served from the cache.
+    $cacheKey = NULL;
+    $ttl = (int) $this->aiService->getConfig()->cacheTtl;
+    if ($ttl > 0 && $state->messages === [] && $mode === PromptBuilder::MODE_GROUNDED) {
+      $cacheKey = 'scolta_chat_poc:answer:' . AnswerCache::key((string) $this->aiService->getConfig()->aiModel, $system, $assembled['messages'], $maxTokens);
+      $hit = $this->cache->get($cacheKey);
+      if ($hit && is_string($hit->data) && $hit->data !== '') {
+        $stats += ['answer_ms' => 0, 'cached' => TRUE];
+        $this->finishTurn($threadId, $state, $question, $hit->data, $stats);
+        return $this->reply($hit->data);
       }
-      catch (\Throwable $e) {
-        $this->logger->error('Chat answer failed: @msg', ['@msg' => $e->getMessage()]);
-        return $this->reply((string) new TranslatableMarkup('The AI service did not answer. Try again in a moment.'));
-      }
-      $this->cited = ResultsMarkup::citedNumbers($answer, $this->payload->results);
-      $this->showResults = $this->payload->needsSearch;
-      $stats += [
-        'prompt_chars' => $promptChars,
-        'system_chars' => mb_strlen($system),
-        'answer_ms' => (int) round((microtime(TRUE) - $start) * 1000),
-        'cited' => $this->cited,
-        'dropped' => $assembled['dropped'],
-        'mode' => $mode,
+    }
+    $stats['cached'] = FALSE;
+
+    if ($this->streaming()) {
+      $this->pendingTurn = [
+        'thread' => $threadId,
+        'state' => $state,
+        'question' => $question,
+        'stats' => $stats,
+        'cache_key' => $cacheKey,
+        'ttl' => $ttl,
+        'start' => microtime(TRUE),
       ];
+      return new ChatOutput((new ScoltaStreamIterator($this->answerPieces($system, $assembled['messages'], $maxTokens)))->setSiteHost($this->siteHost()), [], []);
     }
 
+    $start = microtime(TRUE);
+    try {
+      $answer = trim($this->aiService->conversation($system, $assembled['messages'], $maxTokens));
+    }
+    catch (\Throwable $e) {
+      $this->logger->error('Chat answer failed: @msg', ['@msg' => $e->getMessage()]);
+      return $this->reply((string) new TranslatableMarkup('The AI service did not answer. Try again in a moment.'));
+    }
+    $stats['answer_ms'] = (int) round((microtime(TRUE) - $start) * 1000);
+    if ($cacheKey !== NULL && $answer !== '') {
+      $this->cache->set($cacheKey, $answer, time() + $ttl, ['config:scolta.settings', 'config:scolta_chat_poc.settings']);
+    }
+    $this->finishTurn($threadId, $state, $question, $answer, $stats);
+    return $this->reply($answer);
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * DeepChat hands back the whole streamed text; record the turn with it.
+   */
+  public function onStreamComplete(string $message): void {
+    $turn = $this->pendingTurn;
+    $this->pendingTurn = NULL;
+    if ($turn === NULL) {
+      return;
+    }
+    $answer = trim($message);
+    if ($this->streamFailed || $answer === '') {
+      $this->showResults = FALSE;
+      return;
+    }
+    $stats = $turn['stats'];
+    $stats['answer_ms'] = (int) round((microtime(TRUE) - $turn['start']) * 1000);
+    $stats['streamed'] = TRUE;
+    if ($turn['cache_key'] !== NULL) {
+      $this->cache->set($turn['cache_key'], $answer, time() + $turn['ttl'], ['config:scolta.settings', 'config:scolta_chat_poc.settings']);
+    }
+    $this->finishTurn($turn['thread'], $turn['state'], $turn['question'], $answer, $stats);
+  }
+
+  /**
+   * The streamed answer, or one apology piece when the AI service fails.
+   */
+  protected function answerPieces(string $system, array $messages, int $maxTokens): \Generator {
+    try {
+      yield from StreamingClient::answer($this->aiService, $system, $messages, $maxTokens, NULL, function (string $why): void {
+        $this->logger->warning('Chat answer not streamed: @why', ['@why' => $why]);
+      });
+    }
+    catch (\Throwable $e) {
+      $this->logger->error('Chat answer failed: @msg', ['@msg' => $e->getMessage()]);
+      $this->streamFailed = TRUE;
+      yield (string) new TranslatableMarkup('The AI service did not answer. Try again in a moment.');
+    }
+  }
+
+  /**
+   * Records the turn and saves the thread.
+   */
+  protected function finishTurn(string $threadId, ThreadState $state, string $question, string $answer, array $stats): void {
+    if ($this->showResults) {
+      $this->cited = ResultsMarkup::citedNumbers($answer, $this->payload->results);
+    }
+    $stats['cited'] = $this->cited;
     $this->record($state, $question, $answer);
     $this->threads->save($threadId, $state);
-
     $this->logger->info('Chat turn: @stats', ['@stats' => Json::encode($stats)]);
-    return $this->reply($answer);
+  }
+
+  /**
+   * The host this site's links use, the one TurnPayload checks against.
+   */
+  protected function siteHost(): string {
+    return (string) $this->requestStack->getCurrentRequest()?->getHost();
+  }
+
+  /**
+   * Whether DeepChat asked for a streamed reply.
+   */
+  protected function streaming(): bool {
+    return (bool) $this->getInput()?->isStreamedOutput();
   }
 
   /**
@@ -305,6 +430,11 @@ class ScoltaGroundedProcessor extends ChatProcessorBase implements ContainerFact
   }
 
   protected function reply(string $text): ChatOutput {
+    if ($this->streaming()) {
+      return new ChatOutput((new ScoltaStreamIterator((static function () use ($text): \Generator {
+        yield $text;
+      })()))->setSiteHost($this->siteHost()), [], []);
+    }
     return new ChatOutput(new ChatMessage('assistant', $text), [$text], []);
   }
 
