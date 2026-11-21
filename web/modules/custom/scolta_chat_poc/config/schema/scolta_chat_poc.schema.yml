@@ -1,0 +1,28 @@
+scolta_chat_poc.settings:
+  type: config_object
+  label: 'Scolta chat settings'
+  mapping:
+    enabled:
+      type: boolean
+      label: 'Enable the chat'
+    window_messages:
+      type: integer
+      label: 'Messages kept verbatim'
+    summary_words:
+      type: integer
+      label: 'Maximum words in the running summary'
+    context_chars:
+      type: integer
+      label: 'Character budget for the search context of one turn'
+    history_chars:
+      type: integer
+      label: 'Character backstop for the conversation sent to the model'
+    answer_tokens:
+      type: integer
+      label: 'Answer token budget'
+    turn_ceiling:
+      type: integer
+      label: 'Turns per conversation before the chat suggests a fresh one'
+    followups_open_chat:
+      type: boolean
+      label: 'Follow ups on search open the chat'

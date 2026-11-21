@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Runs the custom module tests from the project root:
+    ddev exec vendor/bin/phpunit web/modules/custom/scolta_chat_poc
+  Tests use their own SQLite database, never the site's.
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         bootstrap="web/core/tests/bootstrap.php"
+         colors="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         cacheResult="false"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd">
+  <php>
+    <ini name="error_reporting" value="32767"/>
+    <ini name="memory_limit" value="-1"/>
+    <env name="SIMPLETEST_BASE_URL" value="http://127.0.0.1"/>
+    <env name="SIMPLETEST_DB" value="sqlite://localhost//tmp/scolta-chat-test.sqlite"/>
+    <env name="BROWSERTEST_OUTPUT_DIRECTORY" value="/tmp"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+  </php>
+  <testsuites>
+    <testsuite name="custom">
+      <directory>web/modules/custom</directory>
+    </testsuite>
+  </testsuites>
+</phpunit>

@@ -1,0 +1,9 @@
+name: 'Scolta chat (proof of concept)'
+type: module
+description: 'Grounds the Drupal AI chatbot in Scolta search: every turn searches the site in the browser, and the answer cites those results.'
+package: Search
+core_version_requirement: ^11
+configure: scolta_chat_poc.settings
+dependencies:
+  - scolta:scolta
+  - ai:ai_chatbot

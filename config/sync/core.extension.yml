@@ -3,6 +3,9 @@ _core:
 module:
   admin_toolbar: 0
   admin_toolbar_tools: 0
+  ai: 0
+  ai_assistant_api: 0
+  ai_chatbot: 0
   announcements_feed: 0
   automated_cron: 0
   big_pipe: 0
@@ -26,6 +29,7 @@ module:
   help: 0
   history: 0
   image: 0
+  key: 0
   link: 0
   menu_link_content: 0
   menu_ui: 0
@@ -36,6 +40,7 @@ module:
   path: 0
   path_alias: 0
   scolta: 0
+  scolta_chat_poc: 0
   search: 0
   search_api: 0
   shortcut: 0
